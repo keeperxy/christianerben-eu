@@ -1,0 +1,221 @@
+# llms.txt for uweschwarz.eu
+# This file provides structured information for AI language models.
+# For more information, see https://llmstxt.org/
+# Version 1.0, Generated on 2025-09-24
+
+# --- PERMISSIONS ---
+User-Agent: *
+Allow: /
+
+# --- METADATA ---
+Sitemap: https://uweschwarz.eu/sitemap.xml
+
+# --- FIELDS ---
+
+[Type]:
+[en] Personal Portfolio & CV
+[de] Persönliches Portfolio & Lebenslauf
+
+[Owner]:
+[en] Christian Erben
+[de] Christian Erben
+
+[Published]:
+[en] 2025-09-24
+[de] 24.09.2025
+
+[Languages]:
+[en] English, German
+[de] Englisch, Deutsch
+
+[Summary]:
+[en] Portfolio of Christian Erben: Network Security & Linux Infrastructure Specialist
+[de] Portfolio von Christian Erben: Netzwerk-Security- und Linux-Infrastruktur-Spezialist
+
+[Hero-Description]:
+[en] I design, harden, and operate enterprise networks with a focus on firewall governance, redundant infrastructures, and reliable documentation. From complex change requests to day-to-day operations, I keep access secure, transparent, and auditable.
+[de] Ich konzipiere, absichere und betreibe Unternehmensnetzwerke mit Fokus auf Firewall-Governance, redundante Infrastrukturen und saubere Dokumentation. Von komplexen Change-Requests bis zum täglichen Betrieb halte ich Zugriffe sicher, transparent und prüfbar.
+
+[About-Me]:
+[en] I bring nearly two decades of hands-on experience in enterprise IT infrastructure, specialising in the design and safeguarding of complex network environments for financial and retail organisations.
+[de] Ich bringe fast zwei Jahrzehnte praktische Erfahrung in der Enterprise-IT mit und spezialisiere mich auf die Konzeption und Absicherung komplexer Netzwerkumgebungen für Finanz- und Handelsunternehmen.
+[en] My day-to-day work revolves around managing firewall landscapes, streamlining change processes, maintaining detailed documentation, and coordinating stakeholders across security, infrastructure, and application teams.
+[de] Mein Arbeitsalltag dreht sich um die Steuerung komplexer Firewall-Landschaften, die Optimierung von Change-Prozessen, die Pflege detaillierter Dokumentationen und die Koordination von Stakeholdern aus Security-, Infrastruktur- und Applikationsteams.
+[en] I enjoy automating repetitive tasks with tools like Puppet, Ansible, and shell scripting, and I stay curious about how AI can support troubleshooting and knowledge sharing without compromising compliance.
+[de] Wiederkehrende Aufgaben automatisiere ich mit Tools wie Puppet, Ansible und Shell-Skripten und bleibe neugierig, wie KI beim Troubleshooting und der Wissensweitergabe unterstützen kann, ohne Compliance-Anforderungen zu verletzen.
+
+[Main-Topics]:
+- Home / Start
+- About / Über mich
+- Experience / Erfahrung
+- Projects / Projekte
+- Skills / Fähigkeiten
+- Contact / Kontakt
+
+[Keywords]:
+[en] Christian Erben, Network Security Specialist, Linux Systems Administrator, Infrastructure Architect, Automation Advocate, Firewall Engineering (Fortinet, Palo Alto), Proxy & Secure Web Gateways, Access & Change Governance, Incident & Problem Management, Linux (Debian, Ubuntu, RHEL)
+[de] Christian Erben, Netzwerk-Security-Spezialist, Linux-Systemadministrator, Infrastruktur-Architekt, Automatisierungs-Enthusiast, Firewall Engineering (Fortinet, Palo Alto), Proxy & Secure Web Gateways, Access- & Change-Governance, Incident- & Problem-Management, Linux (Debian, Ubuntu, RHEL)
+
+[Site-Structure]:
+[en]
+- /: Homepage with main sections (Hero, About, Skills, Experience, Projects, Contact).
+- /cv: Interactive page for viewing and downloading the CV.
+- /imprint: Legal notice.
+- /privacy: Privacy policy.
+- /sitemap: Human-readable sitemap.
+[de]
+- /: Startseite mit den Hauptbereichen (Hero, Über Mich, Fähigkeiten, Erfahrung, Projekte, Kontakt).
+- /cv: Interaktive Seite zum Ansehen und Herunterladen des Lebenslaufs.
+- /imprint: Impressum.
+- /privacy: Datenschutzerklärung.
+- /sitemap: Für Menschen lesbare Sitemap.
+
+[Contact]:
+[en] Contact information is available via the contact form on the main page or via email to christian.erben@degit.de.
+[de] Kontaktinformationen sind über das Kontaktformular auf der Startseite oder per E-Mail an christian.erben@degit.de verfügbar.
+
+# --- EXPERIENCE ---
+
+[Experience]:
+  [en] Member of the Board
+  [de] Vorstandsmitglied
+  [en] Company: DEGIT AG
+  [de] Firma: DEGIT AG
+  [en] Apr 2020 - Present
+  [de] Apr 2020 - Heute
+  - [en] Board member focusing on data protection, information security, and network strategy for SME clients.
+  - [de] Vorstandsmitglied mit Fokus auf Datenschutz, Informationssicherheit und Netzwerkstrategie für mittelständische Kund:innen.
+  - [en] Connects clients with specialists from DEGIT's expert network and coordinates interdisciplinary consulting teams.
+  - [de] Vernetzt Kund:innen mit Spezialist:innen aus dem DEGIT-Expertennetzwerk und koordiniert interdisziplinäre Beratungsteams.
+  - [en] Oversees the design of secure, redundant infrastructures including firewall concepts, VPN solutions, and backup strategies.
+  - [de] Überwacht die Konzeption sicherer, redundanter Infrastrukturen einschließlich Firewall-Konzepten, VPN-Lösungen und Backup-Strategien.
+  - [en] Achievement: Established a governance framework aligning network security, privacy, and compliance requirements for new customer projects.
+  - [de] Erfolg: Aufbau eines Governance-Rahmens, der Netzwerksicherheit, Datenschutz und Compliance für neue Kundenprojekte bündelt.
+
+[Experience]:
+  [en] Network Security / Management
+  [de] Network Security / Management
+  [en] Company: Deutsche Vermögensberatung AG
+  [de] Firma: Deutsche Vermögensberatung AG
+  [en] Oct 2019 - Present
+  [de] Okt 2019 - Heute
+  - [en] Manage and review network permissions to maintain accurate, secure access controls across the enterprise.
+  - [de] Verwaltung und Prüfung von Netzwerkberechtigungen zur Gewährleistung korrekter und sicherer Zugriffskontrollen im Unternehmensnetz.
+  - [en] Continuously clean up legacy rules to reduce complexity and ensure compliance with internal policies.
+  - [de] Kontinuierliche Bereinigung veralteter Regeln zur Reduktion der Komplexität und zur Einhaltung interner Richtlinien.
+  - [en] Support IT projects with network expertise, ensuring architectures align with current topologies and security standards.
+  - [de] Unterstützung von IT-Projekten mit Netzwerkwissen, damit Architekturen zu aktuellen Topologien und Sicherheitsstandards passen.
+  - [en] Maintain detailed network documentation covering topology, policies, and security protocols.
+  - [de] Pflege detaillierter Netzwerkdokumentationen zu Topologie, Richtlinien und Sicherheitsprotokollen.
+  - [en] Coordinate change planning and implementation with infrastructure, security, and application teams.
+  - [de] Koordination von Planung und Umsetzung von Changes mit Infrastruktur-, Sicherheits- und Applikationsteams.
+  - [en] Operate proxy infrastructures and monitor network paths including IPSec tunnels and SD-WAN links.
+  - [de] Betrieb von Proxy-Infrastrukturen und Monitoring von Netzwerkpfaden inklusive IPSec-Tunneln und SD-WAN-Verbindungen.
+  - [en] Support the introduction of cloud-based security services such as Prisma SSE.
+  - [de] Unterstützung bei der Einführung cloudbasierter Sicherheitsdienste wie Prisma SSE.
+  - [en] Achievement: Reduced firewall rule complexity from 5,000 to fewer than 1,000 entries for greater transparency and performance.
+  - [de] Erfolg: Reduktion der Firewall-Regelkomplexität von 5.000 auf unter 1.000 Einträge für mehr Transparenz und Performance.
+  - [en] Achievement: Led the migration from Palo Alto to Fortinet, translating complex security policies without service interruption.
+  - [de] Erfolg: Leitung der Migration von Palo Alto zu Fortinet und Übernahme komplexer Sicherheitsrichtlinien ohne Betriebsunterbrechung.
+  - [en] Achievement: Rolled out secure SD-WAN connectivity for branch offices, improving stability and visibility of network communication.
+  - [de] Erfolg: Ausrollen sicherer SD-WAN-Anbindungen für Außenstandorte zur Verbesserung von Stabilität und Transparenz der Netzwerkkommunikation.
+  - [en] Achievement: Introduced Microsoft Azure services into the infrastructure while ensuring compliant hybrid connectivity.
+  - [de] Erfolg: Einführung von Microsoft-Azure-Diensten in die Infrastruktur bei gleichzeitiger Sicherstellung compliantem hybriden Betrieb.
+
+[Experience]:
+  [en] Linux Systems Administrator / Nagios Administrator
+  [de] Linux-Systemadministrator / Nagios-Administrator
+  [en] Company: Schwarz IT GmbH & Co. KG
+  [de] Firma: Schwarz IT GmbH & Co. KG
+  [en] Apr 2018 - Dec 2018
+  [de] Apr 2018 - Dez 2018
+  - [en] Operated large-scale environments with 15,000 physical servers and 50,000 virtual machines.
+  - [de] Betrieb großskaliger Umgebungen mit 15.000 physischen Servern und 50.000 virtuellen Maschinen.
+  - [en] Automated provisioning of servers, applications, and configurations via Puppet and Ansible.
+  - [de] Automatisierte Bereitstellung von Servern, Applikationen und Konfigurationen über Puppet und Ansible.
+  - [en] Ensured high availability through structured patch management and monitoring.
+  - [de] Sicherstellung der Hochverfügbarkeit durch strukturiertes Patchmanagement und Monitoring.
+  - [en] Advised projects on secure infrastructure design and integration into existing monitoring processes.
+  - [de] Beratung von Projekten zur sicheren Infrastrukturkonzeption und Integration in bestehende Monitoring-Prozesse.
+  - [en] Achievement: Accelerated server rollout cycles by automating golden-image provisioning and compliance checks.
+  - [de] Erfolg: Beschleunigung der Server-Rollouts durch Automatisierung von Golden Images und Compliance-Checks.
+
+[Experience]:
+  [en] Linux Systems Administrator
+  [de] Linux-Systemadministrator
+  [en] Company: Deutsche Vermögensberatung AG
+  [de] Firma: Deutsche Vermögensberatung AG
+  [en] Feb 2011 - Dec 2017
+  [de] Feb 2011 - Dez 2017
+  - [en] Administered 1,000 physical servers and 2,000 virtual machines in a highly regulated environment.
+  - [de] Administration von 1.000 physischen Servern und 2.000 virtuellen Maschinen in einem stark regulierten Umfeld.
+  - [en] Automated server installation and configuration workflows using Puppet and Ansible.
+  - [de] Automatisierte Serverinstallationen und Konfigurationsworkflows mit Puppet und Ansible.
+  - [en] Operated enterprise email platforms with Dovecot and Postfix including archiving solutions.
+  - [de] Betrieb von Enterprise-E-Mail-Plattformen mit Dovecot und Postfix inklusive Archivierungslösungen.
+  - [en] Implemented storage solutions such as Ceph and cloud storage for scalable data services.
+  - [de] Implementierung von Storage-Lösungen wie Ceph und Cloud Storage für skalierbare Datendienste.
+  - [en] Achievement: Delivered a mail archiving platform that ensured long-term compliance and simplified eDiscovery.
+  - [de] Erfolg: Aufbau einer Mail-Archivierungsplattform, die Langzeit-Compliance sicherstellte und eDiscovery vereinfachte.
+
+# --- PROJECTS ---
+
+[Project]:
+  [en] Firewall Rulebase Optimisation
+  [de] Optimierung der Firewall-Regelwerke
+  [en] Streamlined enterprise firewall rulebases by analysing 5,000+ objects, consolidating duplicates, and establishing a lifecycle for dormant rules. The result improved performance, readability, and audit readiness.
+  [de] Verschlankung der unternehmensweiten Firewall-Regelwerke durch Analyse von über 5.000 Objekten, Konsolidierung von Dubletten und Einführung eines Lebenszyklus für inaktive Regeln. Das Ergebnis: bessere Performance, Lesbarkeit und Auditfähigkeit.
+
+[Project]:
+  [en] Palo Alto to Fortinet Migration
+  [de] Migration von Palo Alto zu Fortinet
+  [en] Planned and executed a platform migration, translating complex objects and policies into Fortinet while keeping services online. Introduced new templates for ongoing policy hygiene.
+  [de] Planung und Umsetzung einer Plattformmigration mit Überführung komplexer Objekte und Richtlinien nach Fortinet bei laufendem Betrieb. Einführung neuer Templates für nachhaltige Richtlinienhygiene.
+
+[Project]:
+  [en] SD-WAN Branch Rollout
+  [de] SD-WAN Rollout für Außenstandorte
+  [en] Connected branch offices via SD-WAN, defined redundancy concepts, and aligned monitoring to ensure transparent operations across all paths.
+  [de] Anbindung von Außenstandorten per SD-WAN, Definition von Redundanzkonzepten und Abstimmung des Monitorings für transparente Betriebsabläufe über alle Pfade.
+
+[Project]:
+  [en] Azure Integration for Hybrid Infrastructure
+  [de] Azure-Integration für hybride Infrastruktur
+  [en] Introduced Microsoft Azure services into an on-prem environment, coordinating network connectivity, identity integration, and security baselines.
+  [de] Einführung von Microsoft-Azure-Diensten in eine On-Prem-Umgebung inkl. Koordination von Netzwerkanbindung, Identity-Integration und Sicherheits-Baselines.
+
+# --- SKILLS ---
+
+[Skill-Category: Security / Sicherheit]:
+  - Firewall Engineering (Fortinet, Palo Alto) / Firewall Engineering (Fortinet, Palo Alto)
+  - Proxy & Secure Web Gateways / Proxy & Secure Web Gateways
+  - Access & Change Governance / Access- & Change-Governance
+  - Incident & Problem Management / Incident- & Problem-Management
+
+[Skill-Category: Infrastructure / Infrastruktur]:
+  - Linux (Debian, Ubuntu, RHEL) / Linux (Debian, Ubuntu, RHEL)
+  - FreeBSD & Network Appliances / FreeBSD & Netzwerk-Appliances
+  - High Availability & Redundancy / Hochverfügbarkeit & Redundanz
+  - IPv6, Routing & VPN / IPv6, Routing & VPN
+  - Monitoring & Troubleshooting / Monitoring & Troubleshooting
+  - Storage Platforms (Ceph, Cloud) / Storage-Plattformen (Ceph, Cloud)
+
+[Skill-Category: Tools & DevOps / Tools & DevOps]:
+  - Bash & Awk / Bash & Awk
+  - Puppet & Ansible / Puppet & Ansible
+  - Postfix & Dovecot / Postfix & Dovecot
+  - Bind & Unbound DNS / Bind & Unbound DNS
+  - HAProxy / HAProxy
+  - Squid Proxy / Squid Proxy
+
+[Skill-Category: AI / KI]:
+  - AI-assisted Troubleshooting / KI-gestütztes Troubleshooting
+
+[Skill-Category: Management / Management]:
+  - Change Management / Change Management
+  - Cross-team Coordination / Teamübergreifende Koordination
+  - Technical Documentation / Technische Dokumentation
+
+[Skill-Category: Languages / Sprachen]:
+  - German (Native) / Deutsch (Muttersprache)
+  - English (B2) / Englisch (B2)
