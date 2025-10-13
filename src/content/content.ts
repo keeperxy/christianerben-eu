@@ -276,9 +276,9 @@ export const siteContent: SiteContent = {
     decorativeElements: [
       { position: 107, distance: 90, code: "⚙️ automation" },
       { position: 97, distance: 120, code: "🔥 firewalls" },
-      { position: 85, distance: 130, code: "🌐 network architecture" },
-      { position: 55, distance: 95, code: "🧩 cross-functional collaboration" },
-      { position: 68, distance: 132, code: "☁️ cloud-integration" },
+      { position: 85, distance: 130, code: "🌐 networks" },
+      { position: 55, distance: 95, code: "🧩 communication" },
+      { position: 68, distance: 132, code: "☁️ cloud" },
     ],
   },
   about: {
@@ -293,7 +293,7 @@ export const siteContent: SiteContent = {
         de: "Mein Arbeitsalltag dreht sich um die Steuerung komplexer Firewall-Landschaften, die Optimierung von Change-Prozessen, die Pflege detaillierter Dokumentationen und die Koordination von Stakeholdern aus Security-, Infrastruktur- und Applikationsteams.",
       },
       {
-        en: "I enjoy automating recurring tasks using tools such as Puppet, Ansible, and shell scripts, and increasingly integrate AI-driven approaches into my daily work — for example, to enhance knowledge management, troubleshoot issues, and optimize processes. I maintain an open mindset toward new technologies and actively evaluate their practical value within enterprise environments, always ensuring that security and compliance requirements are met.",
+        en: "I enjoy automating recurring tasks using tools such as Puppet, Ansible, and shell scripts, and increasingly integrate AI-driven approaches into my daily work - for example, to enhance knowledge management, troubleshoot issues, and optimize processes. I maintain an open mindset toward new technologies and actively evaluate their practical value within enterprise environments, always ensuring that security and compliance requirements are met.",
         de: "Wiederkehrende Aufgaben automatisiere ich mit Tools wie Puppet, Ansible und Shell-Skripten und integriere zunehmend KI-gestützte Ansätze in meinen Arbeitsalltag – etwa zur Wissensaufbereitung, Fehleranalyse und Prozessoptimierung. Neue Technologien betrachte ich grundsätzlich offen und prüfe aktiv deren praktischen Nutzen im Unternehmenskontext, ohne dabei Sicherheits- oder Compliance-Aspekte aus dem Blick zu verlieren.",
       },
     ],
@@ -652,87 +652,168 @@ export const siteContent: SiteContent = {
       level: 5,
     },
     {
-      name: {
-        en: "Proxy & Secure Web Gateways",
-        de: "Proxy & Secure Web Gateways",
+      "name": {
+        "en": "Proxy Management",
+        "de": "Proxy-Management"
       },
-      icon: "shield",
-      category: "security",
-      level: 4,
+      "icon": "network",
+      "category": "security",
+      "level": 4
     },
     {
-      name: {
-        en: "Access & Change Governance",
-        de: "Access- & Change-Governance",
+      "name": {
+        "en": "Secure Web Gateways",
+        "de": "Secure Web Gateways"
       },
-      icon: "clipboard-check",
-      category: "security",
-      level: 4,
+      "icon": "shield",
+      "category": "security",
+      "level": 4
     },
     {
-      name: {
-        en: "Incident & Problem Management",
-        de: "Incident- & Problem-Management",
+      "name": {
+        "en": "Access Governance",
+        "de": "Access-Governance"
       },
-      icon: "life-buoy",
-      category: "security",
-      level: 4,
+      "icon": "key-round",
+      "category": "security",
+      "level": 4
+    },
+    {
+      "name": {
+        "en": "Change Governance",
+        "de": "Change-Governance"
+      },
+      "icon": "clipboard-check",
+      "category": "security",
+      "level": 4
+    },
+    {
+      "name": {
+        "en": "Incident Management",
+        "de": "Incident-Management"
+      },
+      "icon": "alert-triangle",
+      "category": "security",
+      "level": 4
+    },
+    {
+      "name": {
+        "en": "Problem Management",
+        "de": "Problem-Management"
+      },
+      "icon": "life-buoy",
+      "category": "security",
+      "level": 4
     },
 
     // Infrastructure
     {
-      name: {
-        en: "Linux (Debian, Ubuntu, RHEL)",
-        de: "Linux (Debian, Ubuntu, RHEL)",
+      "name": {
+        "en": "Linux Administration",
+        "de": "Linux-Administration"
       },
-      icon: "server",
-      category: "infrastructure",
-      level: 5,
+      "icon": "terminal",
+      "category": "infrastructure",
+      "level": 5
     },
     {
-      name: {
-        en: "FreeBSD & Network Appliances",
-        de: "FreeBSD & Netzwerk-Appliances",
+      "name": {
+        "en": "Linux Distributions (Debian, Ubuntu, RHEL)",
+        "de": "Linux-Distributionen (Debian, Ubuntu, RHEL)"
       },
-      icon: "cpu",
-      category: "infrastructure",
-      level: 3,
+      "icon": "server",
+      "category": "infrastructure",
+      "level": 5
     },
     {
-      name: {
-        en: "High Availability & Redundancy",
-        de: "Hochverfügbarkeit & Redundanz",
+      "name": {
+        "en": "FreeBSD Systems",
+        "de": "FreeBSD-Systeme"
       },
-      icon: "server-cog",
-      category: "infrastructure",
-      level: 5,
+      "icon": "cpu",
+      "category": "infrastructure",
+      "level": 3
     },
     {
-      name: {
-        en: "IPv6, Routing & VPN",
-        de: "IPv6, Routing & VPN",
+      "name": {
+        "en": "Network Appliances",
+        "de": "Netzwerk-Appliances"
       },
-      icon: "network",
-      category: "infrastructure",
-      level: 5,
+      "icon": "router",
+      "category": "infrastructure",
+      "level": 3
     },
     {
-      name: {
-        en: "Monitoring & Troubleshooting",
-        de: "Monitoring & Troubleshooting",
+      "name": {
+        "en": "High Availability",
+        "de": "Hochverfügbarkeit"
       },
-      icon: "activity",
-      category: "infrastructure",
-      level: 4,
+      "icon": "server-cog",
+      "category": "infrastructure",
+      "level": 5
     },
     {
-      name: {
-        en: "Storage Platforms (Ceph, Cloud)",
-        de: "Storage-Plattformen (Ceph, Cloud)",
+      "name": {
+        "en": "Redundancy & Failover",
+        "de": "Redundanz & Failover"
       },
-      icon: "database",
-      category: "infrastructure",
-      level: 3,
+      "icon": "refresh-cw",
+      "category": "infrastructure",
+      "level": 5
+    },
+    {
+      "name": {
+        "en": "IPv6 & Routing",
+        "de": "IPv6 & Routing"
+      },
+      "icon": "network",
+      "category": "infrastructure",
+      "level": 5
+    },
+    {
+      "name": {
+        "en": "VPN & Secure Connectivity",
+        "de": "VPN & Sichere Konnektivität"
+      },
+      "icon": "shield",
+      "category": "infrastructure",
+      "level": 5
+    },
+    {
+      "name": {
+        "en": "Monitoring",
+        "de": "Monitoring"
+      },
+      "icon": "activity",
+      "category": "infrastructure",
+      "level": 4
+    },
+    {
+      "name": {
+        "en": "Troubleshooting",
+        "de": "Troubleshooting"
+      },
+      "icon": "bug",
+      "category": "infrastructure",
+      "level": 4
+    },
+    {
+      "name": {
+        "en": "Storage Platforms (Ceph)",
+        "de": "Storage-Plattformen (Ceph)"
+      },
+      "icon": "database",
+      "category": "infrastructure",
+      "level": 3
+    },
+    {
+      "name": {
+        "en": "Cloud Storage & Backup",
+        "de": "Cloud Storage & Backup"
+      },
+      "icon": "cloud",
+      "category": "infrastructure",
+      "level": 3
     },
 
     // Tools & Automation
@@ -768,7 +849,7 @@ export const siteContent: SiteContent = {
         "en": "Cursor",
         "de": "Cursor"
       },
-      "icon": "cursor",
+      "icon": "mouse-pointer-2",
       "category": "tools",
       "level": 4
     },
@@ -777,7 +858,7 @@ export const siteContent: SiteContent = {
         "en": "Python",
         "de": "Python"
       },
-      "icon": "code-2",
+      "icon": "file-code-2",
       "category": "tools",
       "level": 3
     },
@@ -857,6 +938,15 @@ export const siteContent: SiteContent = {
     },
     {
       name: {
+        en: "Steakholder-Communication",
+        de: "Steakholder-Communication",
+      },
+      icon: "handshake",
+      category: "management",
+      level: 5,
+    },
+    {
+      name: {
         en: "Technical Documentation",
         de: "Technische Dokumentation",
       },
@@ -916,7 +1006,7 @@ export const siteContent: SiteContent = {
         "en": "OpenAI / ChatGPT",
         "de": "OpenAI / ChatGPT"
       },
-      "icon": "message-square",
+      "icon": "bot-message-square",
       "category": "ai",
       "level": 5
     },

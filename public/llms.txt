@@ -41,7 +41,7 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [de] Ich bringe fast zwei Jahrzehnte praktische Erfahrung in der Enterprise-IT mit und spezialisiere mich auf die Konzeption und Absicherung komplexer Netzwerkumgebungen für Finanz- und Handelsunternehmen.
 [en] My day-to-day work revolves around managing firewall landscapes, streamlining change processes, maintaining detailed documentation, and coordinating stakeholders across security, infrastructure, and application teams.
 [de] Mein Arbeitsalltag dreht sich um die Steuerung komplexer Firewall-Landschaften, die Optimierung von Change-Prozessen, die Pflege detaillierter Dokumentationen und die Koordination von Stakeholdern aus Security-, Infrastruktur- und Applikationsteams.
-[en] I enjoy automating recurring tasks using tools such as Puppet, Ansible, and shell scripts, and increasingly integrate AI-driven approaches into my daily work — for example, to enhance knowledge management, troubleshoot issues, and optimize processes. I maintain an open mindset toward new technologies and actively evaluate their practical value within enterprise environments, always ensuring that security and compliance requirements are met.
+[en] I enjoy automating recurring tasks using tools such as Puppet, Ansible, and shell scripts, and increasingly integrate AI-driven approaches into my daily work - for example, to enhance knowledge management, troubleshoot issues, and optimize processes. I maintain an open mindset toward new technologies and actively evaluate their practical value within enterprise environments, always ensuring that security and compliance requirements are met.
 [de] Wiederkehrende Aufgaben automatisiere ich mit Tools wie Puppet, Ansible und Shell-Skripten und integriere zunehmend KI-gestützte Ansätze in meinen Arbeitsalltag – etwa zur Wissensaufbereitung, Fehleranalyse und Prozessoptimierung. Neue Technologien betrachte ich grundsätzlich offen und prüfe aktiv deren praktischen Nutzen im Unternehmenskontext, ohne dabei Sicherheits- oder Compliance-Aspekte aus dem Blick zu verlieren.
 
 [Main-Topics]:
@@ -53,8 +53,8 @@ Sitemap: https://christianerben.eu/sitemap.xml
 - Contact / Kontakt
 
 [Keywords]:
-[en] Christian Erben, Network Security Specialist, Linux Systems Administrator, Infrastructure Architect, Automation Advocate, Firewall Engineering (Fortinet, Palo Alto), Proxy & Secure Web Gateways, Access & Change Governance, Incident & Problem Management, Linux (Debian, Ubuntu, RHEL), FreeBSD & Network Appliances, High Availability & Redundancy, IPv6, Routing & VPN, Monitoring & Troubleshooting, Storage Platforms (Ceph, Cloud)
-[de] Christian Erben, Netzwerk-Security-Spezialist, Linux-Systemadministrator, Infrastruktur-Architekt, Automatisierungs-Enthusiast, Firewall Engineering (Fortinet, Palo Alto), Proxy & Secure Web Gateways, Access- & Change-Governance, Incident- & Problem-Management, Linux (Debian, Ubuntu, RHEL), FreeBSD & Netzwerk-Appliances, Hochverfügbarkeit & Redundanz, IPv6, Routing & VPN, Monitoring & Troubleshooting, Storage-Plattformen (Ceph, Cloud)
+[en] Christian Erben, Network Security Specialist, Linux Systems Administrator, Infrastructure Architect, Automation Advocate, Firewall Engineering (Fortinet, Palo Alto), Proxy Management, Secure Web Gateways, Access Governance, Change Governance, Incident Management, Problem Management, Linux Administration, Linux Distributions (Debian, Ubuntu, RHEL), FreeBSD Systems
+[de] Christian Erben, Netzwerk-Security-Spezialist, Linux-Systemadministrator, Infrastruktur-Architekt, Automatisierungs-Enthusiast, Firewall Engineering (Fortinet, Palo Alto), Proxy-Management, Secure Web Gateways, Access-Governance, Change-Governance, Incident-Management, Problem-Management, Linux-Administration, Linux-Distributionen (Debian, Ubuntu, RHEL), FreeBSD-Systeme
 
 [Site-Structure]:
 [en]
@@ -188,17 +188,26 @@ Sitemap: https://christianerben.eu/sitemap.xml
 
 [Skill-Category: Security / Sicherheit]:
   - Firewall Engineering (Fortinet, Palo Alto) / Firewall Engineering (Fortinet, Palo Alto)
-  - Proxy & Secure Web Gateways / Proxy & Secure Web Gateways
-  - Access & Change Governance / Access- & Change-Governance
-  - Incident & Problem Management / Incident- & Problem-Management
+  - Proxy Management / Proxy-Management
+  - Secure Web Gateways / Secure Web Gateways
+  - Access Governance / Access-Governance
+  - Change Governance / Change-Governance
+  - Incident Management / Incident-Management
+  - Problem Management / Problem-Management
 
 [Skill-Category: Infrastructure / Infrastruktur]:
-  - Linux (Debian, Ubuntu, RHEL) / Linux (Debian, Ubuntu, RHEL)
-  - FreeBSD & Network Appliances / FreeBSD & Netzwerk-Appliances
-  - High Availability & Redundancy / Hochverfügbarkeit & Redundanz
-  - IPv6, Routing & VPN / IPv6, Routing & VPN
-  - Monitoring & Troubleshooting / Monitoring & Troubleshooting
-  - Storage Platforms (Ceph, Cloud) / Storage-Plattformen (Ceph, Cloud)
+  - Linux Administration / Linux-Administration
+  - Linux Distributions (Debian, Ubuntu, RHEL) / Linux-Distributionen (Debian, Ubuntu, RHEL)
+  - FreeBSD Systems / FreeBSD-Systeme
+  - Network Appliances / Netzwerk-Appliances
+  - High Availability / Hochverfügbarkeit
+  - Redundancy & Failover / Redundanz & Failover
+  - IPv6 & Routing / IPv6 & Routing
+  - VPN & Secure Connectivity / VPN & Sichere Konnektivität
+  - Monitoring / Monitoring
+  - Troubleshooting / Troubleshooting
+  - Storage Platforms (Ceph) / Storage-Plattformen (Ceph)
+  - Cloud Storage & Backup / Cloud Storage & Backup
 
 [Skill-Category: Tools & DevOps / Tools & DevOps]:
   - Bash / Shell Scripting / Bash / Shell Skripte
@@ -230,6 +239,7 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [Skill-Category: Management / Management]:
   - Change Management / Change Management
   - Cross-team Coordination / Teamübergreifende Koordination
+  - Steakholder-Communication / Steakholder-Communication
   - Technical Documentation / Technische Dokumentation
 
 [Skill-Category: Languages / Sprachen]:
