@@ -1,7 +1,7 @@
 # llms.txt for uweschwarz.eu
 # This file provides structured information for AI language models.
 # For more information, see https://llmstxt.org/
-# Version 1.0, Generated on 2025-09-24
+# Version 1.0, Generated on 2025-10-13
 
 # --- PERMISSIONS ---
 User-Agent: *
@@ -21,8 +21,8 @@ Sitemap: https://uweschwarz.eu/sitemap.xml
 [de] Christian Erben
 
 [Published]:
-[en] 2025-09-24
-[de] 24.09.2025
+[en] 2025-10-13
+[de] 13.10.2025
 
 [Languages]:
 [en] English, German
@@ -33,16 +33,16 @@ Sitemap: https://uweschwarz.eu/sitemap.xml
 [de] Portfolio von Christian Erben: Netzwerk-Security- und Linux-Infrastruktur-Spezialist
 
 [Hero-Description]:
-[en] I design, harden, and operate enterprise networks with a focus on firewall governance, redundant infrastructures, and reliable documentation. From complex change requests to day-to-day operations, I keep access secure, transparent, and auditable.
-[de] Ich konzipiere, absichere und betreibe Unternehmensnetzwerke mit Fokus auf Firewall-Governance, redundante Infrastrukturen und saubere Dokumentation. Von komplexen Change-Requests bis zum täglichen Betrieb halte ich Zugriffe sicher, transparent und prüfbar.
+[en] I bring many years of experience in system administration, particularly in network architecture, design, and the security of redundant network infrastructures. My expertise includes firewall management, the design of secure networks, and in-depth knowledge of exotic protocols and various network products.
+[de] Ich bringe langjährige Erfahrung im Bereich der Systemadministration mit, insbesondere in der Netzwerk-Architektur und dem Design sowie der Absicherung redundanter Netzwerk-Infrastrukturen. Meine Expertise umfasst das FirewallManagement, die Planung sicherer Netzwerke und tiefgehende Kenntnisse exotischer Protokolle und verschiedener Netzwerkprodukte.
 
 [About-Me]:
 [en] I bring nearly two decades of hands-on experience in enterprise IT infrastructure, specialising in the design and safeguarding of complex network environments for financial and retail organisations.
 [de] Ich bringe fast zwei Jahrzehnte praktische Erfahrung in der Enterprise-IT mit und spezialisiere mich auf die Konzeption und Absicherung komplexer Netzwerkumgebungen für Finanz- und Handelsunternehmen.
 [en] My day-to-day work revolves around managing firewall landscapes, streamlining change processes, maintaining detailed documentation, and coordinating stakeholders across security, infrastructure, and application teams.
 [de] Mein Arbeitsalltag dreht sich um die Steuerung komplexer Firewall-Landschaften, die Optimierung von Change-Prozessen, die Pflege detaillierter Dokumentationen und die Koordination von Stakeholdern aus Security-, Infrastruktur- und Applikationsteams.
-[en] I enjoy automating repetitive tasks with tools like Puppet, Ansible, and shell scripting, and I stay curious about how AI can support troubleshooting and knowledge sharing without compromising compliance.
-[de] Wiederkehrende Aufgaben automatisiere ich mit Tools wie Puppet, Ansible und Shell-Skripten und bleibe neugierig, wie KI beim Troubleshooting und der Wissensweitergabe unterstützen kann, ohne Compliance-Anforderungen zu verletzen.
+[en] I enjoy automating recurring tasks using tools such as Puppet, Ansible, and shell scripts, and increasingly integrate AI-driven approaches into my daily work — for example, to enhance knowledge management, troubleshoot issues, and optimize processes. I maintain an open mindset toward new technologies and actively evaluate their practical value within enterprise environments, always ensuring that security and compliance requirements are met.
+[de] Wiederkehrende Aufgaben automatisiere ich mit Tools wie Puppet, Ansible und Shell-Skripten und integriere zunehmend KI-gestützte Ansätze in meinen Arbeitsalltag – etwa zur Wissensaufbereitung, Fehleranalyse und Prozessoptimierung. Neue Technologien betrachte ich grundsätzlich offen und prüfe aktiv deren praktischen Nutzen im Unternehmenskontext, ohne dabei Sicherheits- oder Compliance-Aspekte aus dem Blick zu verlieren.
 
 [Main-Topics]:
 - Home / Start
@@ -53,8 +53,8 @@ Sitemap: https://uweschwarz.eu/sitemap.xml
 - Contact / Kontakt
 
 [Keywords]:
-[en] Christian Erben, Network Security Specialist, Linux Systems Administrator, Infrastructure Architect, Automation Advocate, Firewall Engineering (Fortinet, Palo Alto), Proxy & Secure Web Gateways, Access & Change Governance, Incident & Problem Management, Linux (Debian, Ubuntu, RHEL)
-[de] Christian Erben, Netzwerk-Security-Spezialist, Linux-Systemadministrator, Infrastruktur-Architekt, Automatisierungs-Enthusiast, Firewall Engineering (Fortinet, Palo Alto), Proxy & Secure Web Gateways, Access- & Change-Governance, Incident- & Problem-Management, Linux (Debian, Ubuntu, RHEL)
+[en] Christian Erben, Network Security Specialist, Linux Systems Administrator, Infrastructure Architect, Automation Advocate, Firewall Engineering (Fortinet, Palo Alto), Proxy & Secure Web Gateways, Access & Change Governance, Incident & Problem Management, Linux (Debian, Ubuntu, RHEL), FreeBSD & Network Appliances, High Availability & Redundancy, IPv6, Routing & VPN, Monitoring & Troubleshooting, Storage Platforms (Ceph, Cloud)
+[de] Christian Erben, Netzwerk-Security-Spezialist, Linux-Systemadministrator, Infrastruktur-Architekt, Automatisierungs-Enthusiast, Firewall Engineering (Fortinet, Palo Alto), Proxy & Secure Web Gateways, Access- & Change-Governance, Incident- & Problem-Management, Linux (Debian, Ubuntu, RHEL), FreeBSD & Netzwerk-Appliances, Hochverfügbarkeit & Redundanz, IPv6, Routing & VPN, Monitoring & Troubleshooting, Storage-Plattformen (Ceph, Cloud)
 
 [Site-Structure]:
 [en]
@@ -89,8 +89,8 @@ Sitemap: https://uweschwarz.eu/sitemap.xml
   - [de] Vernetzt Kund:innen mit Spezialist:innen aus dem DEGIT-Expertennetzwerk und koordiniert interdisziplinäre Beratungsteams.
   - [en] Oversees the design of secure, redundant infrastructures including firewall concepts, VPN solutions, and backup strategies.
   - [de] Überwacht die Konzeption sicherer, redundanter Infrastrukturen einschließlich Firewall-Konzepten, VPN-Lösungen und Backup-Strategien.
-  - [en] Achievement: Established a governance framework aligning network security, privacy, and compliance requirements for new customer projects.
-  - [de] Erfolg: Aufbau eines Governance-Rahmens, der Netzwerksicherheit, Datenschutz und Compliance für neue Kundenprojekte bündelt.
+  - [en] Established a governance framework aligning network security, privacy, and compliance requirements for new customer projects.
+  - [de] Aufbau eines Governance-Rahmens, der Netzwerksicherheit, Datenschutz und Compliance für neue Kundenprojekte bündelt.
 
 [Experience]:
   [en] Network Security / Management
@@ -113,14 +113,14 @@ Sitemap: https://uweschwarz.eu/sitemap.xml
   - [de] Betrieb von Proxy-Infrastrukturen und Monitoring von Netzwerkpfaden inklusive IPSec-Tunneln und SD-WAN-Verbindungen.
   - [en] Support the introduction of cloud-based security services such as Prisma SSE.
   - [de] Unterstützung bei der Einführung cloudbasierter Sicherheitsdienste wie Prisma SSE.
-  - [en] Achievement: Reduced firewall rule complexity from 5,000 to fewer than 1,000 entries for greater transparency and performance.
-  - [de] Erfolg: Reduktion der Firewall-Regelkomplexität von 5.000 auf unter 1.000 Einträge für mehr Transparenz und Performance.
-  - [en] Achievement: Led the migration from Palo Alto to Fortinet, translating complex security policies without service interruption.
-  - [de] Erfolg: Leitung der Migration von Palo Alto zu Fortinet und Übernahme komplexer Sicherheitsrichtlinien ohne Betriebsunterbrechung.
-  - [en] Achievement: Rolled out secure SD-WAN connectivity for branch offices, improving stability and visibility of network communication.
-  - [de] Erfolg: Ausrollen sicherer SD-WAN-Anbindungen für Außenstandorte zur Verbesserung von Stabilität und Transparenz der Netzwerkkommunikation.
-  - [en] Achievement: Introduced Microsoft Azure services into the infrastructure while ensuring compliant hybrid connectivity.
-  - [de] Erfolg: Einführung von Microsoft-Azure-Diensten in die Infrastruktur bei gleichzeitiger Sicherstellung compliantem hybriden Betrieb.
+  - [en] Reduced firewall rule complexity from 5,000 to fewer than 1,000 entries for greater transparency and performance.
+  - [de] Reduktion der Firewall-Regelkomplexität von 5.000 auf unter 1.000 Einträge für mehr Transparenz und Performance.
+  - [en] migration from Palo Alto to Fortinet, translating complex security policies without service interruption.
+  - [de] Migration von Palo Alto zu Fortinet und Übernahme komplexer Sicherheitsrichtlinien ohne Betriebsunterbrechung.
+  - [en] Rolled out secure SD-WAN connectivity for branch offices, improving stability and visibility of network communication.
+  - [de] Ausrollen sicherer SD-WAN-Anbindungen für Außenstandorte zur Verbesserung von Stabilität und Transparenz der Netzwerkkommunikation.
+  - [en] Introduced Microsoft Azure services into the infrastructure while ensuring compliant hybrid connectivity.
+  - [de] Einführung von Microsoft-Azure-Diensten in die Infrastruktur bei gleichzeitiger Sicherstellung compliantem hybriden Betrieb.
 
 [Experience]:
   [en] Linux Systems Administrator / Nagios Administrator
@@ -137,8 +137,8 @@ Sitemap: https://uweschwarz.eu/sitemap.xml
   - [de] Sicherstellung der Hochverfügbarkeit durch strukturiertes Patchmanagement und Monitoring.
   - [en] Advised projects on secure infrastructure design and integration into existing monitoring processes.
   - [de] Beratung von Projekten zur sicheren Infrastrukturkonzeption und Integration in bestehende Monitoring-Prozesse.
-  - [en] Achievement: Accelerated server rollout cycles by automating golden-image provisioning and compliance checks.
-  - [de] Erfolg: Beschleunigung der Server-Rollouts durch Automatisierung von Golden Images und Compliance-Checks.
+  - [en] Accelerated server rollout cycles by automating golden-image provisioning and compliance checks.
+  - [de] Beschleunigung der Server-Rollouts durch Automatisierung von Golden Images und Compliance-Checks.
 
 [Experience]:
   [en] Linux Systems Administrator
@@ -155,8 +155,8 @@ Sitemap: https://uweschwarz.eu/sitemap.xml
   - [de] Betrieb von Enterprise-E-Mail-Plattformen mit Dovecot und Postfix inklusive Archivierungslösungen.
   - [en] Implemented storage solutions such as Ceph and cloud storage for scalable data services.
   - [de] Implementierung von Storage-Lösungen wie Ceph und Cloud Storage für skalierbare Datendienste.
-  - [en] Achievement: Delivered a mail archiving platform that ensured long-term compliance and simplified eDiscovery.
-  - [de] Erfolg: Aufbau einer Mail-Archivierungsplattform, die Langzeit-Compliance sicherstellte und eDiscovery vereinfachte.
+  - [en] Delivered a mail archiving platform that ensured long-term compliance and simplified eDiscovery.
+  - [de] Aufbau einer Mail-Archivierungsplattform, die Langzeit-Compliance sicherstellte und eDiscovery vereinfachte.
 
 # --- PROJECTS ---
 
@@ -201,15 +201,31 @@ Sitemap: https://uweschwarz.eu/sitemap.xml
   - Storage Platforms (Ceph, Cloud) / Storage-Plattformen (Ceph, Cloud)
 
 [Skill-Category: Tools & DevOps / Tools & DevOps]:
-  - Bash & Awk / Bash & Awk
-  - Puppet & Ansible / Puppet & Ansible
-  - Postfix & Dovecot / Postfix & Dovecot
-  - Bind & Unbound DNS / Bind & Unbound DNS
-  - HAProxy / HAProxy
+  - Bash / Shell Scripting / Bash / Shell Skripte
+  - paperless-ngx / paperless-ngx
+  - Git / Git
+  - Cursor / Cursor
+  - Python / Python
+  - Postfix / Dovecot / Postfix / Dovecot
+  - Bind / Unbound / Bind / Unbound
   - Squid Proxy / Squid Proxy
+  - HAProxy / HAProxy
+  - Puppet / Puppet
+  - Docker / Docker
 
 [Skill-Category: AI / KI]:
   - AI-assisted Troubleshooting / KI-gestütztes Troubleshooting
+  - Agentic AI / Agentische KI
+  - Multimodal AI / Multimodale KI
+  - Causal AI / Kausale KI
+  - Lovable / Lovable
+  - OpenAI / ChatGPT / OpenAI / ChatGPT
+  - Anthropic / Claude / Anthropic / Claude
+  - Google / Gemini / Google / Gemini
+  - xAI / Grok / xAI / Grok
+  - Generative Engine Optimization (GEO) / Generative Engine Optimization (GEO)
+  - AI Multimedia Generation / KI-Multimediaerzeugung
+  - AI Ethics & Governance / KI-Ethik & Governance
 
 [Skill-Category: Management / Management]:
   - Change Management / Change Management

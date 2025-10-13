@@ -737,58 +737,103 @@ export const siteContent: SiteContent = {
 
     // Tools & Automation
     {
-      name: {
-        en: "Bash / Shell Skripte",
-        de: "Bash / Shell Scripting",
+      "name": {
+        "en": "Bash / Shell Scripting",
+        "de": "Bash / Shell Skripte"
       },
-      icon: "terminal",
-      category: "tools",
-      level: 5,
+      "icon": "terminal",
+      "category": "tools",
+      "level": 5
     },
     {
-      name: {
-        en: "Puppet & Ansible",
-        de: "Puppet & Ansible",
+      "name": {
+        "en": "paperless-ngx",
+        "de": "paperless-ngx"
       },
-      icon: "bot",
-      category: "tools",
-      level: 4,
+      "icon": "book-open",
+      "category": "tools",
+      "level": 4
     },
     {
-      name: {
-        en: "Postfix & Dovecot",
-        de: "Postfix & Dovecot",
+      "name": {
+        "en": "Git",
+        "de": "Git"
       },
-      icon: "mail",
-      category: "tools",
-      level: 4,
+      "icon": "git-branch",
+      "category": "tools",
+      "level": 4
     },
     {
-      name: {
-        en: "Bind & Unbound DNS",
-        de: "Bind & Unbound DNS",
+      "name": {
+        "en": "Cursor",
+        "de": "Cursor"
       },
-      icon: "globe",
-      category: "tools",
-      level: 4,
+      "icon": "cursor",
+      "category": "tools",
+      "level": 4
     },
     {
-      name: {
-        en: "HAProxy",
-        de: "HAProxy",
+      "name": {
+        "en": "Python",
+        "de": "Python"
       },
-      icon: "git-compare-arrows",
-      category: "tools",
-      level: 3,
+      "icon": "code-2",
+      "category": "tools",
+      "level": 3
     },
     {
-      name: {
-        en: "Squid Proxy",
-        de: "Squid Proxy",
+      "name": {
+        "en": "Postfix / Dovecot",
+        "de": "Postfix / Dovecot"
       },
-      icon: "shield",
-      category: "tools",
-      level: 3,
+      "icon": "mail",
+      "category": "tools",
+      "level": 4
+    },
+    {
+      "name": {
+        "en": "Bind / Unbound",
+        "de": "Bind / Unbound"
+      },
+      "icon": "globe",
+      "category": "tools",
+      "level": 4
+    },
+    {
+      "name": {
+        "en": "Squid Proxy",
+        "de": "Squid Proxy"
+      },
+      "icon": "network",
+      "category": "tools",
+      "level": 4
+    },
+    {
+      "name": {
+        "en": "HAProxy",
+        "de": "HAProxy"
+      },
+      "icon": "server",
+      "category": "tools",
+      "level": 4
+    },
+    {
+      "name": {
+        "en": "Puppet",
+        "de": "Puppet"
+      },
+      "icon": "settings",
+      "category": "tools",
+      "level": 3
+    },
+    {
+      "name": {
+        "en": "Docker",
+        "de": "Docker"
+      },
+      "icon": "package",
+      "category": "tools",
+      "level": 4
     },
 
     // Management & Collaboration
@@ -804,7 +849,7 @@ export const siteContent: SiteContent = {
     {
       name: {
         en: "Cross-team Coordination",
-        de: "Cross-Teamkoordination",
+        de: "Teamübergreifende Koordination",
       },
       icon: "users",
       category: "management",

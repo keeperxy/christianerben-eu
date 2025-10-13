@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const baseUrl = 'https://uweschwarz.eu'; // Change to your domain
+const baseUrl = 'https://christianerben.eu'; // Change to your domain
 
 const urls = [
   {

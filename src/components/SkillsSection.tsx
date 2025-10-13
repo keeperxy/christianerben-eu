@@ -201,7 +201,7 @@ const SkillsGrid = ({ skills }: SkillsGridProps) => {
             {getSkillIcon(skill.icon)}
           </div>
 
-          <h3 className="text-base font-medium mb-2">{t(skill.name)}</h3>
+          <h3 className="text-base font-medium mb-2 text-center">{t(skill.name)}</h3>
 
           <div className="flex gap-1">
             {[...Array(5)].map((_, i) => (

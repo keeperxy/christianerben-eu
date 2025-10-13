@@ -39,7 +39,7 @@ const CvDownloadButtons: React.FC<{ language: 'en' | 'de'; cvData: SiteContent }
     if (docxUrl) {
       const link = document.createElement('a');
       link.href = docxUrl;
-      link.download = `uwe_schwarz_cv_${language}_${new Date().toISOString().split('T')[0]}.docx`;
+      link.download = `christian_erben_cv_${language}_${new Date().toISOString().split('T')[0]}.docx`;
       link.click();
       // Clean up
       setTimeout(() => {
@@ -55,7 +55,7 @@ const CvDownloadButtons: React.FC<{ language: 'en' | 'de'; cvData: SiteContent }
       <div className="hidden md:flex space-x-4">
         <PDFDownloadLink
           document={<CVDocument language={language} data={cvData} />}
-          fileName={`uwe_schwarz_cv_${language}_${new Date().toISOString().split('T')[0]}.pdf`}
+          fileName={`christian_erben_cv_${language}_${new Date().toISOString().split('T')[0]}.pdf`}
           className="no-underline"
         >
           {({ loading }: { loading: boolean }) => (
@@ -92,7 +92,7 @@ const CvDownloadButtons: React.FC<{ language: 'en' | 'de'; cvData: SiteContent }
           <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-lg z-10">
             <PDFDownloadLink
               document={<CVDocument language={language} data={cvData} />}
-              fileName={`uwe_schwarz_cv_${language}_${new Date().toISOString().split('T')[0]}.pdf`}
+              fileName={`christian_erben_cv_${language}_${new Date().toISOString().split('T')[0]}.pdf`}
               className="no-underline block px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               {({ loading }: { loading: boolean }) => (
