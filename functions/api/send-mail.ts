@@ -154,9 +154,9 @@ export async function onRequestPost(context) {
 
   try {
     const data = await resend.emails.send({
-      from: `${safeName} <uweschwarz-eu@oldman.cloud>`,
+      from: `${safeName} <christianerben-eu@christianerben.eu>`,
       replyTo: [body.email],
-      to: ['mail@uweschwarz.eu'],
+      to: ['christian.erben@degit.de'],
       subject: `Contact Form Submission from ${safeName} on ${new Date().toISOString()}`,
       html: html,
     });

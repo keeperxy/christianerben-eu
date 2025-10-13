@@ -1036,7 +1036,7 @@ export const siteContent: SiteContent = {
     birthday: "29.10.1979",
     homepage: "https://christian-erben.eu",
     socialLinks: {
-      linkedin: "https://www.linkedin.com/in/christian-erben",
+      linkedin: "https://www.linkedin.com/in/christian-erben-828a08330/",
       xing: "https://www.xing.com/profile/Christian_Erben",
     },
     formLabels: {
