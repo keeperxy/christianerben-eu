@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://uweschwarz.eu/sitemap.xml
+Sitemap: https://christianerben.eu/sitemap.xml
