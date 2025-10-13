@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
   },
   sidebar: {
-    width: 150,
+    width: 160,
     backgroundColor: theme.sidebarBg,
     color: theme.sidebarText,
     padding: 10,
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.background,
     padding: "12 30 30 30",
     minHeight: "100%",
-    marginLeft: 150,
+    marginLeft: 160,
   },
   name: {
     fontFamily: "Space Grotesk",

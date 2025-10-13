@@ -133,7 +133,7 @@ export async function generateCvDocx({ language, data }: { language: "en" | "de"
                 children: [
                   // Sidebar-Spalte
                   new TableCell({
-                    width: { size: 1500, type: "dxa" },
+                    width: { size: 1600, type: "dxa" },
                     shading: { fill: theme.sidebarBg },
                     borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } },
                     children: [
@@ -176,7 +176,7 @@ export async function generateCvDocx({ language, data }: { language: "en" | "de"
     
                   // Hauptbereich
                   new TableCell({
-                    width: { size: 8500, type: "dxa" },
+                    width: { size: 8400, type: "dxa" },
                     children: [
                       new Paragraph({ spacing: { after: 100 }, children: [new TextRun({ text: hero.name, bold: true, size: 44, font: 'Space Grotesk', color: theme.foreground })] }),
                       new Paragraph({ children: [new TextRun({ text: t(hero.description), size: 18, color: theme.primary })], spacing: { after: 200 } }),

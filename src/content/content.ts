@@ -278,7 +278,7 @@ export const siteContent: SiteContent = {
       { position: 97, distance: 120, code: "🔥 firewalls" },
       { position: 85, distance: 130, code: "🌐 networks" },
       { position: 55, distance: 95, code: "🧩 communication" },
-      { position: 68, distance: 132, code: "☁️ cloud" },
+      { position: 68, distance: 112, code: "☁️ cloud" },
     ],
   },
   about: {
