@@ -268,17 +268,17 @@ export const siteContent: SiteContent = {
       { en: "Automation Advocate", de: "Automatisierungs-Enthusiast" },
     ],
     description: {
-      en: "I design, harden, and operate enterprise networks with a focus on firewall governance, redundant infrastructures, and reliable documentation. From complex change requests to day-to-day operations, I keep access secure, transparent, and auditable.",
-      de: "Ich konzipiere, absichere und betreibe Unternehmensnetzwerke mit Fokus auf Firewall-Governance, redundante Infrastrukturen und saubere Dokumentation. Von komplexen Change-Requests bis zum täglichen Betrieb halte ich Zugriffe sicher, transparent und prüfbar.",
+      en: "I bring many years of experience in system administration, particularly in network architecture, design, and the security of redundant network infrastructures. My expertise includes firewall management, the design of secure networks, and in-depth knowledge of exotic protocols and various network products.",
+      de: "Ich bringe langjährige Erfahrung im Bereich der Systemadministration mit, insbesondere in der Netzwerk-Architektur und dem Design sowie der Absicherung redundanter Netzwerk-Infrastrukturen. Meine Expertise umfasst das FirewallManagement, die Planung sicherer Netzwerke und tiefgehende Kenntnisse exotischer Protokolle und verschiedener Netzwerkprodukte.",
     },
     ctaPrimary: { en: "Explore my work", de: "Meine Arbeit entdecken" },
     ctaSecondary: { en: "Download CV", de: "Lebenslauf herunterladen" },
     decorativeElements: [
-      { position: 12, distance: 84, code: "🔒&nbsp;Firewalls" },
-      { position: 32, distance: 68, code: "🌐&nbsp;IPv6" },
-      { position: 55, distance: 115, code: "📊&nbsp;Change&nbsp;Logs" },
-      { position: 72, distance: 95, code: "🛰️&nbsp;SD-WAN" },
-      { position: 88, distance: 130, code: "⚙️&nbsp;Automation" },
+      { position: 107, distance: 90, code: "⚙️ automation" },
+      { position: 97, distance: 120, code: "🔥 firewalls" },
+      { position: 85, distance: 130, code: "🌐 network architecture" },
+      { position: 55, distance: 95, code: "🧩 cross-functional collaboration" },
+      { position: 68, distance: 132, code: "☁️ cloud-integration" },
     ],
   },
   about: {
@@ -293,8 +293,8 @@ export const siteContent: SiteContent = {
         de: "Mein Arbeitsalltag dreht sich um die Steuerung komplexer Firewall-Landschaften, die Optimierung von Change-Prozessen, die Pflege detaillierter Dokumentationen und die Koordination von Stakeholdern aus Security-, Infrastruktur- und Applikationsteams.",
       },
       {
-        en: "I enjoy automating repetitive tasks with tools like Puppet, Ansible, and shell scripting, and I stay curious about how AI can support troubleshooting and knowledge sharing without compromising compliance.",
-        de: "Wiederkehrende Aufgaben automatisiere ich mit Tools wie Puppet, Ansible und Shell-Skripten und bleibe neugierig, wie KI beim Troubleshooting und der Wissensweitergabe unterstützen kann, ohne Compliance-Anforderungen zu verletzen.",
+        en: "I enjoy automating recurring tasks using tools such as Puppet, Ansible, and shell scripts, and increasingly integrate AI-driven approaches into my daily work — for example, to enhance knowledge management, troubleshoot issues, and optimize processes. I maintain an open mindset toward new technologies and actively evaluate their practical value within enterprise environments, always ensuring that security and compliance requirements are met.",
+        de: "Wiederkehrende Aufgaben automatisiere ich mit Tools wie Puppet, Ansible und Shell-Skripten und integriere zunehmend KI-gestützte Ansätze in meinen Arbeitsalltag – etwa zur Wissensaufbereitung, Fehleranalyse und Prozessoptimierung. Neue Technologien betrachte ich grundsätzlich offen und prüfe aktiv deren praktischen Nutzen im Unternehmenskontext, ohne dabei Sicherheits- oder Compliance-Aspekte aus dem Blick zu verlieren.",
       },
     ],
     imageAlt: {
@@ -307,7 +307,7 @@ export const siteContent: SiteContent = {
       technologies: { en: "Technologies", de: "Technologien" },
     },
     stats: [
-      { key: "experience", value: { en: "20+", de: "20+" } },
+      { key: "experience", value: { en: "15+", de: "15+" } },
       { key: "projects", value: { en: "40+", de: "40+" } },
       { key: "technologies", value: { en: "20+", de: "20+" } },
     ],
@@ -343,17 +343,21 @@ export const siteContent: SiteContent = {
         {
           type: "achievement",
           text: {
-            en: "Achievement: Established a governance framework aligning network security, privacy, and compliance requirements for new customer projects.",
-            de: "Erfolg: Aufbau eines Governance-Rahmens, der Netzwerksicherheit, Datenschutz und Compliance für neue Kundenprojekte bündelt.",
+            en: "Established a governance framework aligning network security, privacy, and compliance requirements for new customer projects.",
+            de: "Aufbau eines Governance-Rahmens, der Netzwerksicherheit, Datenschutz und Compliance für neue Kundenprojekte bündelt.",
           },
         },
       ],
       tags: [
-        { en: "Governance", de: "Governance" },
+        { en: "Compliance", de: "Compliance" },
         { en: "Security Strategy", de: "Sicherheitsstrategie" },
         { en: "Networking", de: "Netzwerke" },
         { en: "Consulting", de: "Beratung" },
         { en: "Compliance", de: "Compliance" },
+        { en: "M365", de: "M365" },
+        { en: "Cloudflare", de: "Cloudflare" },
+        { en: "Supabase", de: "Supabase" },
+        { en: "Azure", de: "Azure" },
       ],
     },
     {
@@ -414,29 +418,29 @@ export const siteContent: SiteContent = {
         {
           type: "achievement",
           text: {
-            en: "Achievement: Reduced firewall rule complexity from 5,000 to fewer than 1,000 entries for greater transparency and performance.",
-            de: "Erfolg: Reduktion der Firewall-Regelkomplexität von 5.000 auf unter 1.000 Einträge für mehr Transparenz und Performance.",
+            en: "Reduced firewall rule complexity from 5,000 to fewer than 1,000 entries for greater transparency and performance.",
+            de: "Reduktion der Firewall-Regelkomplexität von 5.000 auf unter 1.000 Einträge für mehr Transparenz und Performance.",
           },
         },
         {
           type: "achievement",
           text: {
-            en: "Achievement: Led the migration from Palo Alto to Fortinet, translating complex security policies without service interruption.",
-            de: "Erfolg: Leitung der Migration von Palo Alto zu Fortinet und Übernahme komplexer Sicherheitsrichtlinien ohne Betriebsunterbrechung.",
+            en: "migration from Palo Alto to Fortinet, translating complex security policies without service interruption.",
+            de: "Migration von Palo Alto zu Fortinet und Übernahme komplexer Sicherheitsrichtlinien ohne Betriebsunterbrechung.",
           },
         },
         {
           type: "achievement",
           text: {
-            en: "Achievement: Rolled out secure SD-WAN connectivity for branch offices, improving stability and visibility of network communication.",
-            de: "Erfolg: Ausrollen sicherer SD-WAN-Anbindungen für Außenstandorte zur Verbesserung von Stabilität und Transparenz der Netzwerkkommunikation.",
+            en: "Rolled out secure SD-WAN connectivity for branch offices, improving stability and visibility of network communication.",
+            de: "Ausrollen sicherer SD-WAN-Anbindungen für Außenstandorte zur Verbesserung von Stabilität und Transparenz der Netzwerkkommunikation.",
           },
         },
         {
           type: "achievement",
           text: {
-            en: "Achievement: Introduced Microsoft Azure services into the infrastructure while ensuring compliant hybrid connectivity.",
-            de: "Erfolg: Einführung von Microsoft-Azure-Diensten in die Infrastruktur bei gleichzeitiger Sicherstellung compliantem hybriden Betrieb.",
+            en: "Introduced Microsoft Azure services into the infrastructure while ensuring compliant hybrid connectivity.",
+            de: "Einführung von Microsoft-Azure-Diensten in die Infrastruktur bei gleichzeitiger Sicherstellung compliantem hybriden Betrieb.",
           },
         },
       ],
@@ -488,8 +492,8 @@ export const siteContent: SiteContent = {
         {
           type: "achievement",
           text: {
-            en: "Achievement: Accelerated server rollout cycles by automating golden-image provisioning and compliance checks.",
-            de: "Erfolg: Beschleunigung der Server-Rollouts durch Automatisierung von Golden Images und Compliance-Checks.",
+            en: "Accelerated server rollout cycles by automating golden-image provisioning and compliance checks.",
+            de: "Beschleunigung der Server-Rollouts durch Automatisierung von Golden Images und Compliance-Checks.",
           },
         },
       ],
@@ -539,8 +543,8 @@ export const siteContent: SiteContent = {
         {
           type: "achievement",
           text: {
-            en: "Achievement: Delivered a mail archiving platform that ensured long-term compliance and simplified eDiscovery.",
-            de: "Erfolg: Aufbau einer Mail-Archivierungsplattform, die Langzeit-Compliance sicherstellte und eDiscovery vereinfachte.",
+            en: "Delivered a mail archiving platform that ensured long-term compliance and simplified eDiscovery.",
+            de: "Aufbau einer Mail-Archivierungsplattform, die Langzeit-Compliance sicherstellte und eDiscovery vereinfachte.",
           },
         },
       ],
@@ -734,8 +738,8 @@ export const siteContent: SiteContent = {
     // Tools & Automation
     {
       name: {
-        en: "Bash & Awk",
-        de: "Bash & Awk",
+        en: "Bash / Shell Skripte",
+        de: "Bash / Shell Scripting",
       },
       icon: "terminal",
       category: "tools",
@@ -800,7 +804,7 @@ export const siteContent: SiteContent = {
     {
       name: {
         en: "Cross-team Coordination",
-        de: "Teamübergreifende Koordination",
+        de: "Cross-Teamkoordination",
       },
       icon: "users",
       category: "management",
@@ -824,7 +828,106 @@ export const siteContent: SiteContent = {
       },
       icon: "wand-2",
       category: "ai",
-      level: 2,
+      level: 5,
+    },
+    {
+      "name": {
+        "en": "Agentic AI",
+        "de": "Agentische KI"
+      },
+      "icon": "bot",
+      "category": "ai",
+      "level": 4
+    },
+    {
+      "name": {
+        "en": "Multimodal AI",
+        "de": "Multimodale KI"
+      },
+      "icon": "layers",
+      "category": "ai",
+      "level": 5
+    },
+    {
+      "name": {
+        "en": "Causal AI",
+        "de": "Kausale KI"
+      },
+      "icon": "git-branch",
+      "category": "ai",
+      "level": 4
+    },
+    {
+      "name": {
+        "en": "Lovable",
+        "de": "Lovable"
+      },
+      "icon": "heart",
+      "category": "ai",
+      "level": 5
+    },
+    {
+      "name": {
+        "en": "OpenAI / ChatGPT",
+        "de": "OpenAI / ChatGPT"
+      },
+      "icon": "message-square",
+      "category": "ai",
+      "level": 5
+    },
+    {
+      "name": {
+        "en": "Anthropic / Claude",
+        "de": "Anthropic / Claude"
+      },
+      "icon": "sparkles",
+      "category": "ai",
+      "level": 4
+    },
+    {
+      "name": {
+        "en": "Google / Gemini",
+        "de": "Google / Gemini"
+      },
+      "icon": "orbit",
+      "category": "ai",
+      "level": 4
+    },
+    {
+      "name": {
+        "en": "xAI / Grok",
+        "de": "xAI / Grok"
+      },
+      "icon": "satellite",
+      "category": "ai",
+      "level": 3
+    },
+    {
+      "name": {
+        "en": "Generative Engine Optimization (GEO)",
+        "de": "Generative Engine Optimization (GEO)"
+      },
+      "icon": "cpu",
+      "category": "ai",
+      "level": 2
+    },
+    {
+      "name": {
+        "en": "AI Multimedia Generation",
+        "de": "KI-Multimediaerzeugung"
+      },
+      "icon": "image-play",
+      "category": "ai",
+      "level": 3
+    },
+    {
+      "name": {
+        "en": "AI Ethics & Governance",
+        "de": "KI-Ethik & Governance"
+      },
+      "icon": "scale",
+      "category": "ai",
+      "level": 5
     },
 
     // Languages
