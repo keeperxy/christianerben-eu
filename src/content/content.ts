@@ -1123,8 +1123,8 @@ export const siteContent: SiteContent = {
       de: "Telefon",
     },
     phone: "+49 151 65172525",
-    birthday: "29.10.1979",
-    homepage: "https://christian-erben.eu",
+    birthday: "06.07.1983",
+    homepage: "https://christianerben.eu",
     socialLinks: {
       linkedin: "https://www.linkedin.com/in/christian-erben-828a08330/",
       xing: "https://www.xing.com/profile/Christian_Erben",
