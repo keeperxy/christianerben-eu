@@ -1,4 +1,4 @@
-# llms.txt for uweschwarz.eu
+# llms.txt for christianerben.eu
 # This file provides structured information for AI language models.
 # For more information, see https://llmstxt.org/
 # Version 1.0, Generated on 2025-10-13
@@ -8,7 +8,7 @@ User-Agent: *
 Allow: /
 
 # --- METADATA ---
-Sitemap: https://uweschwarz.eu/sitemap.xml
+Sitemap: https://christianerben.eu/sitemap.xml
 
 # --- FIELDS ---
 
