@@ -122,7 +122,7 @@ const HeroSection = () => {
                         className="object-cover w-full h-full"
                       />
                       <AvatarFallback className="text-4xl md:text-5xl font-bold">
-                        US
+                        CE
                       </AvatarFallback>
                     </Avatar>
                   </div>

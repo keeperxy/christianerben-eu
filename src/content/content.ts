@@ -316,6 +316,7 @@ export const siteContent: SiteContent = {
     {
       title: { en: "Member of the Board", de: "Vorstandsmitglied" },
       company: "DEGIT AG",
+      logoUrl: "/logos/degit.png",
       period: { en: "Apr 2020 - Present", de: "Apr 2020 - Heute" },
       location: "Hockenheim, Germany",
       description: [
@@ -363,6 +364,7 @@ export const siteContent: SiteContent = {
     {
       title: { en: "Network Security / Management", de: "Network Security / Management" },
       company: "Deutsche Vermögensberatung AG",
+      logoUrl: "/logos/dvag.svg",
       period: { en: "Oct 2019 - Present", de: "Okt 2019 - Heute" },
       location: "Frankfurt am Main, Germany",
       description: [
@@ -458,6 +460,7 @@ export const siteContent: SiteContent = {
     {
       title: { en: "Linux Systems Administrator / Nagios Administrator", de: "Linux-Systemadministrator / Nagios-Administrator" },
       company: "Schwarz IT GmbH & Co. KG",
+      logoUrl: "/logos/schwarz.svg",
       period: { en: "Apr 2018 - Dec 2018", de: "Apr 2018 - Dez 2018" },
       location: "Weinsberg, Germany",
       description: [
@@ -509,6 +512,7 @@ export const siteContent: SiteContent = {
     {
       title: { en: "Linux Systems Administrator", de: "Linux-Systemadministrator" },
       company: "Deutsche Vermögensberatung AG",
+      logoUrl: "/logos/dvag.svg",
       period: { en: "Feb 2011 - Dec 2017", de: "Feb 2011 - Dez 2017" },
       location: "Frankfurt am Main, Germany",
       description: [
