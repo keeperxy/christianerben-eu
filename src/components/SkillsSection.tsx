@@ -1,192 +1,10 @@
 import React, { useState } from "react";
+import { Briefcase, ShieldCheck, Bot, Network, Wrench, Flag } from "lucide-react";
 import { siteContent } from "@/content/content";
+import type { Skill } from "@/content/content";
 import { useSettings } from "@/contexts/settings-hook";
-import {
-  Activity,
-  AlertTriangle,
-  BookCheck,
-  BookOpen,
-  Bot,
-  BotMessageSquare,
-  Box,
-  Brain,
-  Briefcase,
-  Bug,
-  ClipboardCheck,
-  Cloud,
-  Cpu,
-  Database,
-  FileCode2,
-  FileCheck2,
-  FileText,
-  Flag,
-  FlaskConical,
-  GitBranch,
-  GitCompareArrows,
-  Globe,
-  Handshake,
-  Heart,
-  Image,
-  ImagePlay,
-  KeyRound,
-  Landmark,
-  Laptop,
-  Layers,
-  LifeBuoy,
-  ListChecks,
-  Mail,
-  MessageCircle,
-  MousePointer2,
-  Network,
-  Orbit,
-  Package,
-  RefreshCw,
-  Route,
-  Router,
-  Satellite,
-  Scale,
-  ScanSearch,
-  SearchCode,
-  Server,
-  ServerCog,
-  Settings,
-  Shield,
-  ShieldCheck,
-  Siren,
-  Sparkles,
-  Swords,
-  Terminal,
-  Users,
-  Video,
-  WandSparkles,
-  Wrench
-} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-
-// Get the icon component based on skill name
-const getSkillIcon = (iconName: string) => {
-  switch (iconName) {
-    case "activity":
-      return <Activity className="w-5 h-5" />;
-    case "alert-triangle":
-      return <AlertTriangle className="w-5 h-5" />;
-    case "book-check":
-      return <BookCheck className="w-5 h-5" />;
-    case "book-open":
-      return <BookOpen className="w-5 h-5" />;
-    case "bug":
-      return <Bug className="w-5 h-5" />;
-    case "brain":
-      return <Brain className="w-5 h-5" />;
-    case "briefcase":
-      return <Briefcase className="w-5 h-5" />;
-    case "bot":
-      return <Bot className="w-5 h-5" />;
-    case "bot-message-square":
-      return <BotMessageSquare className="w-5 h-5" />;
-    case "box":
-      return <Box className="w-5 h-5" />;
-    case "cloud":
-      return <Cloud className="w-5 h-5" />;
-    case "cpu":
-      return <Cpu className="w-5 h-5" />;
-    case "database":
-      return <Database className="w-5 h-5" />;
-    case "file-code-2":
-      return <FileCode2 className="w-5 h-5" />;
-    case "file-check-2":
-      return <FileCheck2 className="w-5 h-5" />;
-    case "file-text":
-      return <FileText className="w-5 h-5" />;
-    case "clipboard-check":
-      return <ClipboardCheck className="w-5 h-5" />;
-    case "flag":
-      return <Flag className="w-5 h-5" />;
-    case "flask-conical":
-      return <FlaskConical className="w-5 h-5" />;
-    case "git-branch":
-      return <GitBranch className="w-5 h-5" />;
-    case "git-compare-arrows":
-      return <GitCompareArrows className="w-5 h-5" />;
-    case "globe":
-      return <Globe className="w-5 h-5" />;
-    case "handshake":
-      return <Handshake className="w-5 h-5" />;
-    case "heart":
-      return <Heart className="w-5 h-5" />;
-    case "image":
-      return <Image className="w-5 h-5" />;
-    case "image-play":
-      return <ImagePlay className="w-5 h-5" />;
-    case "key-round":
-      return <KeyRound className="w-5 h-5" />;
-    case "landmark":
-      return <Landmark className="w-5 h-5" />;
-    case "life-buoy":
-      return <LifeBuoy className="w-5 h-5" />;
-    case "list-checks":
-      return <ListChecks className="w-5 h-5" />;
-    case "laptop":
-      return <Laptop className="w-5 h-5" />;
-    case "layers":
-      return <Layers className="w-5 h-5" />;
-    case "mail": 
-      return <Mail className="w-5 h-5" />;
-    case "message-circle":
-      return <MessageCircle className="w-5 h-5" />;
-    case "mouse-pointer-2":
-      return <MousePointer2 className="w-5 h-5" />;
-    case "network":
-      return <Network className="w-5 h-5" />;
-    case "orbit":
-      return <Orbit className="w-5 h-5" />;
-    case "package":
-      return <Package className="w-5 h-5" />;
-    case "refresh-cw":
-      return <RefreshCw className="w-5 h-5" />;
-    case "route":
-      return <Route className="w-5 h-5" />;
-    case "router":
-      return <Router className="w-5 h-5" />;
-    case "satellite":
-      return <Satellite className="w-5 h-5" />;
-    case "scale":
-      return <Scale className="w-5 h-5" />;
-    case "scan-search":
-      return <ScanSearch className="w-5 h-5" />;
-    case "search-code":
-      return <SearchCode className="w-5 h-5" />;
-    case "settings":
-      return <Settings className="w-5 h-5" />;
-    case "server":
-      return <Server className="w-5 h-5" />;
-    case "server-cog":
-      return <ServerCog className="w-5 h-5" />;
-    case "shield":
-      return <Shield className="w-5 h-5" />;
-    case "shield-check":
-      return <ShieldCheck className="w-5 h-5" />;
-    case "siren":
-      return <Siren className="w-5 h-5" />;
-    case "sparkles":
-      return <Sparkles className="w-5 h-5" />;
-    case "swords":
-      return <Swords className="w-5 h-5" />;
-    case "terminal":
-      return <Terminal className="w-5 h-5" />;
-    case "users":
-      return <Users className="w-5 h-5" />;
-    case "video":
-      return <Video className="w-5 h-5" />;
-    case "wand-2":
-      return <WandSparkles className="w-5 h-5" />;
-    case "wrench":
-      return <Wrench className="w-5 h-5" />;
-    default:
-      return <Sparkles className="w-5 h-5" />;
-  }
-};
 
 const SkillsSection = () => {
   const { t } = useSettings();
@@ -282,37 +100,40 @@ const SkillsSection = () => {
 };
 
 interface SkillsGridProps {
-  skills: typeof siteContent.skills;
+  skills: Skill[];
 }
 
 const SkillsGrid = ({ skills }: SkillsGridProps) => {
   const { t } = useSettings();
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-6">
-      {skills.map((skill, index) => (
-        <div
-          key={index}
-          className="p-4 rounded-lg border border-border bg-card flex flex-col items-center hover-scale transition-all"
-        >
-          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3 text-primary">
-            {getSkillIcon(skill.icon)}
-          </div>
+      {skills.map((skill, index) => {
+        const IconComponent = skill.icon;
+        return (
+          <div
+            key={index}
+            className="p-4 rounded-lg border border-border bg-card flex flex-col items-center hover-scale transition-all"
+          >
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3 text-primary">
+              <IconComponent className="w-5 h-5" />
+            </div>
 
-          <h3 className="text-base font-medium mb-2 text-center">{t(skill.name)}</h3>
+            <h3 className="text-base font-medium mb-2 text-center">{t(skill.name)}</h3>
 
-          <div className="flex gap-1">
-            {[...Array(5)].map((_, i) => (
-              <div
-                key={i}
-                className={cn(
-                  "w-2 h-2 rounded-full",
-                  i < skill.level ? "bg-primary" : "bg-muted"
-                )}
-              />
-            ))}
+            <div className="flex gap-1">
+              {[...Array(5)].map((_, i) => (
+                <div
+                  key={i}
+                  className={cn(
+                    "w-2 h-2 rounded-full",
+                    i < skill.level ? "bg-primary" : "bg-muted"
+                  )}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

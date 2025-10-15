@@ -1,3 +1,54 @@
+import type { ComponentType } from "react";
+import {
+  Activity,
+  AlertTriangle,
+  BookOpen,
+  Bot,
+  Bug,
+  ClipboardCheck,
+  Cloud,
+  Cpu,
+  Database,
+  FileText,
+  Flag,
+  GitBranch,
+  Globe,
+  Handshake,
+  Heart,
+  ImagePlay,
+  KeyRound,
+  Layers,
+  LifeBuoy,
+  ListChecks,
+  Mail,
+  MousePointer2,
+  Network,
+  RefreshCw,
+  Router,
+  Scale,
+  SearchCode,
+  Server,
+  ServerCog,
+  Shield,
+  ShieldCheck,
+  Terminal,
+  Users,
+  WandSparkles,
+} from "lucide-react";
+import {
+  SiAnthropic,
+  SiCaddy,
+  SiDocker,
+  SiFreebsd,
+  SiGit,
+  SiGooglegemini,
+  SiOpenai,
+  SiPaperlessngx,
+  SiPuppet,
+  SiPython,
+  SiX,
+} from "react-icons/si";
+
 interface LocalizedString {
   en: string;
   de: string;
@@ -61,7 +112,7 @@ export interface Project {
 
 export interface Skill {
   name: LocalizedString;
-  icon: string;
+  icon: ComponentType<{ className?: string }>;
   category:
     | "languages"
     | "management"
@@ -651,274 +702,283 @@ export const siteContent: SiteContent = {
         en: "Firewall Engineering (Fortinet, Palo Alto)",
         de: "Firewall Engineering (Fortinet, Palo Alto)",
       },
-      icon: "shield-check",
+      icon: ShieldCheck,
       category: "security",
       level: 5,
     },
     {
-      "name": {
-        "en": "Proxy Management",
-        "de": "Proxy-Management"
+      name: {
+        en: "Proxy Management",
+        de: "Proxy-Management",
       },
-      "icon": "network",
-      "category": "security",
-      "level": 4
+      icon: Network,
+      category: "security",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Secure Web Gateways",
-        "de": "Secure Web Gateways"
+      name: {
+        en: "Secure Web Gateways",
+        de: "Secure Web Gateways",
       },
-      "icon": "shield",
-      "category": "security",
-      "level": 4
+      icon: Shield,
+      category: "security",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Access Governance",
-        "de": "Access-Governance"
+      name: {
+        en: "Access Governance",
+        de: "Access-Governance",
       },
-      "icon": "key-round",
-      "category": "security",
-      "level": 4
+      icon: KeyRound,
+      category: "security",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Change Governance",
-        "de": "Change-Governance"
+      name: {
+        en: "Change Governance",
+        de: "Change-Governance",
       },
-      "icon": "clipboard-check",
-      "category": "security",
-      "level": 4
+      icon: ClipboardCheck,
+      category: "security",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Incident Management",
-        "de": "Incident-Management"
+      name: {
+        en: "Incident Management",
+        de: "Incident-Management",
       },
-      "icon": "alert-triangle",
-      "category": "security",
-      "level": 4
+      icon: AlertTriangle,
+      category: "security",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Problem Management",
-        "de": "Problem-Management"
+      name: {
+        en: "Problem Management",
+        de: "Problem-Management",
       },
-      "icon": "life-buoy",
-      "category": "security",
-      "level": 4
+      icon: LifeBuoy,
+      category: "security",
+      level: 4,
     },
 
     // Infrastructure
     {
-      "name": {
-        "en": "Linux Administration",
-        "de": "Linux-Administration"
+      name: {
+        en: "Linux Administration",
+        de: "Linux-Administration",
       },
-      "icon": "terminal",
-      "category": "infrastructure",
-      "level": 5
+      icon: Terminal,
+      category: "infrastructure",
+      level: 5,
     },
     {
-      "name": {
-        "en": "Linux Distributions (Debian, Ubuntu, RHEL)",
-        "de": "Linux-Distributionen (Debian, Ubuntu, RHEL)"
+      name: {
+        en: "Linux Distributions (Debian, Ubuntu, RHEL)",
+        de: "Linux-Distributionen (Debian, Ubuntu, RHEL)",
       },
-      "icon": "server",
-      "category": "infrastructure",
-      "level": 5
+      icon: Server,
+      category: "infrastructure",
+      level: 5,
     },
     {
-      "name": {
-        "en": "FreeBSD Systems",
-        "de": "FreeBSD-Systeme"
+      name: {
+        en: "FreeBSD Systems",
+        de: "FreeBSD-Systeme",
       },
-      "icon": "cpu",
-      "category": "infrastructure",
-      "level": 3
+      icon: SiFreebsd,
+      category: "infrastructure",
+      level: 3,
     },
     {
-      "name": {
-        "en": "Network Appliances",
-        "de": "Netzwerk-Appliances"
+      name: {
+        en: "Network Appliances",
+        de: "Netzwerk-Appliances",
       },
-      "icon": "router",
-      "category": "infrastructure",
-      "level": 3
+      icon: Router,
+      category: "infrastructure",
+      level: 3,
     },
     {
-      "name": {
-        "en": "High Availability",
-        "de": "Hochverfügbarkeit"
+      name: {
+        en: "High Availability",
+        de: "Hochverfügbarkeit",
       },
-      "icon": "server-cog",
-      "category": "infrastructure",
-      "level": 5
+      icon: ServerCog,
+      category: "infrastructure",
+      level: 5,
     },
     {
-      "name": {
-        "en": "Redundancy & Failover",
-        "de": "Redundanz & Failover"
+      name: {
+        en: "Redundancy & Failover",
+        de: "Redundanz & Failover",
       },
-      "icon": "refresh-cw",
-      "category": "infrastructure",
-      "level": 5
+      icon: RefreshCw,
+      category: "infrastructure",
+      level: 5,
     },
     {
-      "name": {
-        "en": "IPv6 & Routing",
-        "de": "IPv6 & Routing"
+      name: {
+        en: "IPv6 & Routing",
+        de: "IPv6 & Routing",
       },
-      "icon": "network",
-      "category": "infrastructure",
-      "level": 5
+      icon: Network,
+      category: "infrastructure",
+      level: 5,
     },
     {
-      "name": {
-        "en": "VPN & Secure Connectivity",
-        "de": "VPN & Sichere Konnektivität"
+      name: {
+        en: "VPN & Secure Connectivity",
+        de: "VPN & Sichere Konnektivität",
       },
-      "icon": "shield",
-      "category": "infrastructure",
-      "level": 5
+      icon: Shield,
+      category: "infrastructure",
+      level: 5,
     },
     {
-      "name": {
-        "en": "Monitoring",
-        "de": "Monitoring"
+      name: {
+        en: "Monitoring",
+        de: "Monitoring",
       },
-      "icon": "activity",
-      "category": "infrastructure",
-      "level": 4
+      icon: Activity,
+      category: "infrastructure",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Troubleshooting",
-        "de": "Troubleshooting"
+      name: {
+        en: "Troubleshooting",
+        de: "Troubleshooting",
       },
-      "icon": "bug",
-      "category": "infrastructure",
-      "level": 4
+      icon: Bug,
+      category: "infrastructure",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Storage Platforms (Ceph)",
-        "de": "Storage-Plattformen (Ceph)"
+      name: {
+        en: "Storage Platforms (Ceph)",
+        de: "Storage-Plattformen (Ceph)",
       },
-      "icon": "database",
-      "category": "infrastructure",
-      "level": 3
+      icon: Database,
+      category: "infrastructure",
+      level: 3,
     },
     {
-      "name": {
-        "en": "Cloud Storage & Backup",
-        "de": "Cloud Storage & Backup"
+      name: {
+        en: "Cloud Storage & Backup",
+        de: "Cloud Storage & Backup",
       },
-      "icon": "cloud",
-      "category": "infrastructure",
-      "level": 3
+      icon: Cloud,
+      category: "infrastructure",
+      level: 3,
     },
 
     // Tools & Automation
     {
-      "name": {
-        "en": "Bash / Shell Scripting",
-        "de": "Bash / Shell Skripte"
+      name: {
+        en: "Bash / Shell Scripting",
+        de: "Bash / Shell Skripte",
       },
-      "icon": "terminal",
-      "category": "tools",
-      "level": 5
+      icon: Terminal,
+      category: "tools",
+      level: 5,
     },
     {
-      "name": {
-        "en": "paperless-ngx",
-        "de": "paperless-ngx"
+      name: {
+        en: "paperless-ngx",
+        de: "paperless-ngx",
       },
-      "icon": "book-open",
-      "category": "tools",
-      "level": 4
+      icon: SiPaperlessngx,
+      category: "tools",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Git",
-        "de": "Git"
+      name: {
+        en: "Git",
+        de: "Git",
       },
-      "icon": "git-branch",
-      "category": "tools",
-      "level": 4
+      icon: SiGit,
+      category: "tools",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Cursor",
-        "de": "Cursor"
+      name: {
+        en: "Cursor",
+        de: "Cursor",
       },
-      "icon": "mouse-pointer-2",
-      "category": "tools",
-      "level": 4
+      icon: MousePointer2,
+      category: "tools",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Python",
-        "de": "Python"
+      name: {
+        en: "Python",
+        de: "Python",
       },
-      "icon": "file-code-2",
-      "category": "tools",
-      "level": 3
+      icon: SiPython,
+      category: "tools",
+      level: 3,
     },
     {
-      "name": {
-        "en": "Postfix / Dovecot",
-        "de": "Postfix / Dovecot"
+      name: {
+        en: "Postfix / Dovecot",
+        de: "Postfix / Dovecot",
       },
-      "icon": "mail",
-      "category": "tools",
-      "level": 4
+      icon: Mail,
+      category: "tools",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Bind / Unbound",
-        "de": "Bind / Unbound"
+      name: {
+        en: "Bind / Unbound",
+        de: "Bind / Unbound",
       },
-      "icon": "globe",
-      "category": "tools",
-      "level": 4
+      icon: Globe,
+      category: "tools",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Squid Proxy",
-        "de": "Squid Proxy"
+      name: {
+        en: "Squid Proxy",
+        de: "Squid Proxy",
       },
-      "icon": "network",
-      "category": "tools",
-      "level": 4
+      icon: Network,
+      category: "tools",
+      level: 4,
     },
     {
-      "name": {
-        "en": "HAProxy",
-        "de": "HAProxy"
+      name: {
+        en: "HAProxy",
+        de: "HAProxy",
       },
-      "icon": "server",
-      "category": "tools",
-      "level": 4
+      icon: Server,
+      category: "tools",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Puppet",
-        "de": "Puppet"
+      name: {
+        en: "Puppet",
+        de: "Puppet",
       },
-      "icon": "settings",
-      "category": "tools",
-      "level": 3
+      icon: SiPuppet,
+      category: "tools",
+      level: 3,
     },
     {
-      "name": {
-        "en": "Docker",
-        "de": "Docker"
+      name: {
+        en: "Docker",
+        de: "Docker",
       },
-      "icon": "package",
-      "category": "tools",
-      "level": 4
+      icon: SiDocker,
+      category: "tools",
+      level: 4,
+    },
+    {
+      name: {
+        en: "Caddy",
+        de: "Caddy",
+      },
+      icon: SiCaddy,
+      category: "tools",
+      level: 4,
     },
 
     // Management & Collaboration
@@ -927,7 +987,7 @@ export const siteContent: SiteContent = {
         en: "Change Management",
         de: "Change Management",
       },
-      icon: "list-checks",
+      icon: ListChecks,
       category: "management",
       level: 4,
     },
@@ -936,16 +996,16 @@ export const siteContent: SiteContent = {
         en: "Cross-team Coordination",
         de: "Teamübergreifende Koordination",
       },
-      icon: "users",
+      icon: Users,
       category: "management",
       level: 5,
     },
     {
       name: {
-        en: "Steakholder-Communication",
-        de: "Steakholder-Communication",
+        en: "Stakeholder Communication",
+        de: "Stakeholder-Kommunikation",
       },
-      icon: "handshake",
+      icon: Handshake,
       category: "management",
       level: 5,
     },
@@ -954,7 +1014,7 @@ export const siteContent: SiteContent = {
         en: "Technical Documentation",
         de: "Technische Dokumentation",
       },
-      icon: "file-text",
+      icon: FileText,
       category: "management",
       level: 4,
     },
@@ -965,108 +1025,108 @@ export const siteContent: SiteContent = {
         en: "AI-assisted Troubleshooting",
         de: "KI-gestütztes Troubleshooting",
       },
-      icon: "wand-2",
+      icon: WandSparkles,
       category: "ai",
       level: 5,
     },
     {
-      "name": {
-        "en": "Agentic AI",
-        "de": "Agentische KI"
+      name: {
+        en: "Agentic AI",
+        de: "Agentische KI",
       },
-      "icon": "bot",
-      "category": "ai",
-      "level": 4
+      icon: Bot,
+      category: "ai",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Multimodal AI",
-        "de": "Multimodale KI"
+      name: {
+        en: "Multimodal AI",
+        de: "Multimodale KI",
       },
-      "icon": "layers",
-      "category": "ai",
-      "level": 5
+      icon: Layers,
+      category: "ai",
+      level: 5,
     },
     {
-      "name": {
-        "en": "Causal AI",
-        "de": "Kausale KI"
+      name: {
+        en: "Causal AI",
+        de: "Kausale KI",
       },
-      "icon": "git-branch",
-      "category": "ai",
-      "level": 4
+      icon: GitBranch,
+      category: "ai",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Lovable",
-        "de": "Lovable"
+      name: {
+        en: "Lovable",
+        de: "Lovable",
       },
-      "icon": "heart",
-      "category": "ai",
-      "level": 5
+      icon: Heart,
+      category: "ai",
+      level: 5,
     },
     {
-      "name": {
-        "en": "OpenAI / ChatGPT",
-        "de": "OpenAI / ChatGPT"
+      name: {
+        en: "OpenAI / ChatGPT",
+        de: "OpenAI / ChatGPT",
       },
-      "icon": "bot-message-square",
-      "category": "ai",
-      "level": 5
+      icon: SiOpenai,
+      category: "ai",
+      level: 5,
     },
     {
-      "name": {
-        "en": "Anthropic / Claude",
-        "de": "Anthropic / Claude"
+      name: {
+        en: "Anthropic / Claude",
+        de: "Anthropic / Claude",
       },
-      "icon": "sparkles",
-      "category": "ai",
-      "level": 4
+      icon: SiAnthropic,
+      category: "ai",
+      level: 4,
     },
     {
-      "name": {
-        "en": "Google / Gemini",
-        "de": "Google / Gemini"
+      name: {
+        en: "Google / Gemini",
+        de: "Google / Gemini",
       },
-      "icon": "orbit",
-      "category": "ai",
-      "level": 4
+      icon: SiGooglegemini,
+      category: "ai",
+      level: 4,
     },
     {
-      "name": {
-        "en": "xAI / Grok",
-        "de": "xAI / Grok"
+      name: {
+        en: "xAI / Grok",
+        de: "xAI / Grok",
       },
-      "icon": "satellite",
-      "category": "ai",
-      "level": 3
+      icon: SiX,
+      category: "ai",
+      level: 3,
     },
     {
-      "name": {
-        "en": "Generative Engine Optimization (GEO)",
-        "de": "Generative Engine Optimization (GEO)"
+      name: {
+        en: "Generative Engine Optimization (GEO)",
+        de: "Generative Engine Optimization (GEO)",
       },
-      "icon": "cpu",
-      "category": "ai",
-      "level": 2
+      icon: SearchCode,
+      category: "ai",
+      level: 2,
     },
     {
-      "name": {
-        "en": "AI Multimedia Generation",
-        "de": "KI-Multimediaerzeugung"
+      name: {
+        en: "AI Multimedia Generation",
+        de: "KI-Multimediaerzeugung",
       },
-      "icon": "image-play",
-      "category": "ai",
-      "level": 3
+      icon: ImagePlay,
+      category: "ai",
+      level: 3,
     },
     {
-      "name": {
-        "en": "AI Ethics & Governance",
-        "de": "KI-Ethik & Governance"
+      name: {
+        en: "AI Ethics & Governance",
+        de: "KI-Ethik & Governance",
       },
-      "icon": "scale",
-      "category": "ai",
-      "level": 5
+      icon: Scale,
+      category: "ai",
+      level: 5,
     },
 
     // Languages
@@ -1075,7 +1135,7 @@ export const siteContent: SiteContent = {
         en: "German (Native)",
         de: "Deutsch (Muttersprache)",
       },
-      icon: "flag",
+      icon: Flag,
       category: "languages",
       level: 5,
     },
@@ -1084,7 +1144,7 @@ export const siteContent: SiteContent = {
         en: "English (B2)",
         de: "Englisch (B2)",
       },
-      icon: "flag",
+      icon: Flag,
       category: "languages",
       level: 4,
     },
