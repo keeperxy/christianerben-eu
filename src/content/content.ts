@@ -1192,6 +1192,7 @@ export const siteContent: SiteContent = {
     socialLinks: {
       linkedin: "https://www.linkedin.com/in/christian-erben-828a08330/",
       xing: "https://www.xing.com/profile/Christian_Erben",
+      freelancermap: "https://www.freelancermap.de/profil/christian-erben",
     },
     formLabels: {
       name: { en: "Name", de: "Name" },
