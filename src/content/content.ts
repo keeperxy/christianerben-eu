@@ -1252,8 +1252,8 @@ export const siteContent: SiteContent = {
       { label: { en: "Imprint", de: "Impressum" }, href: "/imprint" },
     ],
     lastUpdated: {
-      en: "Last updated: May 2025",
-      de: "Letzte Aktualisierung: Mai 2025",
+      en: "Last updated: October 2025",
+      de: "Letzte Aktualisierung: Oktober 2025",
     },
   },
   imprint: {
