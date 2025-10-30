@@ -298,6 +298,10 @@ export const siteContent: SiteContent = {
     author: "Christian Erben",
   },
   projectsSectionTitle: { en: "Highlighted Projects", de: "Ausgewählte Projekte" },
+  projectsSectionMore: {
+    en: "Explore more projects on GitHub",
+    de: "Weitere Projekte auf GitHub entdecken",
+  },
   navigation: [
     { label: { en: "Home", de: "Start" }, href: "#hero" },
     { label: { en: "About", de: "Über mich" }, href: "#about" },

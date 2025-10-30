@@ -1,5 +1,15 @@
 import { Resend } from 'resend';
 
+interface ContactPayload {
+  verify: string;
+  name: string;
+  email: string;
+  message: string;
+}
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PREHEADER_SPACER = '&nbsp;'.repeat(64);
+
 function escapeHtml(str: string) {
   return str
     .replace(/&/g, "&amp;")
@@ -9,18 +19,60 @@ function escapeHtml(str: string) {
     .replace(/'/g, "&#039;");
 }
 
-export async function onRequestPost(context) {
-  const { request } = context;
-  const body = await request.json();
-  const resend = new Resend(context.env.RESEND_API_KEY);
-
-  if (body.verify !== '') {
-    return Response.json({ error: 'Error' }, { status: 400 });
+function parsePayload(data: unknown): ContactPayload {
+  if (typeof data !== 'object' || data === null) {
+    throw new Error('Invalid request body.');
   }
 
-  const safeName = escapeHtml(body.name);
-  const safeEmail = escapeHtml(body.email);
-  const safeMessage = escapeHtml(body.message).replace(/\n/g, '<br>');
+  const raw = data as Record<string, unknown>;
+
+  const verify = typeof raw.verify === 'string' ? raw.verify : '';
+  const name = typeof raw.name === 'string' ? raw.name.trim() : '';
+  const email = typeof raw.email === 'string' ? raw.email.trim() : '';
+  const message = typeof raw.message === 'string' ? raw.message.trim() : '';
+
+  if (verify !== '') {
+    throw new Error('Suspicious request detected.');
+  }
+
+  if (name.length < 2) {
+    throw new Error('Name must be at least 2 characters long.');
+  }
+
+  if (!emailRegex.test(email)) {
+    throw new Error('Please provide a valid email address.');
+  }
+
+  if (message.length < 10) {
+    throw new Error('Message must be at least 10 characters long.');
+  }
+
+  return { verify, name, email, message };
+}
+
+export async function onRequestPost(context) {
+  const { request } = context;
+  let rawBody: unknown;
+
+  try {
+    rawBody = await request.json();
+  } catch {
+    return Response.json({ error: 'Invalid JSON payload.' }, { status: 400 });
+  }
+
+  let payload: ContactPayload;
+  try {
+    payload = parsePayload(rawBody);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Invalid request body.';
+    return Response.json({ error: message }, { status: 400 });
+  }
+
+  const resend = new Resend(context.env.RESEND_API_KEY);
+
+  const safeName = escapeHtml(payload.name);
+  const safeEmail = escapeHtml(payload.email);
+  const safeMessage = escapeHtml(payload.message).replace(/\n/g, '<br>');
 
   const html = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html dir="ltr" lang="en">
@@ -47,10 +99,7 @@ export async function onRequestPost(context) {
         <div
         style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0"
         data-skip-in-text="true">
-        New contact form submission
-        <div>
-             ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿ ‌​‍‎‏﻿
-        </div>
+        New contact form submission ${PREHEADER_SPACER}
         </div>
         <table
         align="center"
@@ -117,7 +166,7 @@ export async function onRequestPost(context) {
                                 </p>
                                 <p
                                 style="font-size:14px;font-weight:700;margin-bottom:4px;line-height:24px;color:hsl(153, 65%, 65%);margin-top:16px">
-                                Message:
+          Message:
                                 </p>
                                 <p
                                 style="font-size:16px;line-height:24px;color:hsl(210, 40%, 98%);margin-top:16px;margin-bottom:16px">
@@ -155,7 +204,7 @@ export async function onRequestPost(context) {
   try {
     const data = await resend.emails.send({
       from: `${safeName} <christianerben-eu@christianerben.eu>`,
-      replyTo: [body.email],
+      replyTo: [payload.email],
       to: ['christian.erben@degit.de'],
       subject: `Contact Form Submission from ${safeName} on ${new Date().toISOString()}`,
       html: html,
