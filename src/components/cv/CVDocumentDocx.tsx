@@ -14,6 +14,7 @@ import {
   BorderStyle,
 } from "docx";
 import type { SiteContent, Skill } from "@/content/content";
+import { siteContent as defaultSiteContent } from "@/content/content";
 
 type LocalizedString = { en: string; de: string };
   
@@ -42,21 +43,28 @@ type LocalizedString = { en: string; de: string };
    * @returns {Promise<Uint8Array>}
    */
 async function fetchImageBuffer(url: string): Promise<Uint8Array> {
-    const response = await fetch(url);
-    const arrayBuffer = await response.arrayBuffer();
-    return new Uint8Array(arrayBuffer);
-  }
+  const response = await fetch(url);
+  const arrayBuffer = await response.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+}
   
   /**
    * Generiert ein Word-Dokument im Browser (als Blob).
    * @param {{ language: 'en'|'de'; data?: any }} options
    * @returns {Promise<Blob>} erzeugtes .docx als Blob
    */
-export async function generateCvDocx({ language, data }: { language: "en" | "de"; data?: SiteContent }): Promise<Blob> {
-    const profileImage = await fetchImageBuffer('/profile.jpg');
-  
-    const content: SiteContent =
-      data || (window as unknown as { siteContent: SiteContent }).siteContent; // content aus globalem Objekt oder prop
+export async function generateCvDocx({
+  language,
+  data,
+  profileImageData,
+}: {
+  language: "en" | "de";
+  data?: SiteContent;
+  profileImageData?: Uint8Array;
+}): Promise<Blob> {
+  const profileImage = profileImageData ?? (await fetchImageBuffer('/profile.jpg'));
+
+  const content: SiteContent = data || defaultSiteContent;
     const { about, experiences, skills, skillsSection, contact, footer, hero, imprint } = content;
   
     // Übersetzungs-Helper

@@ -1,0 +1,20 @@
+---
+alwaysApply: true
+---
+{
+  "rules": [
+    {
+      "description": "Repository-wide guidance",
+      "patterns": ["**/*"],
+      "style": [
+        "This project is a personal portfolio built with React 19, TypeScript, Vite, Tailwind CSS, and shadcn-ui components.",
+        "Always use the Bun toolchain: run scripts with `bun run <script>` (e.g., `bun run dev`, `bun run build`, `bun run lint`, `bun test`), install dependencies with `bun install`, and prefer `bunx` over `npx` for executing binaries.",
+        "Keep to the established module conventions: PascalCase for components/interfaces, camelCase for functions and variables, import internal code via the `@/` alias, and use `import type` when bringing in TypeScript types.",
+        "React components should leverage `React.forwardRef`, define a matching `displayName`, and type their props interfaces by extending the relevant React HTML attribute interfaces.",
+        "Model plain object shapes with `interface` declarations and union constructs with `type` aliases.",
+        "Surface linting and testing expectations with Bun equivalents (`bun run lint`, `bun test`) when describing workflows; remind contributors that the Husky pre-commit hook on `main` runs the sitemap generator.",
+        "Follow existing Tailwind utility patterns, reuse shared helpers such as `cn`, and stay consistent with current design tokens and component abstractions."
+      ]
+    }
+  ]
+}

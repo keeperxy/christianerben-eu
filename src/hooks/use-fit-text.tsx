@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, useState, useCallback } from "react";
+import { useRef, useLayoutEffect, useState, useCallback, useEffect } from "react";
 
 interface UseFitTextOptions {
   minFontSize?: number;
@@ -6,6 +6,8 @@ interface UseFitTextOptions {
   resolution?: number; // px, how precise the fitting should be
   depKey?: unknown; // dependency to trigger recalculation (e.g. text)
 }
+
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export function useFitText({
   minFontSize = 18,
@@ -17,6 +19,10 @@ export function useFitText({
   const [fontSize, setFontSize] = useState(maxFontSize);
 
   const fit = useCallback(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
     const el = containerRef.current;
     if (!el) return;
     const parent = el.parentElement;
@@ -50,8 +56,13 @@ export function useFitText({
     // eslint-disable-next-line react-hooks/exhaustive-deps -- depKey is intentionally a dependency to allow external trigger
   }, [minFontSize, maxFontSize, resolution, depKey]);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     fit();
+
+    if (typeof window === "undefined" || typeof window.ResizeObserver === "undefined") {
+      return;
+    }
+
     // Listen for container resize
     const parent = containerRef.current?.parentElement;
     if (!parent) return;
@@ -63,7 +74,11 @@ export function useFitText({
   }, [fit]);
 
   // Also refit on window resize (for safety)
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
     window.addEventListener("resize", fit);
     return () => window.removeEventListener("resize", fit);
   }, [fit]);

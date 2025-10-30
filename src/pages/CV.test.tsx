@@ -7,6 +7,7 @@ import CV from "./CV";
 import { siteContent } from "@/content/content";
 import { SettingsContext, type SettingsContextType } from "@/contexts/settings-hook";
 import { generateCvDocx } from "@/components/cv/CVDocumentDocx";
+import { compressToUint8Array } from "lz-string";
 
 vi.mock("@react-pdf/renderer", () => {
   const Container = ({ children }: { children?: React.ReactNode }) => <>{children}</>;
@@ -115,13 +116,28 @@ describe("CV page", () => {
 
     expect(screen.getByText(siteContent.backToHome.en)).toBeInTheDocument();
     expect(screen.getByText(/Curriculum Vitae/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Download PDF/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Download DOCX/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Download PDF/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Download DOCX/i })).toBeInTheDocument();
     expect(screen.getByTestId("pdf-viewer")).toBeInTheDocument();
   });
 
   it("triggers a DOCX download when the button is clicked", async () => {
     const user = userEvent.setup();
+    const customContent = {
+      ...siteContent,
+      hero: {
+        ...siteContent.hero,
+        name: "Custom Name",
+      },
+    };
+
+    const json = JSON.stringify(customContent);
+    const compressed = compressToUint8Array(json);
+    let binary = "";
+    for (let i = 0; i < compressed.length; i += 1) {
+      binary += String.fromCharCode(compressed[i]);
+    }
+    window.location.hash = `#data=${btoa(binary)}`;
     const createObjectUrlSpy = vi.spyOn(URL, "createObjectURL").mockReturnValue("blob:mock-docx");
     const revokeObjectUrlSpy = vi.spyOn(URL, "revokeObjectURL").mockImplementation(() => {});
     const anchorClickSpy = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
@@ -139,7 +155,7 @@ describe("CV page", () => {
       const mockedGenerateCvDocx = vi.mocked(generateCvDocx);
       const callArgs = mockedGenerateCvDocx.mock.calls[0]?.[0];
       expect(callArgs?.language).toBe("en");
-      expect(callArgs?.data?.hero?.name).toBe(siteContent.hero.name);
+      expect(callArgs?.data?.hero?.name).toBe(customContent.hero.name);
 
       await waitFor(() => {
         expect(createObjectUrlSpy).toHaveBeenCalledTimes(1);

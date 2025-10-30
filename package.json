@@ -8,6 +8,7 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "generate:cv": "tsx scripts/generate-cv.tsx",
     "generate:sitemap": "node scripts/generate-sitemap.cjs",
     "generate:llms": "tsx scripts/generate-llms.ts",
     "prepare": "husky",
