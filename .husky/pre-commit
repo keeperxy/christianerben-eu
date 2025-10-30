@@ -1,5 +1,0 @@
-branch=$(git symbolic-ref --short HEAD)
-if [ "$branch" = "main" ]; then
-  npm run generate:sitemap && git add public/sitemap.xml
-  npm run generate:llms    && git add public/llms.txt
-fi
