@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 // Buffer shim for react-pdf (must be before pdf renderer import)
 import { Buffer } from 'buffer';
@@ -22,6 +22,11 @@ const CvDownloadButtons: React.FC<{ language: 'en' | 'de'; cvData: SiteContent }
   const [loadingDocx, setLoadingDocx] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
 
+  const isDefaultData = cvData === siteContent;
+  const downloadDate = useMemo(() => new Date().toISOString().split('T')[0], []);
+  const staticPdfHref = `/cv/christian_erben_cv_${language}.pdf`;
+  const staticDocxHref = `/cv/christian_erben_cv_${language}.docx`;
+
   const createDocx = async () => {
     setLoadingDocx(true);
     try {
@@ -36,26 +41,95 @@ const CvDownloadButtons: React.FC<{ language: 'en' | 'de'; cvData: SiteContent }
 
   // Trigger Download-Link wenn URL bereit
   useEffect(() => {
-    if (docxUrl) {
-      const link = document.createElement('a');
-      link.href = docxUrl;
-      link.download = `christian_erben_cv_${language}_${new Date().toISOString().split('T')[0]}.docx`;
-      link.click();
-      // Clean up
-      setTimeout(() => {
-        URL.revokeObjectURL(docxUrl);
-        setDocxUrl(null);
-      }, 1000);
+    if (!docxUrl) {
+      return;
     }
-  }, [docxUrl, language]);
+
+    const link = document.createElement('a');
+    link.href = docxUrl;
+    link.download = `christian_erben_cv_${language}_${downloadDate}.docx`;
+    link.click();
+
+    setTimeout(() => {
+      URL.revokeObjectURL(docxUrl);
+      setDocxUrl(null);
+    }, 1000);
+  }, [docxUrl, language, downloadDate]);
+
+  if (isDefaultData) {
+    return (
+      <>
+        <div className="hidden md:flex space-x-4">
+          <Button
+            asChild
+            className="rounded-full shadow-lg hover-scale"
+            variant="secondary"
+          >
+            <a
+              href={staticPdfHref}
+              download={`christian_erben_cv_${language}_${downloadDate}.pdf`}
+              className="flex items-center no-underline"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              {language === 'en' ? 'Download PDF' : 'PDF herunterladen'}
+            </a>
+          </Button>
+          <Button
+            asChild
+            className="rounded-full shadow-lg hover-scale"
+            variant="secondary"
+          >
+            <a
+              href={staticDocxHref}
+              download={`christian_erben_cv_${language}_${downloadDate}.docx`}
+              className="flex items-center no-underline"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              {language === 'en' ? 'Download DOCX' : 'DOCX herunterladen'}
+            </a>
+          </Button>
+        </div>
+        <div className="md:hidden relative">
+          <Button
+            onClick={() => setOpenMenu(!openMenu)}
+            className="rounded-full shadow-lg hover-scale"
+            variant="secondary"
+          >
+            <Download className="h-4 w-4" />
+          </Button>
+          {openMenu && (
+            <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-lg z-10">
+              <a
+                href={staticPdfHref}
+                download={`christian_erben_cv_${language}_${downloadDate}.pdf`}
+                className="no-underline block px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center"
+                onClick={() => setOpenMenu(false)}
+              >
+                <Download className="mr-2 h-4 w-4" />
+                {language === 'en' ? 'Download PDF' : 'PDF herunterladen'}
+              </a>
+              <a
+                href={staticDocxHref}
+                download={`christian_erben_cv_${language}_${downloadDate}.docx`}
+                className="no-underline block px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center"
+                onClick={() => setOpenMenu(false)}
+              >
+                <Download className="mr-2 h-4 w-4" />
+                {language === 'en' ? 'Download DOCX' : 'DOCX herunterladen'}
+              </a>
+            </div>
+          )}
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
-      {/* Desktop: separate buttons */}
       <div className="hidden md:flex space-x-4">
         <PDFDownloadLink
           document={<CVDocument language={language} data={cvData} />}
-          fileName={`christian_erben_cv_${language}_${new Date().toISOString().split('T')[0]}.pdf`}
+          fileName={`christian_erben_cv_${language}_${downloadDate}.pdf`}
           className="no-underline"
         >
           {({ loading }: { loading: boolean }) => (
@@ -79,7 +153,6 @@ const CvDownloadButtons: React.FC<{ language: 'en' | 'de'; cvData: SiteContent }
             : language === 'en' ? 'Download DOCX' : 'DOCX herunterladen'}
         </Button>
       </div>
-      {/* Mobile: dropdown menu */}
       <div className="md:hidden relative">
         <Button
           onClick={() => setOpenMenu(!openMenu)}
@@ -92,7 +165,7 @@ const CvDownloadButtons: React.FC<{ language: 'en' | 'de'; cvData: SiteContent }
           <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-lg z-10">
             <PDFDownloadLink
               document={<CVDocument language={language} data={cvData} />}
-              fileName={`christian_erben_cv_${language}_${new Date().toISOString().split('T')[0]}.pdf`}
+              fileName={`christian_erben_cv_${language}_${downloadDate}.pdf`}
               className="no-underline block px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               {({ loading }: { loading: boolean }) => (

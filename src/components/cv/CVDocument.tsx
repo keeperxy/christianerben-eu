@@ -14,9 +14,15 @@ import {
   Rect,
   G
 } from "@react-pdf/renderer";
-import InterRegular from "@/assets/fonts/Inter-Regular.ttf";
-import InterBold from "@/assets/fonts/Inter-Bold.ttf";
-import SpaceGroteskBold from "@/assets/fonts/SpaceGrotesk-Bold.ttf";
+const resolveAssetPath = (assetUrl: URL) => (
+  typeof window === "undefined"
+    ? decodeURIComponent(assetUrl.pathname)
+    : assetUrl.href
+);
+
+const interRegularSrc = resolveAssetPath(new URL("../../assets/fonts/Inter-Regular.ttf", import.meta.url));
+const interBoldSrc = resolveAssetPath(new URL("../../assets/fonts/Inter-Bold.ttf", import.meta.url));
+const spaceGroteskBoldSrc = resolveAssetPath(new URL("../../assets/fonts/SpaceGrotesk-Bold.ttf", import.meta.url));
 import { SVGProps } from "react";
 import { siteContent as defaultSiteContent, SiteContent } from "@/content/content";
 
@@ -24,15 +30,15 @@ import { siteContent as defaultSiteContent, SiteContent } from "@/content/conten
 Font.register({
   family: "Inter",
   fonts: [
-    { src: InterRegular, fontWeight: 400 },
-    { src: InterBold, fontWeight: 700 },
+    { src: interRegularSrc, fontWeight: 400 },
+    { src: interBoldSrc, fontWeight: 700 },
   ],
 });
 
 Font.register({
   family: "Space Grotesk",
   fonts: [
-    { src: SpaceGroteskBold, fontWeight: 700 },
+    { src: spaceGroteskBoldSrc, fontWeight: 700 },
   ],
 });
 
@@ -326,9 +332,10 @@ const styles = StyleSheet.create({
 interface CVDocumentProps {
   language: "en" | "de";
   data?: SiteContent; // Allow custom data to be passed in
+  profileImageSrc?: string;
 }
 
-const CVDocument: React.FC<CVDocumentProps> = ({ language, data }) => {
+const CVDocument: React.FC<CVDocumentProps> = ({ language, data, profileImageSrc }) => {
   // Use passed data or fallback to siteContent
   const content = data || defaultSiteContent;
   const { about, experiences, skills, skillsSection, contact, footer, hero, imprint } = content;
@@ -364,7 +371,7 @@ const CVDocument: React.FC<CVDocumentProps> = ({ language, data }) => {
         <View style={styles.sidebar} fixed />
         <View style={styles.sidebar}>        
           {/* Photo */}
-          <Image style={styles.photo} src="/profile.jpg" />
+          <Image style={styles.photo} src={profileImageSrc ?? "/profile.jpg"} />
           {/* Contact Info */}
           <View style={styles.sidebarSection}>
             <Text style={styles.sidebarTitle}>{language === 'en' ? 'Reach me at' : 'Kontakt'}</Text>
