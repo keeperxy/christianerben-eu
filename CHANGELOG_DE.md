@@ -7,6 +7,9 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unveröffentlicht]
 
+### Changed (Geändert)
+- Profil-, About- und Projektbilder auf WebP umgestellt für schnellere Ladezeiten
+
 ## [0.1.0] – 2025-10-30
 
 ### Added (Neu hinzugefügt)

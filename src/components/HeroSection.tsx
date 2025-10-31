@@ -117,7 +117,7 @@ const HeroSection = () => {
                     {/* Profile image */}
                     <Avatar className="w-full h-full">
                       <AvatarImage
-                        src="/profile.jpg"
+                        src="/profile.webp"
                         alt={t(hero.imageAlt)}
                         className="object-cover w-full h-full"
                       />

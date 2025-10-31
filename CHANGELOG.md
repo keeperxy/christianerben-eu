@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Replaced profile, about, and project showcase images with WebP assets for faster loading times
+
 ## [0.1.0] – 2025-10-30
 
 ### Added

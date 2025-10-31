@@ -627,7 +627,7 @@ export const siteContent: SiteContent = {
         en: "Streamlined enterprise firewall rulebases by analysing 5,000+ objects, consolidating duplicates, and establishing a lifecycle for dormant rules. The result improved performance, readability, and audit readiness.",
         de: "Verschlankung der unternehmensweiten Firewall-Regelwerke durch Analyse von über 5.000 Objekten, Konsolidierung von Dubletten und Einführung eines Lebenszyklus für inaktive Regeln. Das Ergebnis: bessere Performance, Lesbarkeit und Auditfähigkeit.",
       },
-      imageUrl: "/projects/firewall.png",
+      imageUrl: "/projects/firewall.webp",
       imageAlt: {
         en: "Illustration of a firewall dashboard with consolidated rules and compliance checkmarks.",
         de: "Illustration eines Firewall-Dashboards mit konsolidierten Regeln und Compliance-Häkchen.",
@@ -647,7 +647,7 @@ export const siteContent: SiteContent = {
         en: "Planned and executed a platform migration, translating complex objects and policies into Fortinet while keeping services online. Introduced new templates for ongoing policy hygiene.",
         de: "Planung und Umsetzung einer Plattformmigration mit Überführung komplexer Objekte und Richtlinien nach Fortinet bei laufendem Betrieb. Einführung neuer Templates für nachhaltige Richtlinienhygiene.",
       },
-      imageUrl: "/projects/migration_palo_forti.png",
+      imageUrl: "/projects/migration_palo_forti.webp",
       imageAlt: {
         en: "Diagram showing firewall migration steps between vendor platforms with continuous service lines.",
         de: "Diagramm mit Migrationsschritten zwischen Firewall-Plattformen und durchgehenden Service-Linien.",
@@ -667,7 +667,7 @@ export const siteContent: SiteContent = {
         en: "Connected branch offices via SD-WAN, defined redundancy concepts, and aligned monitoring to ensure transparent operations across all paths.",
         de: "Anbindung von Außenstandorten per SD-WAN, Definition von Redundanzkonzepten und Abstimmung des Monitorings für transparente Betriebsabläufe über alle Pfade.",
       },
-      imageUrl: "/projects/sdwan_rollout.png",
+      imageUrl: "/projects/sdwan_rollout.webp",
       imageAlt: {
         en: "Illustration of multiple branch sites linked via SD-WAN connections with redundancy indicators.",
         de: "Illustration mehrerer Außenstandorte, die über SD-WAN-Verbindungen mit Redundanzindikatoren vernetzt sind.",
@@ -687,7 +687,7 @@ export const siteContent: SiteContent = {
         en: "Introduced Microsoft Azure services into an on-prem environment, coordinating network connectivity, identity integration, and security baselines.",
         de: "Einführung von Microsoft-Azure-Diensten in eine On-Prem-Umgebung inkl. Koordination von Netzwerkanbindung, Identity-Integration und Sicherheits-Baselines.",
       },
-      imageUrl: "/projects/azure_integration.png",
+      imageUrl: "/projects/azure_integration.webp",
       imageAlt: {
         en: "Illustration of hybrid cloud connectivity between on-prem infrastructure and Azure services.",
         de: "Illustration einer hybriden Cloud-Anbindung zwischen On-Prem-Infrastruktur und Azure-Diensten.",
