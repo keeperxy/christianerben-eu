@@ -1,7 +1,7 @@
 # llms.txt for christianerben.eu
 # This file provides structured information for AI language models.
 # For more information, see https://llmstxt.org/
-# Version 1.0, Generated on 2025-10-30
+# Version 1.0, Generated on 2025-10-31
 
 # --- PERMISSIONS ---
 User-Agent: *
@@ -21,8 +21,8 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [de] Christian Erben
 
 [Published]:
-[en] 2025-10-30
-[de] 30.10.2025
+[en] 2025-10-31
+[de] 31.10.2025
 
 [Languages]:
 [en] English, German
