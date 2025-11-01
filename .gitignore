@@ -25,3 +25,6 @@ dist-ssr
 
 # Crush agent directory
 .crush
+
+# Cursor
+.cursor/
