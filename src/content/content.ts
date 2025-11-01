@@ -513,6 +513,82 @@ export const siteContent: SiteContent = {
       ],
     },
     {
+      title: {
+        en: "AI Training Platform & AI Tools Evaluation",
+        de: "KI-Trainingsplattform & Evaluierung von KI-Werkzeugen",
+      },
+      company: "DEGIT AG",
+      logoUrl: "/logos/degit.png",
+      period: { en: "Aug 2025 - Oct 2025", de: "Aug 2025 - Okt 2025" },
+      location: "Hockenheim, Germany",
+      description: [
+        {
+          type: "text",
+          text: {
+            en: "Design and implementation of an internal AI training platform for corporate use, focusing on compliance with the EU AI Act and practical enablement of teams.",
+            de: "Konzeption und Aufbau einer internen KI-Trainingsplattform für den Unternehmenseinsatz mit Fokus auf EU-AI-Act-Compliance und praxisnahe Befähigung der Teams.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Evaluation and decision paper comparing leading AI and automation platforms with regard to data protection, reliability, API integration, and governance readiness.",
+            de: "Bewertung und Entscheidungsvorlage zum Vergleich führender KI- und Automatisierungsplattformen hinsichtlich Datenschutz, Zuverlässigkeit, API-Integration und Governance-Tauglichkeit.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Assessment of emerging agentic AI workflows for multi-step task orchestration and their integration into enterprise automation environments.",
+            de: "Evaluierung aufkommender agentischer KI-Workflows zur mehrstufigen Aufgabenorchestrierung und deren Integration in Unternehmensautomatisierungsumgebungen.",
+          },
+        },
+        {
+          type: "achievement",
+          text: {
+            en: "Analyzed and benchmarked: OpenAI ChatGPT, OpenAI Open-Weight GPT-OSS, Microsoft Copilot, Perplexity, Anthropic Claude, Apple Foundation, z.AI GLM, n8n, make.com, Zapier.",
+            de: "Analysiert und bewertet: OpenAI ChatGPT, OpenAI Open-Weight GPT-OSS, Microsoft Copilot, Perplexity, Anthropic Claude, Apple Foundation, z.AI GLM, n8n, make.com und Zapier.",
+          },
+        },
+        {
+          type: "achievement",
+          text: {
+            en: "Developed a modular learning platform prototype with Supabase and Cloudflare integration, role-based content, and progress tracking.",
+            de: "Entwicklung eines modularen Lernplattform-Prototyps mit Supabase- und Cloudflare-Integration, rollenbasierten Inhalten und Fortschrittsverfolgung.",
+          },
+        },
+        {
+          type: "achievement",
+          text: {
+            en: "Produced a comparative decision framework supporting the company's AI adoption strategy.",
+            de: "Erstellung eines vergleichenden Entscheidungsrahmens zur Unterstützung der KI-Einführungsstrategie des Unternehmens.",
+          },
+        },
+      ],
+      tags: [
+        { en: "AI Evaluation", de: "KI-Evaluierung" },
+        { en: "AI Training", de: "KI-Training" },
+        { en: "EU AI Act", de: "EU AI Act" },
+        { en: "Supabase", de: "Supabase" },
+        { en: "Cloudflare", de: "Cloudflare" },
+        { en: "Automation", de: "Automatisierung" },
+        { en: "n8n", de: "n8n" },
+        { en: "make.com", de: "make.com" },
+        { en: "Zapier", de: "Zapier" },
+        { en: "OpenAI", de: "OpenAI" },
+        { en: "Apple Foundation", de: "Apple Foundation" },
+        { en: "Anthropic Claude", de: "Anthropic Claude" },
+        { en: "Microsoft Copilot", de: "Microsoft Copilot" },
+        { en: "Perplexity", de: "Perplexity" },
+        { en: "z.AI GLM", de: "z.AI GLM" },
+        { en: "Agentic AI", de: "Agentische KI" },
+        { en: "Enterprise Automation", de: "Unternehmensautomatisierung" },
+        { en: "Cursor", de: "Cursor" },
+        { en: "Claude Code", de: "Claude Code" },
+        { en: "OpenAI Codex", de: "OpenAI Codex" },
+      ],
+    },
+    {
       title: { en: "Linux Systems Administrator / Nagios Administrator", de: "Linux-Systemadministrator / Nagios-Administrator" },
       company: "Schwarz IT GmbH & Co. KG",
       logoUrl: "/logos/schwarz.svg",

@@ -7,6 +7,9 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unveröffentlicht]
 
+### Added (Neu hinzugefügt)
+- Neue DEGIT-AG-Erfahrung zur KI-Trainingsplattform und Evaluierung von KI-Werkzeugen ergänzt
+
 ### Changed (Geändert)
 - Profil-, About- und Projektbilder auf WebP umgestellt für schnellere Ladezeiten
 

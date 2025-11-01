@@ -1,7 +1,7 @@
 # llms.txt for christianerben.eu
 # This file provides structured information for AI language models.
 # For more information, see https://llmstxt.org/
-# Version 1.0, Generated on 2025-10-31
+# Version 1.0, Generated on 2025-11-01
 
 # --- PERMISSIONS ---
 User-Agent: *
@@ -21,8 +21,8 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [de] Christian Erben
 
 [Published]:
-[en] 2025-10-31
-[de] 31.10.2025
+[en] 2025-11-01
+[de] 01.11.2025
 
 [Languages]:
 [en] English, German
@@ -121,6 +121,26 @@ Sitemap: https://christianerben.eu/sitemap.xml
   - [de] Ausrollen sicherer SD-WAN-Anbindungen für Außenstandorte zur Verbesserung von Stabilität und Transparenz der Netzwerkkommunikation.
   - [en] Introduced Microsoft Azure services into the infrastructure while ensuring compliant hybrid connectivity.
   - [de] Einführung von Microsoft-Azure-Diensten in die Infrastruktur bei gleichzeitiger Sicherstellung compliantem hybriden Betrieb.
+
+[Experience]:
+  [en] AI Training Platform & AI Tools Evaluation
+  [de] KI-Trainingsplattform & Evaluierung von KI-Werkzeugen
+  [en] Company: DEGIT AG
+  [de] Firma: DEGIT AG
+  [en] Aug 2025 - Oct 2025
+  [de] Aug 2025 - Okt 2025
+  - [en] Design and implementation of an internal AI training platform for corporate use, focusing on compliance with the EU AI Act and practical enablement of teams.
+  - [de] Konzeption und Aufbau einer internen KI-Trainingsplattform für den Unternehmenseinsatz mit Fokus auf EU-AI-Act-Compliance und praxisnahe Befähigung der Teams.
+  - [en] Evaluation and decision paper comparing leading AI and automation platforms with regard to data protection, reliability, API integration, and governance readiness.
+  - [de] Bewertung und Entscheidungsvorlage zum Vergleich führender KI- und Automatisierungsplattformen hinsichtlich Datenschutz, Zuverlässigkeit, API-Integration und Governance-Tauglichkeit.
+  - [en] Assessment of emerging agentic AI workflows for multi-step task orchestration and their integration into enterprise automation environments.
+  - [de] Evaluierung aufkommender agentischer KI-Workflows zur mehrstufigen Aufgabenorchestrierung und deren Integration in Unternehmensautomatisierungsumgebungen.
+  - [en] Analyzed and benchmarked: OpenAI ChatGPT, OpenAI Open-Weight GPT-OSS, Microsoft Copilot, Perplexity, Anthropic Claude, Apple Foundation, z.AI GLM, n8n, make.com, Zapier.
+  - [de] Analysiert und bewertet: OpenAI ChatGPT, OpenAI Open-Weight GPT-OSS, Microsoft Copilot, Perplexity, Anthropic Claude, Apple Foundation, z.AI GLM, n8n, make.com und Zapier.
+  - [en] Developed a modular learning platform prototype with Supabase and Cloudflare integration, role-based content, and progress tracking.
+  - [de] Entwicklung eines modularen Lernplattform-Prototyps mit Supabase- und Cloudflare-Integration, rollenbasierten Inhalten und Fortschrittsverfolgung.
+  - [en] Produced a comparative decision framework supporting the company's AI adoption strategy.
+  - [de] Erstellung eines vergleichenden Entscheidungsrahmens zur Unterstützung der KI-Einführungsstrategie des Unternehmens.
 
 [Experience]:
   [en] Linux Systems Administrator / Nagios Administrator
