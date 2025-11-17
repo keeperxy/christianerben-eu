@@ -9,6 +9,7 @@ import {
   Cloud,
   Cpu,
   Database,
+  FileCheck,
   FileText,
   Flag,
   GitBranch,
@@ -17,6 +18,7 @@ import {
   Heart,
   ImagePlay,
   KeyRound,
+  Landmark,
   Layers,
   LifeBuoy,
   ListChecks,
@@ -26,6 +28,7 @@ import {
   RefreshCw,
   Router,
   Scale,
+  ScrollText,
   SearchCode,
   Server,
   ServerCog,
@@ -119,7 +122,8 @@ export interface Skill {
     | "security"
     | "infrastructure"
     | "tools"
-    | "ai";
+    | "ai"
+    | "compliance";
   level: number;
 }
 
@@ -133,6 +137,7 @@ export interface SkillsSection {
     ai: LocalizedString;
     management: LocalizedString;
     languages: LocalizedString;
+    compliance: LocalizedString;
   };
 }
 
@@ -1228,6 +1233,34 @@ export const siteContent: SiteContent = {
       category: "languages",
       level: 4,
     },
+    // Compliance
+    {
+      name: {
+        en: "Regulatory IT Compliance",
+        de: "Regulatory Compliance (IT-Compliance)",
+      },
+      icon: ScrollText,
+      category: "compliance",
+      level: 4,
+    },
+    {
+      name: {
+        en: "Audit-Readiness & Policy Enforcement",
+        de: "Audit-Readiness & Policy-Enforcement",
+      },
+      icon: ShieldCheck,
+      category: "compliance",
+      level: 4,
+    },
+    {
+      name: {
+        en: "Financial Sector Control Environments",
+        de: "Kontrollumgebungen im Finanzsektor",
+      },
+      icon: Landmark,
+      category: "compliance",
+      level: 4,
+    },
   ],
   skillsSection: {
     title: {
@@ -1245,6 +1278,7 @@ export const siteContent: SiteContent = {
       ai: { en: "AI", de: "KI" },
       management: { en: "Management", de: "Management" },
       languages: { en: "Languages", de: "Sprachen" },
+      compliance: { en: "Compliance", de: "Compliance" },
     },
   },
   contact: {

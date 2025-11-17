@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Briefcase, ShieldCheck, Bot, Network, Wrench, Flag } from "lucide-react";
+import { Briefcase, ShieldCheck, Bot, Network, Wrench, Flag, Scale } from "lucide-react";
 import { siteContent } from "@/content/content";
 import type { Skill } from "@/content/content";
 import { useSettings } from "@/contexts/settings-hook";
@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 const SkillsSection = () => {
   const { t } = useSettings();
   const { skills, skillsSection } = siteContent;
-  type TabValue = "management" | "languages" | "security" | "ai" | "infrastructure" | "tools";
+  type TabValue = "management" | "languages" | "security" | "ai" | "infrastructure" | "tools"| "compliance";
   const [activeTab, setActiveTab] = useState<TabValue>("management");
 
   // Filter skills by category
@@ -70,6 +70,12 @@ const SkillsSection = () => {
                     {t(skillsSection.categories.tools)}
                   </span>
                 </TabsTrigger>
+                <TabsTrigger value="compliance" className="gap-2 text-lg" name={t(skillsSection.categories.compliance)} aria-label={t(skillsSection.categories.compliance)}>
+                  <Scale className="w-5 h-5" />
+                  <span className="hidden sm:inline">
+                    {t(skillsSection.categories.compliance)}
+                  </span>
+                </TabsTrigger>
               </TabsList>
             </div>
 
@@ -90,6 +96,9 @@ const SkillsSection = () => {
               <SkillsGrid skills={filteredSkills} />
             </TabsContent>
             <TabsContent value="languages" className="mt-0">
+              <SkillsGrid skills={filteredSkills} />
+            </TabsContent>
+            <TabsContent value="compliance" className="mt-0">
               <SkillsGrid skills={filteredSkills} />
             </TabsContent>
           </Tabs>

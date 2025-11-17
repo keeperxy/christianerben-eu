@@ -1,7 +1,7 @@
 # llms.txt for christianerben.eu
 # This file provides structured information for AI language models.
 # For more information, see https://llmstxt.org/
-# Version 1.0, Generated on 2025-11-10
+# Version 1.0, Generated on 2025-11-17
 
 # --- PERMISSIONS ---
 User-Agent: *
@@ -21,8 +21,8 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [de] Christian Erben
 
 [Published]:
-[en] 2025-11-10
-[de] 10.11.2025
+[en] 2025-11-17
+[de] 17.11.2025
 
 [Languages]:
 [en] English, German
@@ -266,3 +266,8 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [Skill-Category: Languages / Sprachen]:
   - German (Native) / Deutsch (Muttersprache)
   - English (B2) / Englisch (B2)
+
+[Skill-Category: Compliance / Compliance]:
+  - Regulatory IT Compliance / Regulatory Compliance (IT-Compliance)
+  - Audit-Readiness & Policy Enforcement / Audit-Readiness & Policy-Enforcement
+  - Financial Sector Control Environments / Kontrollumgebungen im Finanzsektor
