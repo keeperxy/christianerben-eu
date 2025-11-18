@@ -18,6 +18,20 @@ export default defineConfig(({ mode }) => ({
   optimizeDeps: {
     include: [ 'buffer' ]
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Separate chunk for react-pdf (only loaded when custom CV data is used)
+          'react-pdf': ['@react-pdf/renderer'],
+          // Separate chunk for docx generation (only loaded when custom CV data is used)
+          'docx': ['docx'],
+          // Separate chunk for CV editor (only loaded in edit mode)
+          'cv-editor': ['./src/components/cv/CVEditor'],
+        },
+      },
+    },
+  },
   plugins: [
     react(),
     mode === 'development' &&
