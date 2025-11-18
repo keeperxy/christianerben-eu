@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Buffer } from 'buffer';
 // @ts-expect-error TODO: Buffer is a polyfill for react-pdf, this might not be needed with future library versions
 (globalThis as typeof globalThis & { Buffer?: unknown }).Buffer = Buffer;
-import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useSettings } from "@/contexts/settings-hook";
 import { siteContent, SiteContent } from "@/content/content";
 import { Button } from "@/components/ui/button";
@@ -343,9 +343,11 @@ const CV = () => {
               <div className="rounded-lg shadow-xl border-4 border-white dark:border-gray-800 flex-grow flex flex-col">
                 <div className="bg-gradient-to-br from-primary/40 to-accent/40 justify-center flex-grow flex flex-col">
                   <div className="m-6 flex flex-grow justify-center">
-                    <PDFViewer key={JSON.stringify(cvData)} showToolbar={false} className="max-w-[796px] w-full h-full">
-                      <CVDocument language={language} data={cvData} />
-                    </PDFViewer>
+                    <iframe
+                      src={`/cv/christian_erben_cv_${language}.pdf#toolbar=0&navpanes=0`}
+                      className="max-w-[796px] w-full h-full min-h-[600px] border-0 rounded"
+                      title={language === 'en' ? 'Curriculum Vitae' : 'Lebenslauf'}
+                    />
                   </div>
                 </div>
               </div>

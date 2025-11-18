@@ -11,6 +11,7 @@
     "generate:cv": "tsx scripts/generate-cv.tsx",
     "generate:sitemap": "node scripts/generate-sitemap.cjs",
     "generate:llms": "tsx scripts/generate-llms.ts",
+    "update:last-updated": "tsx scripts/update-last-updated.ts",
     "prepare": "husky",
     "test": "vitest"
   },
