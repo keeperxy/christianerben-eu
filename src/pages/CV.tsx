@@ -1,25 +1,19 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, Suspense } from "react";
 import { Link } from "react-router-dom";
-// Buffer shim for react-pdf (must be before pdf renderer import)
-import { Buffer } from 'buffer';
-// @ts-expect-error TODO: Buffer is a polyfill for react-pdf, this might not be needed with future library versions
-(globalThis as typeof globalThis & { Buffer?: unknown }).Buffer = Buffer;
-import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useSettings } from "@/contexts/settings-hook";
 import { siteContent, SiteContent } from "@/content/content";
 import { Button } from "@/components/ui/button";
 import { useScrollToTop } from "@/hooks/use-scroll-to-top";
-import { Download, Globe, ArrowLeft, Save, Edit, Moon, Sun } from "lucide-react";
-import CVDocument from "@/components/cv/CVDocument";
-import { generateCvDocx } from "@/components/cv/CVDocumentDocx";
-import CVEditor from "@/components/cv/CVEditor";
+import { Download, Globe, ArrowLeft, Edit, Moon, Sun } from "lucide-react";
 import { compressToUint8Array, decompressFromUint8Array } from "lz-string";
+
+// Lazy load heavy dependencies only when needed (custom data or edit mode)
+const CvDownloadButtonsCustom = React.lazy(() => import("@/components/cv/CvDownloadButtonsCustom"));
+const CVEditor = React.lazy(() => import("@/components/cv/CVEditor"));
 
 
 // Reusable Buttons für PDF und DOCX Download
 const CvDownloadButtons: React.FC<{ language: 'en' | 'de'; cvData: SiteContent }> = ({ language, cvData }) => {
-  const [docxUrl, setDocxUrl] = useState<string | null>(null);
-  const [loadingDocx, setLoadingDocx] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
 
   const isDefaultData = cvData === siteContent;
@@ -27,35 +21,7 @@ const CvDownloadButtons: React.FC<{ language: 'en' | 'de'; cvData: SiteContent }
   const staticPdfHref = `/cv/christian_erben_cv_${language}.pdf`;
   const staticDocxHref = `/cv/christian_erben_cv_${language}.docx`;
 
-  const createDocx = async () => {
-    setLoadingDocx(true);
-    try {
-      const blob = await generateCvDocx({ language, data: cvData });
-      if (docxUrl) URL.revokeObjectURL(docxUrl);
-      const url = URL.createObjectURL(blob);
-      setDocxUrl(url);
-    } finally {
-      setLoadingDocx(false);
-    }
-  };
-
-  // Trigger Download-Link wenn URL bereit
-  useEffect(() => {
-    if (!docxUrl) {
-      return;
-    }
-
-    const link = document.createElement('a');
-    link.href = docxUrl;
-    link.download = `christian_erben_cv_${language}_${downloadDate}.docx`;
-    link.click();
-
-    setTimeout(() => {
-      URL.revokeObjectURL(docxUrl);
-      setDocxUrl(null);
-    }, 1000);
-  }, [docxUrl, language, downloadDate]);
-
+  // For default data, use static files (no heavy dependencies needed)
   if (isDefaultData) {
     return (
       <>
@@ -124,73 +90,16 @@ const CvDownloadButtons: React.FC<{ language: 'en' | 'de'; cvData: SiteContent }
     );
   }
 
+  // For custom data, lazy load the heavy react-pdf dependencies
   return (
-    <>
-      <div className="hidden md:flex space-x-4">
-        <PDFDownloadLink
-          document={<CVDocument language={language} data={cvData} />}
-          fileName={`christian_erben_cv_${language}_${downloadDate}.pdf`}
-          className="no-underline"
-        >
-          {({ loading }: { loading: boolean }) => (
-            <Button disabled={loading} className="rounded-full shadow-lg hover-scale" variant="secondary">
-              <Download className="mr-2 h-4 w-4" />
-              {loading
-                ? language === 'en' ? 'Loading …' : 'Wird geladen …'
-                : language === 'en' ? 'Download PDF' : 'PDF herunterladen'}
-            </Button>
-          )}
-        </PDFDownloadLink>
-        <Button
-          onClick={createDocx}
-          disabled={loadingDocx}
-          className="rounded-full shadow-lg hover-scale"
-          variant="secondary"
-        >
-          <Download className="mr-2 h-4 w-4" />
-          {loadingDocx
-            ? language === 'en' ? 'Loading …' : 'Wird geladen …'
-            : language === 'en' ? 'Download DOCX' : 'DOCX herunterladen'}
-        </Button>
-      </div>
-      <div className="md:hidden relative">
-        <Button
-          onClick={() => setOpenMenu(!openMenu)}
-          className="rounded-full shadow-lg hover-scale"
-          variant="secondary"
-        >
-          <Download className="h-4 w-4" />
-        </Button>
-        {openMenu && (
-          <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-lg z-10">
-            <PDFDownloadLink
-              document={<CVDocument language={language} data={cvData} />}
-              fileName={`christian_erben_cv_${language}_${downloadDate}.pdf`}
-              className="no-underline block px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
-              {({ loading }: { loading: boolean }) => (
-                <span className="flex items-center text-gray-900 dark:text-gray-100">
-                  <Download className="mr-2 h-4 w-4" />
-                  {loading
-                    ? language === 'en' ? 'Loading …' : 'Wird geladen …'
-                    : language === 'en' ? 'Download PDF' : 'PDF herunterladen'}
-                </span>
-              )}
-            </PDFDownloadLink>
-            <button
-              onClick={() => { setOpenMenu(false); createDocx(); }}
-              disabled={loadingDocx}
-              className="w-full text-left px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center"
-            >
-              <Download className="mr-2 h-4 w-4" />
-              {loadingDocx
-                ? language === 'en' ? 'Loading …' : 'Wird geladen …'
-                : language === 'en' ? 'Download DOCX' : 'DOCX herunterladen'}
-            </button>
-          </div>
-        )}
-      </div>
-    </>
+    <Suspense fallback={
+      <Button disabled className="rounded-full shadow-lg" variant="secondary">
+        <Download className="mr-2 h-4 w-4" />
+        {language === 'en' ? 'Loading …' : 'Wird geladen …'}
+      </Button>
+    }>
+      <CvDownloadButtonsCustom language={language} cvData={cvData} />
+    </Suspense>
   );
 };
 
@@ -332,11 +241,13 @@ const CV = () => {
         <div className="grid grid-cols-1 lg:grid-cols-8 gap-12 flex-grow">
           {editMode ? (
             <div className="lg:col-span-6 lg:col-start-2">
-              <CVEditor 
-                data={cvData} 
-                onChange={handleDataChange}
-                language={language}
-              />
+              <Suspense fallback={<div className="text-center py-8">{language === 'en' ? 'Loading editor…' : 'Editor wird geladen…'}</div>}>
+                <CVEditor 
+                  data={cvData} 
+                  onChange={handleDataChange}
+                  language={language}
+                />
+              </Suspense>
             </div>
           ) : (
             <div className="lg:col-span-6 lg:col-start-2 flex-grow flex flex-col relative z-0 transform -translate-y-2 min-h-[500px]">
