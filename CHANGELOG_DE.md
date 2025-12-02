@@ -14,7 +14,7 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Profil-, About- und Projektbilder auf WebP umgestellt für schnellere Ladezeiten
 
 ### Technical (Technisch)
-- Alle Dependencies auf neueste Versionen aktualisiert (außer Major Updates)
+- Alle Dependencies auf neueste Versionen aktualisiert (außer Major Updates) mit npm
 
 ## [0.1.0] – 2025-10-30
 
