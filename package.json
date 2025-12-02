@@ -4,7 +4,6 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "install": "bun install",
     "dev": "vite",
     "build": "vite build",
     "build:dev": "vite build --mode development",
