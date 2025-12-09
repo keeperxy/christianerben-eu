@@ -26,6 +26,3 @@ package-lock.json
 
 # Crush agent directory
 .crush
-
-# Cursor
-.cursor/

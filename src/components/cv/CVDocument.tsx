@@ -338,7 +338,7 @@ interface CVDocumentProps {
 const CVDocument: React.FC<CVDocumentProps> = ({ language, data, profileImageSrc }) => {
   // Use passed data or fallback to siteContent
   const content = data || defaultSiteContent;
-  const { about, experiences, skills, skillsSection, contact, footer, hero, imprint } = content;
+  const { about, securityCompliance, experiences, skills, skillsSection, contact, footer, hero, imprint } = content;
   
   // Helper function to get text in the current language
   const t = (text: { en: string; de: string }) => text[language];
@@ -414,11 +414,55 @@ const CVDocument: React.FC<CVDocumentProps> = ({ language, data, profileImageSrc
             <Text style={styles.description}>{t(about.paragraphs[0])}</Text>
             <Text style={styles.description}>{t(about.paragraphs[1])}</Text>
           </View>
+          {/* Security & Compliance / Governance */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>{t(securityCompliance.title)}</Text>
+            {securityCompliance.items.map((item, index) => (
+              <View key={index} style={styles.experienceItem} wrap={false}>
+                <Text style={styles.jobTitle}>{t(item.title)}</Text>
+                <View style={styles.descriptionList}>
+                  {item.items.map((listItem, idx) => (
+                    <Text key={idx} style={styles.descriptionItem}>• {t(listItem)}</Text>
+                  ))}
+                </View>
+              </View>
+            ))}
+          </View>
           {/* Experience */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{t(content.experienceSectionTitle)}</Text>
-            {sortedExperiences.map((exp, index) => (
-              <View key={index} style={styles.experienceItem} wrap={false}>
+            {sortedExperiences.length > 0 && (
+              <View wrap={false}>
+                <Text style={styles.sectionTitle}>{t(content.experienceSectionTitle)}</Text>
+                <View key={0} style={styles.experienceItem} wrap={false}>
+                  <Text style={styles.jobTitle}>{t(sortedExperiences[0].title)}</Text>
+                  <View style={styles.experienceHeader}>
+                    <Text style={styles.companyName}>{sortedExperiences[0].company}</Text>
+                    <Text style={styles.period}>{t(sortedExperiences[0].period)}</Text>
+                  </View>
+                  <Text style={styles.location}>{sortedExperiences[0].location}</Text>
+                  
+                  <View style={styles.descriptionList}>
+                    {sortedExperiences[0].description.map((item, idx) => (
+                      item.type === 'text' ? (
+                        <Text key={idx} style={styles.descriptionItem}>• {t(item.text)}</Text>
+                      ) : (
+                        <Text key={idx} style={styles.achievementItem}>
+                          • {t(content.experienceAchievementPrefix)} {t(item.text)}
+                        </Text>
+                      )
+                    ))}
+                  </View>
+                  
+                  <View style={styles.tagContainer}>
+                    {sortedExperiences[0].tags.map((tag, tagIndex) => (
+                      <Text key={tagIndex} style={styles.tag}>{t(tag)}</Text>
+                    ))}
+                  </View>
+                </View>
+              </View>
+            )}
+            {sortedExperiences.slice(1).map((exp, index) => (
+              <View key={index + 1} style={styles.experienceItem} wrap={false}>
                 <Text style={styles.jobTitle}>{t(exp.title)}</Text>
                 <View style={styles.experienceHeader}>
                   <Text style={styles.companyName}>{exp.company}</Text>
