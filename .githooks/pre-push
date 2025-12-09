@@ -1,0 +1,3 @@
+#!/bin/sh
+# pre-push sollte denselben Check wie pre-commit machen
+"$(git rev-parse --show-toplevel)"/.githooks/pre-commit
