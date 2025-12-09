@@ -65,7 +65,7 @@ export async function generateCvDocx({
   const profileImage = profileImageData ?? (await fetchImageBuffer('/profile.jpg'));
 
   const content: SiteContent = data || defaultSiteContent;
-    const { about, experiences, skills, skillsSection, contact, footer, hero, imprint } = content;
+    const { about, securityCompliance, experiences, skills, skillsSection, contact, footer, hero, imprint } = content;
   
     // Übersetzungs-Helper
     const t = (obj: LocalizedString): string => obj[language] || "";
@@ -193,6 +193,14 @@ export async function generateCvDocx({
                       new Paragraph({ text: t({ en: 'Profile', de: 'Profil' }), heading: HeadingLevel.HEADING_2, thematicBreak: true }),
                       new Paragraph({ children: [new TextRun({ text: t(about.paragraphs[0]), size: 18 })], spacing: { after: 100 } }),
                       new Paragraph({ children: [new TextRun({ text: t(about.paragraphs[1]), size: 18 })], spacing: { after: 200 } }),
+    
+                      // Security & Compliance / Governance
+                      new Paragraph({ text: t(securityCompliance.title), heading: HeadingLevel.HEADING_2, thematicBreak: true }),
+                      ...securityCompliance.items.flatMap(item => [
+                        new Paragraph({ children: [new TextRun({ text: t(item.title), bold: true, size: 20 })] }),
+                        ...item.items.map(listItem => new Paragraph({ bullet: { level: 0 }, children: [new TextRun({ text: t(listItem), size: 18 })] })),
+                        new Paragraph({ text: '' }),
+                      ]),
     
                       // Erfahrung
                       new Paragraph({ text: t(content.experienceSectionTitle), heading: HeadingLevel.HEADING_2, thematicBreak: true, keepLines: true }),

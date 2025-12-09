@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
+import SecurityComplianceSection from '@/components/SecurityComplianceSection';
 import ExperienceSection from '@/components/ExperienceSection';
 import Footer from '@/components/Footer';
 
@@ -16,6 +17,7 @@ const Index = () => {
       <main className="flex-grow">
         <HeroSection />
         <AboutSection />
+        <SecurityComplianceSection />
         <ExperienceSection />
         <Suspense fallback={<div>Loading…</div>}>
           <ProjectsSection />

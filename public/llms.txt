@@ -1,7 +1,7 @@
 # llms.txt for christianerben.eu
 # This file provides structured information for AI language models.
 # For more information, see https://llmstxt.org/
-# Version 1.0, Generated on 2025-11-19
+# Version 1.0, Generated on 2025-12-09
 
 # --- PERMISSIONS ---
 User-Agent: *
@@ -21,8 +21,8 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [de] Christian Erben
 
 [Published]:
-[en] 2025-11-19
-[de] 19.11.2025
+[en] 2025-12-09
+[de] 09.12.2025
 
 [Languages]:
 [en] English, German
@@ -47,6 +47,7 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [Main-Topics]:
 - Home / Start
 - About / Über mich
+- Security & Compliance / Security & Compliance
 - Experience / Erfahrung
 - Projects / Projekte
 - Skills / Fähigkeiten
@@ -58,13 +59,13 @@ Sitemap: https://christianerben.eu/sitemap.xml
 
 [Site-Structure]:
 [en]
-- /: Homepage with main sections (Hero, About, Skills, Experience, Projects, Contact).
+- /: Homepage with main sections (Hero, About, Security & Compliance, Experience, Projects, Skills, Contact).
 - /cv: Interactive page for viewing and downloading the CV.
 - /imprint: Legal notice.
 - /privacy: Privacy policy.
 - /sitemap: Human-readable sitemap.
 [de]
-- /: Startseite mit den Hauptbereichen (Hero, Über Mich, Fähigkeiten, Erfahrung, Projekte, Kontakt).
+- /: Startseite mit den Hauptbereichen (Hero, Über Mich, Security & Compliance, Erfahrung, Projekte, Fähigkeiten, Kontakt).
 - /cv: Interaktive Seite zum Ansehen und Herunterladen des Lebenslaufs.
 - /imprint: Impressum.
 - /privacy: Datenschutzerklärung.
@@ -73,6 +74,62 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [Contact]:
 [en] Contact information is available via the contact form on the main page or via email to christian.erben@degit.de.
 [de] Kontaktinformationen sind über das Kontaktformular auf der Startseite oder per E-Mail an christian.erben@degit.de verfügbar.
+
+# --- SECURITY & COMPLIANCE / GOVERNANCE ---
+
+[Security-Compliance-Governance]:
+[en] Security & Compliance / Governance
+[de] Security & Compliance / Governance
+[en] Comprehensive expertise in information security management, security governance, and security frameworks
+[de] Umfassende Expertise im Informationssicherheitsmanagement, Security Governance und Sicherheitsframeworks
+
+[Security-Compliance-Item]:
+  [en] Information Security Management (ISMS)
+  [de] Informationssicherheitsmanagement (ISMS)
+  - [en] Establishment and maintenance of security policies (Policies, SOPs, procedures)
+  - [de] Aufbau und Pflege von Sicherheitsrichtlinien (Policies, SOPs, Verfahrensanweisungen)
+  - [en] Derivation and implementation of organizational and technical security measures
+  - [de] Ableitung und Umsetzung organisatorischer und technischer Sicherheitsmaßnahmen
+  - [en] Continuous development of secure operational processes
+  - [de] Kontinuierliche Weiterentwicklung sicherer Betriebsprozesse
+
+[Security-Compliance-Item]:
+  [en] Security Governance
+  [de] Security Governance
+  - [en] Definition and establishment of security standards for infrastructure and platform operations
+  - [de] Definition und Etablierung von Sicherheitsstandards für Infrastruktur- und Plattformbetrieb
+  - [en] Documentation, process design and ensuring uniform policy application
+  - [de] Dokumentation, Prozessgestaltung und Sicherstellung einer einheitlichen Policy-Anwendung
+  - [en] Creation and maintenance of security-relevant operating concepts
+  - [de] Erstellung und Pflege sicherheitsrelevanter Betriebskonzepte
+
+[Security-Compliance-Item]:
+  [en] BSI IT-Grundschutz
+  [de] BSI IT-Grundschutz
+  - [en] Use of Grundschutz methodology to structure and evaluate security measures
+  - [de] Nutzung der Grundschutz-Methodik zur Strukturierung und Bewertung von Sicherheitsmaßnahmen
+  - [en] Support in establishing secure operational processes according to recognized standards
+  - [de] Unterstützung beim Aufbau sicherer Betriebsprozesse nach anerkannten Standards
+
+[Security-Compliance-Item]:
+  [en] Identity & Access Management (IAM)
+  [de] Identity & Access Management (IAM)
+  - [en] Role and permission concepts (RBAC)
+  - [de] Rollen- und Berechtigungskonzepte (RBAC)
+  - [en] Rights review, recertification and separation of functions
+  - [de] Rechteprüfung, Rezertifizierung und Funktionstrennung
+  - [en] Privileged Access Management (PAM)
+  - [de] Privileged Access Management (PAM)
+
+[Security-Compliance-Item]:
+  [en] Incident & Vulnerability Management
+  [de] Incident & Vulnerability Management
+  - [en] Establishment and maintenance of structured processes for incidents & security findings
+  - [de] Aufbau und Pflege strukturierter Prozesse für Incidents & Security Findings
+  - [en] Prioritization, processing and documentation of security-relevant incidents
+  - [de] Priorisierung, Bearbeitung und Dokumentation sicherheitsrelevanter Vorfälle
+  - [en] Operational vulnerability management (including patch planning and follow-up)
+  - [de] Operatives Schwachstellenmanagement (inkl. Patch-Planung und Follow-up)
 
 # --- EXPERIENCE ---
 
@@ -89,6 +146,12 @@ Sitemap: https://christianerben.eu/sitemap.xml
   - [de] Vernetzt Kund:innen mit Spezialist:innen aus dem DEGIT-Expertennetzwerk und koordiniert interdisziplinäre Beratungsteams.
   - [en] Oversees the design of secure, redundant infrastructures including firewall concepts, VPN solutions, and backup strategies.
   - [de] Überwacht die Konzeption sicherer, redundanter Infrastrukturen einschließlich Firewall-Konzepten, VPN-Lösungen und Backup-Strategien.
+  - [en] Introduction of a company-wide security governance framework including policy design and access governance
+  - [de] Einführung eines unternehmensweiten Security-Governance-Frameworks inkl. Policy-Design und Access Governance
+  - [en] Conducting structured risk analyses and deriving technical security measures
+  - [de] Durchführung strukturierter Risikoanalysen und Ableitung technischer Sicherheitsmaßnahmen
+  - [en] Development of secure operational processes (Least Privilege, Logging, Monitoring, Role Models)
+  - [de] Entwicklung sicherer Betriebsprozesse (Least Privilege, Logging, Monitoring, Rollenmodelle)
   - [en] Established a governance framework aligning network security, privacy, and compliance requirements for new customer projects.
   - [de] Aufbau eines Governance-Rahmens, der Netzwerksicherheit, Datenschutz und Compliance für neue Kundenprojekte bündelt.
 
@@ -113,6 +176,12 @@ Sitemap: https://christianerben.eu/sitemap.xml
   - [de] Betrieb von Proxy-Infrastrukturen und Monitoring von Netzwerkpfaden inklusive IPSec-Tunneln und SD-WAN-Verbindungen.
   - [en] Support the introduction of cloud-based security services such as Prisma SSE.
   - [de] Unterstützung bei der Einführung cloudbasierter Sicherheitsdienste wie Prisma SSE.
+  - [en] Responsible for Identity & Access Management (IAM) and rights review in enterprise environments
+  - [de] Verantwortlich für Identity & Access Management (IAM) und Rechteprüfung im Enterprise-Umfeld
+  - [en] Creation and maintenance of security-relevant processes and documentation
+  - [de] Erstellung und Pflege sicherheitsrelevanter Prozesse und Dokumentationen
+  - [en] Ensuring consistent policy application in complex network and infrastructure environments
+  - [de] Sicherstellung konsistenter Policy-Anwendung in komplexen Netzwerk- und Infrastrukturumgebungen
   - [en] Reduced firewall rule complexity from 5,000 to fewer than 1,000 entries for greater transparency and performance.
   - [de] Reduktion der Firewall-Regelkomplexität von 5.000 auf unter 1.000 Einträge für mehr Transparenz und Performance.
   - [en] migration from Palo Alto to Fortinet, translating complex security policies without service interruption.

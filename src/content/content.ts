@@ -88,6 +88,18 @@ export interface AboutSection {
   stats: { key: string; value: LocalizedString }[];
 }
 
+export interface SecurityComplianceItem {
+  title: LocalizedString;
+  items: LocalizedString[];
+  icon: ComponentType<{ className?: string }>;
+}
+
+export interface SecurityComplianceSection {
+  title: LocalizedString;
+  subtitle?: LocalizedString;
+  items: SecurityComplianceItem[];
+}
+
 export interface ExperienceDescriptionItem {
   type: "text" | "achievement";
   text: LocalizedString;
@@ -265,6 +277,7 @@ export interface SiteContent {
   navigation: NavItem[];
   hero: HeroSection;
   about: AboutSection;
+  securityCompliance: SecurityComplianceSection;
   experiences: Experience[];
   projects: Project[];
   skills: Skill[];
@@ -310,6 +323,7 @@ export const siteContent: SiteContent = {
   navigation: [
     { label: { en: "Home", de: "Start" }, href: "#hero" },
     { label: { en: "About", de: "Über mich" }, href: "#about" },
+    { label: { en: "Security & Compliance", de: "Security & Compliance" }, href: "#security-compliance" },
     { label: { en: "Experience", de: "Erfahrung" }, href: "#experience" },
     { label: { en: "Projects", de: "Projekte" }, href: "#projects" },
     { label: { en: "Skills", de: "Fähigkeiten" }, href: "#skills" },
@@ -372,6 +386,119 @@ export const siteContent: SiteContent = {
       { key: "technologies", value: { en: "20+", de: "20+" } },
     ],
   },
+  securityCompliance: {
+    title: {
+      en: "Security & Compliance / Governance",
+      de: "Security & Compliance / Governance",
+    },
+    subtitle: {
+      en: "Comprehensive expertise in information security management, security governance, and security frameworks",
+      de: "Umfassende Expertise im Informationssicherheitsmanagement, Security Governance und Sicherheitsframeworks",
+    },
+    items: [
+      {
+        title: {
+          en: "Information Security Management (ISMS)",
+          de: "Informationssicherheitsmanagement (ISMS)",
+        },
+        icon: ShieldCheck,
+        items: [
+          {
+            en: "Establishment and maintenance of security policies (Policies, SOPs, procedures)",
+            de: "Aufbau und Pflege von Sicherheitsrichtlinien (Policies, SOPs, Verfahrensanweisungen)",
+          },
+          {
+            en: "Derivation and implementation of organizational and technical security measures",
+            de: "Ableitung und Umsetzung organisatorischer und technischer Sicherheitsmaßnahmen",
+          },
+          {
+            en: "Continuous development of secure operational processes",
+            de: "Kontinuierliche Weiterentwicklung sicherer Betriebsprozesse",
+          },
+        ],
+      },
+      {
+        title: {
+          en: "Security Governance",
+          de: "Security Governance",
+        },
+        icon: Scale,
+        items: [
+          {
+            en: "Definition and establishment of security standards for infrastructure and platform operations",
+            de: "Definition und Etablierung von Sicherheitsstandards für Infrastruktur- und Plattformbetrieb",
+          },
+          {
+            en: "Documentation, process design and ensuring uniform policy application",
+            de: "Dokumentation, Prozessgestaltung und Sicherstellung einer einheitlichen Policy-Anwendung",
+          },
+          {
+            en: "Creation and maintenance of security-relevant operating concepts",
+            de: "Erstellung und Pflege sicherheitsrelevanter Betriebskonzepte",
+          },
+        ],
+      },
+      {
+        title: {
+          en: "BSI IT-Grundschutz",
+          de: "BSI IT-Grundschutz",
+        },
+        icon: BookOpen,
+        items: [
+          {
+            en: "Use of Grundschutz methodology to structure and evaluate security measures",
+            de: "Nutzung der Grundschutz-Methodik zur Strukturierung und Bewertung von Sicherheitsmaßnahmen",
+          },
+          {
+            en: "Support in establishing secure operational processes according to recognized standards",
+            de: "Unterstützung beim Aufbau sicherer Betriebsprozesse nach anerkannten Standards",
+          },
+        ],
+      },
+      {
+        title: {
+          en: "Identity & Access Management (IAM)",
+          de: "Identity & Access Management (IAM)",
+        },
+        icon: KeyRound,
+        items: [
+          {
+            en: "Role and permission concepts (RBAC)",
+            de: "Rollen- und Berechtigungskonzepte (RBAC)",
+          },
+          {
+            en: "Rights review, recertification and separation of functions",
+            de: "Rechteprüfung, Rezertifizierung und Funktionstrennung",
+          },
+          {
+            en: "Privileged Access Management (PAM)",
+            de: "Privileged Access Management (PAM)",
+          },
+        ],
+      },
+      {
+        title: {
+          en: "Incident & Vulnerability Management",
+          de: "Incident & Vulnerability Management",
+        },
+        icon: AlertTriangle,
+        items: [
+          {
+            en: "Establishment and maintenance of structured processes for incidents & security findings",
+            de: "Aufbau und Pflege strukturierter Prozesse für Incidents & Security Findings",
+          },
+          {
+            en: "Prioritization, processing and documentation of security-relevant incidents",
+            de: "Priorisierung, Bearbeitung und Dokumentation sicherheitsrelevanter Vorfälle",
+          },
+          {
+            en: "Operational vulnerability management (including patch planning and follow-up)",
+            de: "Operatives Schwachstellenmanagement (inkl. Patch-Planung und Follow-up)",
+          },
+        ],
+      },
+    ],
+  },
   experiences: [
     {
       title: { en: "Member of the Board", de: "Vorstandsmitglied" },
@@ -399,6 +526,27 @@ export const siteContent: SiteContent = {
           text: {
             en: "Oversees the design of secure, redundant infrastructures including firewall concepts, VPN solutions, and backup strategies.",
             de: "Überwacht die Konzeption sicherer, redundanter Infrastrukturen einschließlich Firewall-Konzepten, VPN-Lösungen und Backup-Strategien.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Introduction of a company-wide security governance framework including policy design and access governance",
+            de: "Einführung eines unternehmensweiten Security-Governance-Frameworks inkl. Policy-Design und Access Governance",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Conducting structured risk analyses and deriving technical security measures",
+            de: "Durchführung strukturierter Risikoanalysen und Ableitung technischer Sicherheitsmaßnahmen",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Development of secure operational processes (Least Privilege, Logging, Monitoring, Role Models)",
+            de: "Entwicklung sicherer Betriebsprozesse (Least Privilege, Logging, Monitoring, Rollenmodelle)",
           },
         },
         {
@@ -475,6 +623,27 @@ export const siteContent: SiteContent = {
           text: {
             en: "Support the introduction of cloud-based security services such as Prisma SSE.",
             de: "Unterstützung bei der Einführung cloudbasierter Sicherheitsdienste wie Prisma SSE.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Responsible for Identity & Access Management (IAM) and rights review in enterprise environments",
+            de: "Verantwortlich für Identity & Access Management (IAM) und Rechteprüfung im Enterprise-Umfeld",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Creation and maintenance of security-relevant processes and documentation",
+            de: "Erstellung und Pflege sicherheitsrelevanter Prozesse und Dokumentationen",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Ensuring consistent policy application in complex network and infrastructure environments",
+            de: "Sicherstellung konsistenter Policy-Anwendung in komplexen Netzwerk- und Infrastrukturumgebungen",
           },
         },
         {
@@ -1366,8 +1535,8 @@ export const siteContent: SiteContent = {
       { label: { en: "Imprint", de: "Impressum" }, href: "/imprint" },
     ],
     lastUpdated: {
-      en: "Last updated: November 2025",
-      de: "Letzte Aktualisierung: November 2025",
+      en: "Last updated: December 2025",
+      de: "Letzte Aktualisierung: Dezember 2025",
     },
   },
   imprint: {

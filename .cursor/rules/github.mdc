@@ -1,0 +1,96 @@
+---
+description: Auto-activation for GitHub work; #<number> resolves to issue/PR in the current repo unless owner/repo is given. Prefer github-mcp; fall back to gh.
+alwaysApply: true
+---
+
+# 🧭 Activation (Selbstprüfung)
+Diese Rule **gilt nur**, wenn mindestens eines zutrifft:
+- User-Text enthält eines der Wörter: `github`, `gh`, `issue`, `pr`, `pull request`, `branch`, `commit`, `release`
+- oder ein Muster wie `#<zahl>` bzw. `<owner>/<repo>#<zahl>`
+
+Wenn **nichts** davon zutrifft: **nicht** aktiv werden.
+
+# 🛠️ Tool-Priorität
+1) **github-mcp** (bevorzugt)  
+2) **gh** (CLI) als Fallback – keine manuellen Webaktionen oder Raw-API-Calls, solange MCP/gh reicht.
+
+# 📦 Repository-Default
+- **Default-Repo:** `keeperxy/christianerben-eu`
+- **Branches:**
+  - `development` (Hauptentwicklung)
+  - `main` (Cloudflare Production)
+- **Branch-Flow:** feature → `development` → `main`
+
+> Falls der Nutzer explizit ein anderes Repo nennt (URL oder `owner/repo`), **überschreibe** den Default nur für die aktuelle Aktion.
+
+# 🔗 Issue/PR-Referenzen
+- `#123` → bezieht sich auf das **Default-Repo** (oder aktuell gesetztes Repo).
+- `<owner>/<repo>#123` → Cross-Repo.
+- Bei **Mehrdeutigkeit**:
+  - Zuerst prüfen, ob **Issue** existiert.
+  - Falls nicht, prüfen, ob **PR** existiert.
+  - Wenn beides existiert, explizit nachfragen: *„Meinst du Issue oder PR?“*
+
+Umsetzung (MCP oder Fallback `gh`):
+- Issue anzeigen: `issue view <num>`
+- PR anzeigen: `pr view <num>`
+
+# 🌿 Arbeiten mit Issues (Standard-Vorgehen)
+Wenn Text zu einem Issue kommt (explizit oder via `#<num>`):
+1) **Sync & Branch:**
+   - von `development` aus starten (`git fetch`, `git checkout development`, `git pull`).
+   - Feature-Branch: `issue-<num>-<kebab-kurzbeschreibung>`
+2) **Lokale Implementierung:**
+   - **NUR** lokale Änderungen vornehmen (Code schreiben, testen)
+   - **NICHT** committen, pushen oder PR erstellen ohne User-Bestätigung
+3) **User-Bestätigung einholen:**
+   - Änderungen zeigen und um Bestätigung bitten
+   - Warten auf explizites "OK", "passt", "committen" oder ähnliches
+4) **Nach Bestätigung:**
+   - Commits: Commit-Messages enthalten Referenz: `Fixes #<num>` (falls Bug/Feature abgeschlossen), sonst `Refs #<num>`.
+   - PR: PR gegen `development` erstellen
+   - Body enthält: Zweck, Testhinweise, `Fixes #<num>` (nur wenn schließbar).
+5) **Labels/Reviewer:** nur setzen, wenn vom Nutzer genannt oder Projektstandard vorhanden.
+
+# 🏗️ Build/Dev-Automatik (Bun)
+- **Regel:** **Nach jedem** `bun run build` **unmittelbar** `bun run dev` starten.
+- **Dev-Server-Lifecycle:**
+  - Wenn **anschließend weiterer Text** vom Nutzer kommt (z. B. „passt“, „bitte ändern …“, „alles ok“), **beende** den Dev-Server.
+  - **Starte** den Dev-Server **immer erneut**, sobald etwas anderes gemacht wird, **außer** es geht **nur** um PR-Tätigkeiten (Reviews, Rebase, Labels, Merge).
+- **Umsetzungshinweise:**
+  - Dev-Server im Hintergrund/integriert starten (Terminal-Job).  
+  - Beenden standardmäßig via `SIGINT` (Ctrl-C) oder Prozess-Kill, je nach Umgebung.
+
+# ⚠️ User-Bestätigung erforderlich
+**KRITISCH:** Vor jedem Commit/Push/PR **MUSS** User-Bestätigung eingeholt werden:
+- **Lokale Änderungen:** Nur Code schreiben und testen
+- **Warten auf Bestätigung:** "OK", "passt", "committen", "pushen" etc.
+- **Erst dann:** Commits, Push, PR erstellen
+- **Nie automatisch:** Commits/Push/PR ohne explizite User-Freigabe
+
+# 🧪 Checks vor riskanten Aktionen
+- Nie direkt auf `main` committen/mergen.
+- Vor Branch-Wechsel: uncommitted changes sichern (stash) oder Nutzerhinweis.
+- Kein `--force` Push ohne explizite Nutzerfreigabe.
+- PR-Merge nur, wenn CI/Checks grün (oder Nutzer wünscht Override).
+
+# 🔍 Wenn unklar, kurz nachfragen
+- Unklare Referenz (Issue vs. PR) oder unbekanntes Repo.
+- Reviewer/Labels/Release-Tag gewünscht?
+- Breaking Changes / Migrationshinweise?
+
+# 🧰 Nützliche `gh` Befehle (Fallback)
+```bash
+# Issues & PRs
+gh issue view <num> -R <owner>/<repo>
+gh pr view <num> -R <owner>/<repo>
+gh pr create --base development --head <branch> --title "<titel>" --body "<text>"
+
+# Branch mgmt
+git fetch
+git checkout development && git pull
+git checkout -b issue-<num>-<slug>
+
+# Bun Workflow
+bun run build
+bun run dev
