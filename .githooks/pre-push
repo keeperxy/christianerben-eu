@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Name des Branches herausfinden, der gepusht wird
+current_branch="$(git rev-parse --abbrev-ref HEAD)"
+
+# Nur auf main prüfen
+if [ "$current_branch" = "main" ]; then
+    echo "Running pre-push checks on main..."
+    "$(git rev-parse --show-toplevel)"/.githooks/pre-commit
+else
+    echo "pre-push: Checks skipped (branch: $current_branch)"
+fi
