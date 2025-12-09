@@ -1,12 +1,39 @@
 #!/bin/sh
 
-# Name des Branches herausfinden, der gepusht wird
+# Nur auf main aktiv sein
 current_branch="$(git rev-parse --abbrev-ref HEAD)"
-
-# Nur auf main prüfen
-if [ "$current_branch" = "main" ]; then
-    echo "Running pre-push checks on main..."
-    "$(git rev-parse --show-toplevel)"/.githooks/pre-commit
-else
-    echo "pre-push: Checks skipped (branch: $current_branch)"
+if [ "$current_branch" != "main" ]; then
+  echo "pre-push: skipping checks (branch: $current_branch)"
+  exit 0
 fi
+
+repo_root="$(git rev-parse --show-toplevel)"
+
+echo "pre-push: checking generated assets on main..."
+
+# Sicherheit: nur laufen, wenn Working Tree sauber ist
+if ! git diff --quiet || ! git diff --cached --quiet; then
+  echo "pre-push: working tree or index not clean."
+  echo "Bitte erst alle Änderungen committen, bevor du auf main pushst."
+  exit 1
+fi
+
+# Generator laufen lassen (nutzt deinen pre-commit Hook)
+"$repo_root/.githooks/pre-commit"
+
+# Prüfen, ob sich dadurch überhaupt etwas geändert hat
+if git diff --cached --quiet && git diff --quiet; then
+  echo "pre-push: nothing to commit, generated assets up to date."
+  exit 0
+fi
+
+echo "pre-push: committing updated generated files on main..."
+
+# Commit erzeugen, aber dabei den pre-commit Hook überspringen
+SKIP_AUTO_GENERATE=1 git commit -m "chore: update generated files" || {
+  echo "pre-push: git commit failed"
+  exit 1
+}
+
+echo "pre-push: generated files committed, continuing push."
+exit 0
