@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Head from "next/head";
 import App from "next/app";
 import type { AppContext, AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -16,15 +17,24 @@ export default function MyApp({ Component, pageProps, initialLanguage }: AppWith
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <SettingsProvider initialLanguage={initialLanguage}>
-          <Toaster />
-          <Sonner />
-          <Component {...pageProps} />
-        </SettingsProvider>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <>
+      <Head>
+        <title>Christian Erben - Network Security & Linux Infrastructure Specialist</title>
+        <meta
+          name="description"
+          content="Christian Erben - Network Security & Linux Infrastructure Specialist portfolio."
+        />
+      </Head>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <SettingsProvider initialLanguage={initialLanguage}>
+            <Toaster />
+            <Sonner />
+            <Component {...pageProps} />
+          </SettingsProvider>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </>
   );
 }
 

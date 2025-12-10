@@ -22,6 +22,7 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Positionierung der Hero-Badges wieder auf das gewünschte Layout zurückgesetzt
 - Vitest-Testdateien aus `src/pages` entfernt, damit der Next.js-Build nicht fehlschlägt
 - Seiten-Dateinamen auf Kleinbuchstaben vereinheitlicht, um 404er auf case-sensitiven Deployments zu vermeiden
+- Standard-Seitentitel hinzugefügt für konsistentes SEO-Meta
 
 ## [0.1.0] – 2025-10-30
 
