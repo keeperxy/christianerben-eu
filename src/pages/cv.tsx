@@ -15,11 +15,40 @@ const CVEditor = React.lazy(() => import("@/components/cv/CVEditor"));
 // Reusable Buttons für PDF und DOCX Download
 const CvDownloadButtons: React.FC<{ language: 'en' | 'de'; cvData: SiteContent }> = ({ language, cvData }) => {
   const [openMenu, setOpenMenu] = useState(false);
+  const [staticLoading, setStaticLoading] = useState({ pdf: false, docx: false });
 
   const isDefaultData = cvData === siteContent;
   const downloadDate = useMemo(() => new Date().toISOString().split('T')[0], []);
   const staticPdfHref = `/cv/christian_erben_cv_${language}.pdf`;
   const staticDocxHref = `/cv/christian_erben_cv_${language}.docx`;
+
+  const buildStaticFilename = (ext: 'pdf' | 'docx') => `christian_erben_cv_${language}_${downloadDate}.${ext}`;
+
+  const handleStaticDownload = async (ext: 'pdf' | 'docx') => {
+    setStaticLoading(prev => ({ ...prev, [ext]: true }));
+    try {
+      const href = ext === 'pdf' ? staticPdfHref : staticDocxHref;
+      const response = await fetch(href);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch ${href}`);
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+
+      link.href = url;
+      link.download = buildStaticFilename(ext);
+      link.click();
+
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error(`Static ${ext} download failed`, error);
+    } finally {
+      setStaticLoading(prev => ({ ...prev, [ext]: false }));
+    }
+  };
 
   // For default data, use static files (no heavy dependencies needed)
   if (isDefaultData) {
@@ -27,32 +56,22 @@ const CvDownloadButtons: React.FC<{ language: 'en' | 'de'; cvData: SiteContent }
       <>
         <div className="hidden md:flex space-x-4">
           <Button
-            asChild
+            onClick={() => handleStaticDownload('pdf')}
+            disabled={staticLoading.pdf}
             className="rounded-full shadow-lg hover-scale"
             variant="secondary"
           >
-            <a
-              href={staticPdfHref}
-              download={`christian_erben_cv_${language}_${downloadDate}.pdf`}
-              className="flex items-center no-underline"
-            >
-              <Download className="mr-2 h-4 w-4" />
-              {language === 'en' ? 'Download PDF' : 'PDF herunterladen'}
-            </a>
+            <Download className="mr-2 h-4 w-4" />
+            {language === 'en' ? 'Download PDF' : 'PDF herunterladen'}
           </Button>
           <Button
-            asChild
+            onClick={() => handleStaticDownload('docx')}
+            disabled={staticLoading.docx}
             className="rounded-full shadow-lg hover-scale"
             variant="secondary"
           >
-            <a
-              href={staticDocxHref}
-              download={`christian_erben_cv_${language}_${downloadDate}.docx`}
-              className="flex items-center no-underline"
-            >
-              <Download className="mr-2 h-4 w-4" />
-              {language === 'en' ? 'Download DOCX' : 'DOCX herunterladen'}
-            </a>
+            <Download className="mr-2 h-4 w-4" />
+            {language === 'en' ? 'Download DOCX' : 'DOCX herunterladen'}
           </Button>
         </div>
         <div className="md:hidden relative">
@@ -65,24 +84,24 @@ const CvDownloadButtons: React.FC<{ language: 'en' | 'de'; cvData: SiteContent }
           </Button>
           {openMenu && (
             <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-lg z-10">
-              <a
-                href={staticPdfHref}
-                download={`christian_erben_cv_${language}_${downloadDate}.pdf`}
-                className="no-underline block px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center"
-                onClick={() => setOpenMenu(false)}
+              <button
+                type="button"
+                onClick={() => { setOpenMenu(false); handleStaticDownload('pdf'); }}
+                disabled={staticLoading.pdf}
+                className="no-underline block w-full text-left px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center"
               >
                 <Download className="mr-2 h-4 w-4" />
                 {language === 'en' ? 'Download PDF' : 'PDF herunterladen'}
-              </a>
-              <a
-                href={staticDocxHref}
-                download={`christian_erben_cv_${language}_${downloadDate}.docx`}
-                className="no-underline block px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center"
-                onClick={() => setOpenMenu(false)}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setOpenMenu(false); handleStaticDownload('docx'); }}
+                disabled={staticLoading.docx}
+                className="no-underline block w-full text-left px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center"
               >
                 <Download className="mr-2 h-4 w-4" />
                 {language === 'en' ? 'Download DOCX' : 'DOCX herunterladen'}
-              </a>
+              </button>
             </div>
           )}
         </div>
