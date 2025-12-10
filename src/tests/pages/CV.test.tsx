@@ -1,7 +1,7 @@
 import React from "react";
 import { describe, it, expect, beforeAll, afterEach, afterAll, vi } from "vitest";
 import { screen, waitFor } from "@testing-library/react";
-import CV from "./cv";
+import CV from "@/pages/cv";
 import { siteContent, type SiteContent } from "@/content/content";
 import type { SettingsContextType } from "@/contexts/settings-hook";
 import { generateCvDocx } from "@/components/cv/CVDocumentDocx";

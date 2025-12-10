@@ -2,8 +2,10 @@ import fs from 'fs/promises';
 import path from 'path';
 import { siteContent } from '../src/content/content';
 
+type LocalizedValue = { en?: string; de?: string } | string | null | undefined;
+
 // Helper function to format bilingual content
-const formatBilingual = (item, indent = '') => {
+const formatBilingual = (item: LocalizedValue, indent = '') => {
   if (!item) return '';
   if (typeof item === 'string') return `${indent}${item}\n`;
   if (item.en && item.de) {
@@ -57,14 +59,15 @@ async function generateLlmsTxt() {
     
     // Add Skills
     llmsTxtContent += '\n# --- SKILLS ---\n';
-    for (const category in content.skillsSection.categories) {
-        const categoryName = content.skillsSection.categories[category];
-        llmsTxtContent += `\n[Skill-Category: ${categoryName.en} / ${categoryName.de}]:\n`;
-        content.skills
-            .filter(skill => skill.category === category)
-            .forEach(skill => {
-                llmsTxtContent += `  - ${skill.name.en} / ${skill.name.de}\n`;
-            });
+    const skillCategories = content.skillsSection
+      .categories as Record<string, { en: string; de: string }>;
+    for (const [categoryKey, categoryName] of Object.entries(skillCategories)) {
+      llmsTxtContent += `\n[Skill-Category: ${categoryName.en} / ${categoryName.de}]:\n`;
+      content.skills
+        .filter(skill => skill.category === categoryKey)
+        .forEach(skill => {
+          llmsTxtContent += `  - ${skill.name.en} / ${skill.name.de}\n`;
+        });
     }
 
     const outputPath = path.resolve(process.cwd(), 'public', 'llms.txt');

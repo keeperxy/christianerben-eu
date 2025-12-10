@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 // Buffer shim for react-pdf (only loaded when this component is used)
 import { Buffer } from 'buffer';
-// @ts-expect-error Buffer is a polyfill for react-pdf
 (globalThis as typeof globalThis & { Buffer?: unknown }).Buffer = Buffer;
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { Button } from "@/components/ui/button";

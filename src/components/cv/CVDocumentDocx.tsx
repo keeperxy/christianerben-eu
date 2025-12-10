@@ -85,6 +85,7 @@ export async function generateCvDocx({
       if (!skillsByCategory[s.category]) skillsByCategory[s.category] = [];
       skillsByCategory[s.category].push(s);
     });
+    const skillCategories = skillsSection.categories as Record<string, LocalizedString>;
   
     // Attach the image via ImageRun
     const profileImg = new ImageRun({ type: 'jpg', data: profileImage, transformation: { width: 80, height: 80 } });
@@ -220,7 +221,7 @@ export async function generateCvDocx({
                       ...Object.entries(skillsByCategory)
                         .filter(([cat]) => cat !== "languages")
                         .flatMap(([cat, catSkills]) => [
-                        new Paragraph({ children: [new TextRun({ text: t(skillsSection.categories[cat]), bold: true, size: 20 })] }),
+                        new Paragraph({ children: [new TextRun({ text: t(skillCategories[cat]), bold: true, size: 20 })] }),
                         new Paragraph({
                           children: catSkills
                             .filter((s) => s.level >= 4)

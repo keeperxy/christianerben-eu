@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useScrollToTop } from '@/hooks/use-scroll-to-top';
 
 
@@ -20,7 +20,7 @@ const Privacy = () => {
       <main className="flex-grow pt-24 pb-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
-            <Link to="/">
+            <Link href="/">
               <Button variant="ghost" size="sm" className="mb-6">
                 <ArrowLeft size={16} className="mr-2" />
                 {t(siteContent.backToHome)}

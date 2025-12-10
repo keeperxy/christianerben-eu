@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/vitest'
 import { vi } from 'vitest'
+import { afterEach } from 'vitest'
 
 if (!('matchMedia' in window)) {
   Object.defineProperty(window, 'matchMedia', {
@@ -26,3 +27,7 @@ if (!('ResizeObserver' in window)) {
   // @ts-expect-error ResizeObserver not implemented in jsdom
   window.ResizeObserver = ResizeObserver
 }
+
+afterEach(() => {
+  vi.clearAllTimers();
+});

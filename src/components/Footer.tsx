@@ -2,7 +2,7 @@
 import React from "react";
 import { siteContent } from "@/content/content";
 import { useSettings } from "@/contexts/settings-hook";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const Footer = () => {
   const { t } = useSettings();
@@ -31,17 +31,17 @@ const Footer = () => {
             {footer.links.map((link, index) => (
               <Link
                 key={index}
-                to={link.href}
+                href={link.href}
                 className="text-sm text-muted-foreground hover:text-primary transition-colors link-underline"
               >
                 {t(link.label)}
               </Link>
             ))}
             <Link 
-              to="/sitemap" 
+              href="/sitemap" 
               className="text-sm text-muted-foreground hover:text-primary transition-colors link-underline"
             >
-              {t(siteContent.sitemap.title)}
+              {siteContent.sitemap ? t(siteContent.sitemap.title) : ""}
             </Link>
           </nav>
         </div>

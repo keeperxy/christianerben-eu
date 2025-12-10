@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Save, Plus, Minus } from "lucide-react";
 import { useSettings } from "@/contexts/settings-hook";
-import { SiteContent, Experience, ExperienceDescriptionItem, LocalizedString, Project, Skill } from "@/content/content";
+import { SiteContent, Experience, ExperienceDescriptionItem, Project, Skill } from "@/content/content";
+type LocalizedString = { en: string; de: string };
 
 type FieldValue = string | number | boolean | LocalizedString | ExperienceDescriptionItem[] | LocalizedString[];
 type ArrayItemTemplate = Experience | Project | Skill | LocalizedString | ExperienceDescriptionItem;
@@ -721,7 +722,8 @@ const CVEditor: React.FC<CVEditorProps> = ({ data, onChange, language }) => {
               onClick={() => addArrayItem(['projects'], {
                 title: { en: 'New Project', de: 'Neues Projekt' },
                 description: { en: 'Project description', de: 'Projektbeschreibung' },
-                image: '',
+                imageUrl: '',
+                imageAlt: { en: 'Project image', de: 'Projektbild' },
                 tags: [
                   { en: 'New Tag', de: 'Neues Stichwort' }
                 ]
@@ -827,6 +829,7 @@ const CVEditor: React.FC<CVEditorProps> = ({ data, onChange, language }) => {
               onClick={() => addArrayItem(['skills'], {
                 name: { en: 'New Skill', de: 'Neue Fähigkeit' },
                 category: 'management',
+                icon: Save,
                 level: 3,
               })}
               className="w-full"

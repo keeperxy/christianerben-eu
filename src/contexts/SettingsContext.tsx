@@ -6,57 +6,60 @@ import {
   type SettingsContextType,
 } from './settings-hook';
 
-export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Get initial language from browser or localStorage
-  // The useSettings hook is defined and exported from ./settings-hook.ts
-  // This file should only export the SettingsProvider component.
-  const getBrowserLanguage = (): Language => {
-    // First check localStorage
-    const savedLanguage = localStorage.getItem('language') as Language;
-    if (savedLanguage === 'en' || savedLanguage === 'de') return savedLanguage;
-    
-    // Fall back to browser language
-    const navigatorLanguage = navigator.language.substring(0, 2).toLowerCase();
-    return navigatorLanguage === 'de' ? 'de' : 'en';
-  };
-
-  // Get initial theme from system preference
+export const SettingsProvider: React.FC<{ children: React.ReactNode; initialLanguage?: Language }> = ({
+  children,
+  initialLanguage = 'en',
+}) => {
   const getInitialTheme = (): Theme => {
     if (typeof window === 'undefined') return 'light';
-    
+
     const savedTheme = window.localStorage.getItem('theme') as Theme;
     if (savedTheme) return savedTheme;
 
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   };
 
-  const [language, setLanguageState] = useState<Language>('en');
+  const [language, setLanguageState] = useState<Language>(initialLanguage);
   const [theme, setThemeState] = useState<Theme>('light');
 
   useEffect(() => {
-    const browserLang = getBrowserLanguage();
-    setLanguageState(browserLang);
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const savedLanguage = window.localStorage.getItem('language') as Language | null;
+    if (savedLanguage === 'en' || savedLanguage === 'de') {
+      setLanguageState(savedLanguage);
+      document.documentElement.setAttribute('lang', savedLanguage);
+    } else {
+      document.documentElement.setAttribute('lang', initialLanguage);
+    }
+
     setThemeState(getInitialTheme());
-    // Set initial <html lang>
-    document.documentElement.setAttribute('lang', browserLang);
-  }, []);
+  }, [initialLanguage]);
 
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     const root = window.document.documentElement;
-    
+
     if (theme === 'dark') {
       root.classList.add('dark');
     } else {
       root.classList.remove('dark');
     }
-    
-    localStorage.setItem('theme', theme);
+
+    window.localStorage.setItem('theme', theme);
   }, [theme]);
 
   // Language setting function
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    localStorage.setItem('language', lang);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('language', lang);
+    }
     // Set <html lang> attribute
     document.documentElement.setAttribute('lang', lang);
   };
@@ -64,7 +67,9 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // Theme setting function
   const setTheme = (theme: Theme) => {
     setThemeState(theme);
-    localStorage.setItem('theme', theme);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('theme', theme);
+    }
   };
 
   // Translation helper

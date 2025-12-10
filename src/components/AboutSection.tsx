@@ -1,9 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import { useSettings } from '@/contexts/settings-hook';
 import { siteContent } from '@/content/content';
 import { Users, FolderArchive, Code, LucideIcon } from 'lucide-react';
 
-const iconMap: Record<string, LucideIcon> = {
+type AboutLabelKey = keyof typeof siteContent.about.labels;
+
+const iconMap: Record<AboutLabelKey, LucideIcon> = {
   experience: Users,
   projects: FolderArchive,
   technologies: Code,
@@ -16,7 +19,8 @@ const AboutSection = () => {
   // Stats display (now fully from content)
   const stats = about.stats.map(stat => ({
     ...stat,
-    icon: iconMap[stat.key] || Users,
+    key: stat.key as AboutLabelKey,
+    icon: iconMap[stat.key as AboutLabelKey] || Users,
   }));
 
   return (

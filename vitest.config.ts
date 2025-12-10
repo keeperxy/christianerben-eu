@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
+    exclude: ['.next/**', 'node_modules/**'],
   },
   resolve: {
     alias: {

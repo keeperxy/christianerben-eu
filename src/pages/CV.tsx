@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState, Suspense } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { useSettings } from "@/contexts/settings-hook";
 import { siteContent, SiteContent } from "@/content/content";
 import { Button } from "@/components/ui/button";
@@ -177,7 +177,7 @@ const CV = () => {
       {/* Header */}
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center">
-          <Link to="/" className="flex items-center text-muted-foreground dark:text-primary hover:text-primary/80">
+          <Link href="/" className="flex items-center text-muted-foreground dark:text-primary hover:text-primary/80">
             <ArrowLeft className="mr-2 h-4 w-4" />
             <span>{t(siteContent.backToHome)}</span>
           </Link>
@@ -258,6 +258,7 @@ const CV = () => {
                       src={`/cv/christian_erben_cv_${language}.pdf#toolbar=0&navpanes=0`}
                       className="max-w-[796px] w-full h-full min-h-[600px] border-0 rounded"
                       title={language === 'en' ? 'Curriculum Vitae' : 'Lebenslauf'}
+                      data-testid="cv-preview"
                     />
                   </div>
                 </div>

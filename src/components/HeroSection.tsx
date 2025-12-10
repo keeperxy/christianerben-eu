@@ -5,6 +5,7 @@ import { useSettings } from "@/contexts/settings-hook";
 import { siteContent } from "@/content/content";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useFitText } from "@/hooks/use-fit-text";
+import Link from "next/link";
 
 const HeroSection = () => {
   const { t } = useSettings();
@@ -96,10 +97,10 @@ const HeroSection = () => {
                 size="lg"
                 className="rounded-full shadow-sm hover-scale"
               >
-                <a href="/cv">
+                <Link href="/cv">
                   <FileText className="w-4 h-4 mr-2" />
                   {t(hero.ctaSecondary)}
-                </a>
+                </Link>
               </Button>
             </div>
           </div>
@@ -138,16 +139,13 @@ const HeroSection = () => {
                 return (
                   <div
                     key={index}
-                    className="absolute p-4 card-glass rounded-lg shadow-lg transform rotate-3 animate-float"
+                    className="absolute p-4 card-glass rounded-lg shadow-lg animate-float"
                     style={{
                       ...posStyle,
-                      transform: `${posStyle.transform} rotate(${
-                        index * 9 - 6
-                      }deg)`,
                     }}
                   >
                     <code
-                      className="text-xs sm:text-sm text-gradient"
+                      className="text-xs sm:text-sm text-gradient whitespace-nowrap"
                       dangerouslySetInnerHTML={{ __html: element.code }}
                     />
                   </div>

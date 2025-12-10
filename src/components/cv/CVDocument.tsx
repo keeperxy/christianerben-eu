@@ -339,6 +339,9 @@ const CVDocument: React.FC<CVDocumentProps> = ({ language, data, profileImageSrc
   // Use passed data or fallback to siteContent
   const content = data || defaultSiteContent;
   const { about, securityCompliance, experiences, skills, skillsSection, contact, footer, hero, imprint } = content;
+  const homepage = contact.homepage ?? "";
+  const linkedin = contact.socialLinks?.linkedin ?? "";
+  const xing = contact.socialLinks?.xing ?? "";
   
   // Helper function to get text in the current language
   const t = (text: { en: string; de: string }) => text[language];
@@ -377,9 +380,9 @@ const CVDocument: React.FC<CVDocumentProps> = ({ language, data, profileImageSrc
             <Text style={styles.sidebarTitle}>{language === 'en' ? 'Reach me at' : 'Kontakt'}</Text>
             <View style={styles.sidebarContactRow}><MailIcon /><Link href={`mailto:${contact.cvemail}`} style={styles.sidebarContactText}>{contact.cvemail}</Link></View>
             <View style={styles.sidebarContactRow}><PhoneIcon /><Link href={`tel:${contact.phone}`} style={styles.sidebarContactText}>{contact.phone}</Link></View>
-            <View style={styles.sidebarContactRow}><WebIcon /><Link href={contact.homepage} style={styles.sidebarContactText}>{contact.homepage.replace('https://', '')}</Link></View>
-            <View style={styles.sidebarContactRow}><LinkedInIcon /><Link href={contact.socialLinks.linkedin} style={styles.sidebarContactText}>{contact.socialLinks.linkedin.replace('https://www.linkedin.com/in', '')}</Link></View>
-            <View style={styles.sidebarContactRow}><XingIcon /><Link href={contact.socialLinks.xing} style={styles.sidebarContactText}>{contact.socialLinks.xing.replace('https://www.xing.com/profile', '')}</Link></View>
+            <View style={styles.sidebarContactRow}><WebIcon /><Link href={homepage || "#"} style={styles.sidebarContactText}>{homepage.replace('https://', '')}</Link></View>
+            <View style={styles.sidebarContactRow}><LinkedInIcon /><Link href={linkedin || "#"} style={styles.sidebarContactText}>{linkedin.replace('https://www.linkedin.com/in', '')}</Link></View>
+            <View style={styles.sidebarContactRow}><XingIcon /><Link href={xing || "#"} style={styles.sidebarContactText}>{xing.replace('https://www.xing.com/profile', '')}</Link></View>
             <View style={styles.sidebarContactRow}><CalendarIcon /><Text style={styles.sidebarContactText}>{contact.birthday}</Text></View>
             <View style={styles.sidebarContactRow}><MapIcon /><Text style={styles.sidebarContactText}>{t(imprint.address.street)}</Text></View>
             <View style={styles.sidebarContactRow}><EmptyIcon /><Text style={styles.sidebarContactText}>{t(imprint.address.city)}</Text></View>

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useRef } from "react";
 import { siteContent } from "@/content/content";
 import { useSettings } from "@/contexts/settings-hook";
@@ -5,6 +6,7 @@ import { FileText, MapPin, Calendar, MessageSquareMore } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const ExperienceSection = () => {
   const {
@@ -201,12 +203,12 @@ const ExperienceSection = () => {
             </p>
             <div className="mt-4"></div>
             {/* Download Resume */}
-            <a href="/cv" className="inline-flex items-center text-primary hover:text-primary/80 transition-colors link-underline">
+            <Link href="/cv" className="inline-flex items-center text-primary hover:text-primary/80 transition-colors link-underline">
               <FileText size={24} className="mr-2" />
               <span>
                 {t(siteContent.downloadResume)}
               </span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

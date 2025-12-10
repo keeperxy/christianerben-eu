@@ -15,6 +15,11 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Technical (Technisch)
 - Alle Dependencies auf neueste Versionen aktualisiert (außer Major Updates) mit npm
+- Frontend auf Next.js 16 mit Bun-Toolchain und Tailwind CSS 4 umgestellt (statt Vite/React Router)
+
+### Fixed (Behoben)
+- Initiale Sprachauswahl zwischen Server und Client angeglichen, um Hydration-Mismatches bei lokalisierten Überschriften zu vermeiden
+- Positionierung der Hero-Badges wieder auf das gewünschte Layout zurückgesetzt
 
 ## [0.1.0] – 2025-10-30
 

@@ -1,14 +1,20 @@
-import React, { Suspense } from 'react';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import SecurityComplianceSection from '@/components/SecurityComplianceSection';
 import ExperienceSection from '@/components/ExperienceSection';
 import Footer from '@/components/Footer';
+import dynamic from 'next/dynamic';
 
-const ProjectsSection = React.lazy(() => import('@/components/ProjectsSection'));
-const SkillsSection = React.lazy(() => import('@/components/SkillsSection'));
-const ContactSection = React.lazy(() => import('@/components/ContactSection'));
+const ProjectsSection = dynamic(() => import('@/components/ProjectsSection'), {
+  loading: () => <div>Loading…</div>,
+});
+const SkillsSection = dynamic(() => import('@/components/SkillsSection'), {
+  loading: () => <div>Loading…</div>,
+});
+const ContactSection = dynamic(() => import('@/components/ContactSection'), {
+  loading: () => <div>Loading…</div>,
+});
 
 const Index = () => {
   return (
@@ -19,15 +25,9 @@ const Index = () => {
         <AboutSection />
         <SecurityComplianceSection />
         <ExperienceSection />
-        <Suspense fallback={<div>Loading…</div>}>
-          <ProjectsSection />
-        </Suspense>
-        <Suspense fallback={<div>Loading…</div>}>
-          <SkillsSection />
-        </Suspense>
-        <Suspense fallback={<div>Loading…</div>}>
-          <ContactSection />
-        </Suspense>
+        <ProjectsSection />
+        <SkillsSection />
+        <ContactSection />
       </main>
       <Footer />
     </div>

@@ -1,4 +1,6 @@
-import { Resend } from 'resend';
+import type { NextApiRequest, NextApiResponse } from "next";
+import { Resend } from "resend";
+import { siteContent } from "@/content/content";
 
 interface ContactPayload {
   verify: string;
@@ -8,7 +10,12 @@ interface ContactPayload {
 }
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PREHEADER_SPACER = '&nbsp;'.repeat(64);
+const PREHEADER_SPACER = "&nbsp;".repeat(64);
+const DEFAULT_TO_EMAIL =
+  process.env.CONTACT_TO_EMAIL || siteContent.contact.email;
+const FROM_EMAIL =
+  process.env.CONTACT_FROM_EMAIL ||
+  `Portfolio Contact <${siteContent.contact.email}>`;
 
 function escapeHtml(str: string) {
   return str
@@ -20,59 +27,65 @@ function escapeHtml(str: string) {
 }
 
 function parsePayload(data: unknown): ContactPayload {
-  if (typeof data !== 'object' || data === null) {
-    throw new Error('Invalid request body.');
+  if (typeof data !== "object" || data === null) {
+    throw new Error("Invalid request body.");
   }
 
   const raw = data as Record<string, unknown>;
 
-  const verify = typeof raw.verify === 'string' ? raw.verify : '';
-  const name = typeof raw.name === 'string' ? raw.name.trim() : '';
-  const email = typeof raw.email === 'string' ? raw.email.trim() : '';
-  const message = typeof raw.message === 'string' ? raw.message.trim() : '';
+  const verify = typeof raw.verify === "string" ? raw.verify : "";
+  const name = typeof raw.name === "string" ? raw.name.trim() : "";
+  const email = typeof raw.email === "string" ? raw.email.trim() : "";
+  const message = typeof raw.message === "string" ? raw.message.trim() : "";
 
-  if (verify !== '') {
-    throw new Error('Suspicious request detected.');
+  if (verify !== "") {
+    throw new Error("Suspicious request detected.");
   }
 
   if (name.length < 2) {
-    throw new Error('Name must be at least 2 characters long.');
+    throw new Error("Name must be at least 2 characters long.");
   }
 
   if (!emailRegex.test(email)) {
-    throw new Error('Please provide a valid email address.');
+    throw new Error("Please provide a valid email address.");
   }
 
   if (message.length < 10) {
-    throw new Error('Message must be at least 10 characters long.');
+    throw new Error("Message must be at least 10 characters long.");
   }
 
   return { verify, name, email, message };
 }
 
-export async function onRequestPost(context) {
-  const { request } = context;
-  let rawBody: unknown;
-
-  try {
-    rawBody = await request.json();
-  } catch {
-    return Response.json({ error: 'Invalid JSON payload.' }, { status: 400 });
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return res.status(405).json({ error: "Method Not Allowed" });
   }
 
   let payload: ContactPayload;
   try {
-    payload = parsePayload(rawBody);
+    payload = parsePayload(req.body);
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Invalid request body.';
-    return Response.json({ error: message }, { status: 400 });
+    const message =
+      error instanceof Error ? error.message : "Invalid request body.";
+    return res.status(400).json({ error: message });
   }
 
-  const resend = new Resend(context.env.RESEND_API_KEY);
+  if (!process.env.RESEND_API_KEY) {
+    return res
+      .status(500)
+      .json({ error: "RESEND_API_KEY is not configured on the server." });
+  }
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
   const safeName = escapeHtml(payload.name);
   const safeEmail = escapeHtml(payload.email);
-  const safeMessage = escapeHtml(payload.message).replace(/\n/g, '<br>');
+  const safeMessage = escapeHtml(payload.message).replace(/\n/g, "<br>");
 
   const html = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html dir="ltr" lang="en">
@@ -202,15 +215,22 @@ export async function onRequestPost(context) {
     </html>`;
 
   try {
-    const data = await resend.emails.send({
-      from: `${safeName} <christianerben-eu@christianerben.eu>`,
-      replyTo: [payload.email],
-      to: ['christian.erben@degit.de'],
-      subject: `Contact Form Submission from ${safeName} on ${new Date().toISOString()}`,
-      html: html,
+    await resend.emails.send({
+      from: FROM_EMAIL,
+      to: DEFAULT_TO_EMAIL,
+      subject: "New contact form submission",
+      replyTo: safeEmail,
+      html,
     });
-    return Response.json(data);
-  } catch (err) {
-    return Response.json({ error: 'Failed to send email', details: err.message }, { status: 500 });
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.error("Failed to send contact email", error);
+    const message =
+      error instanceof Error ? error.message : "Failed to send contact email";
+    return res.status(500).json({ error: message });
   }
 }
+
+
+
+

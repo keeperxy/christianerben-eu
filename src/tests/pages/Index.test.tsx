@@ -31,7 +31,7 @@ vi.mock("@/components/ContactSection", () => ({
   ),
 }));
 
-import Index from "./index";
+import Index from "@/pages/index";
 
 describe("Index page", () => {
   const originalIntersectionObserver = globalThis.IntersectionObserver;

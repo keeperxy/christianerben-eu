@@ -5,14 +5,15 @@ import { useSettings } from "@/contexts/settings-hook";
 import { siteContent } from "@/content/content";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Link, useLocation } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const { language, setLanguage, theme, setTheme, t } = useSettings();
   const [isScrolled, setIsScrolled] = useState(false);
   const isMobile = useIsMobile();
-  const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const router = useRouter();
+  const isHomePage = router.pathname === "/";
   const [activeSection, setActiveSection] = useState<string>("hero");
 
   // Toggle for handling theme changes
@@ -67,7 +68,7 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link
-          to="/"
+          href="/"
           className="text-2xl font-display font-bold text-foreground"
         >
           <span className="text-gradient text-4xl">{siteContent.hero.name}</span>
@@ -87,7 +88,7 @@ const Header = () => {
             ) : (
               <Link
                 key={item.href}
-                to={`/${item.href}`}
+                href={`/${item.href}`}
                 className="text-lg font-medium text-foreground hover:text-primary transition-colors link-underline"
               >
                 {t(item.label)}
@@ -141,7 +142,7 @@ const Header = () => {
             >
               <div className="flex flex-col h-full">
                 <div className="border-b border-gray-200 dark:border-gray-800 py-4 px-6">
-                  <Link to="/" className="text-2xl font-display font-bold">
+                  <Link href="/" className="text-2xl font-display font-bold">
                     <span className="text-gradient">{siteContent.hero.name}</span>
                   </Link>
                 </div>
@@ -159,7 +160,7 @@ const Header = () => {
                     ) : (
                       <Link
                         key={item.href}
-                        to={`/${item.href}`}
+                        href={`/${item.href}`}
                         className="text-xl font-medium text-foreground hover:text-primary transition-colors"
                       >
                         {t(item.label)}
