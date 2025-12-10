@@ -23,6 +23,7 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Vitest-Testdateien aus `src/pages` entfernt, damit der Next.js-Build nicht fehlschlägt
 - Seiten-Dateinamen auf Kleinbuchstaben vereinheitlicht, um 404er auf case-sensitiven Deployments zu vermeiden
 - Standard-Seitentitel hinzugefügt für konsistentes SEO-Meta
+- Absender des Kontaktformulars auf `Kontaktformular <website@christianerben.eu>` für Resend gesetzt
 
 ## [0.1.0] – 2025-10-30
 

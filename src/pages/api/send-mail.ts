@@ -15,7 +15,7 @@ const DEFAULT_TO_EMAIL =
   process.env.CONTACT_TO_EMAIL || siteContent.contact.email;
 const FROM_EMAIL =
   process.env.CONTACT_FROM_EMAIL ||
-  `Portfolio Contact <${siteContent.contact.email}>`;
+  "Kontaktformular <website@christianerben.eu>";
 
 function escapeHtml(str: string) {
   return str
