@@ -1,7 +1,19 @@
 #!/bin/sh
-echo "🚀 Running pre-commit tasks..."
+
+# aktuellen Branch herausfinden
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# nur im development-Branch ausführen
+if [ "$BRANCH" != "development" ]; then
+  echo "⏩ Skipping pre-commit tasks (current branch: $BRANCH)"
+  exit 0
+fi
+
+echo "🚀 Running pre-commit tasks on development branch..."
+
 bun run generate:cv && git add public/cv || exit 1
 bun run generate:llms && git add public/llms.txt || exit 1
 bun run generate:sitemap && git add public/sitemap.xml || exit 1
 bun run update:last-updated && git add src/content/content.ts || exit 1
+
 echo "✅ Pre-commit tasks completed."
