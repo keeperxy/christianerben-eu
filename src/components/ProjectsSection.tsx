@@ -2,9 +2,7 @@
 import React from 'react';
 import { siteContent } from '@/content/content';
 import { useSettings } from '@/contexts/settings-hook';
-import { ArrowRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
   Carousel,
   CarouselContent,
@@ -50,15 +48,15 @@ const ProjectsSection = () => {
                         )}
                       </div>
                     </div>
-                    
+
                     {/* Content */}
                     <div className="p-6">
                       <h3 className="text-xl font-bold mb-2">{t(project.title)}</h3>
-                      
+
                       <p className="text-muted-foreground mb-4">
                         {t(project.description)}
                       </p>
-                      
+
                       {/* Tags */}
                       <div className="flex flex-wrap gap-2 mb-6">
                         {project.tags.map((tag, tagIndex) => (
@@ -76,17 +74,7 @@ const ProjectsSection = () => {
             <CarouselNext className="flex" />
           </Carousel>
         </div>
-        
-        {siteContent.projectsSectionMore && (
-          <div className="text-center mt-12">
-            <Button asChild variant="link" className="text-primary hover:text-primary/80">
-              <a href="https://github.com/uwe-schwarz" target="_blank" rel="noreferrer">
-                {t(siteContent.projectsSectionMore)}  
-                <ArrowRight size={16} className="ml-2" />
-              </a>
-            </Button>
-          </div>
-        )}
+
       </div>
     </section>
   );
