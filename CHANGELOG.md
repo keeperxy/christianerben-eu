@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Aligned initial language selection between server and client to prevent hydration mismatch on localized headings
 - Restored hero decorative badge positioning to match intended layout
 - Removed Vitest page test files from `src/pages` to prevent Next.js build errors
+- Normalized page filenames to lowercase to avoid 404s on case-sensitive deploys
 
 ## [0.1.0] – 2025-10-30
 
