@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced profile, about, and project showcase images with WebP assets for faster loading times
 - Removed GitHub discovery link from the projects section call-to-action
 
+### Fixed
+- Ensured CV PDF/DOCX downloads always include the current date in the filename
+
 ### Technical
 - Updated all dependencies to latest versions (excluding major updates) using npm
 

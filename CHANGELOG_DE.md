@@ -14,6 +14,9 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Profil-, About- und Projektbilder auf WebP umgestellt für schnellere Ladezeiten
 - GitHub-Link zum Entdecken weiterer Projekte aus dem Projekte-Bereich entfernt
 
+### Fixed (Behoben)
+- CV-PDF/DOCX-Downloads nutzen jetzt immer den aktuellen Datumsteil im Dateinamen
+
 ### Technical (Technisch)
 - Alle Dependencies auf neueste Versionen aktualisiert (außer Major Updates) mit npm
 
