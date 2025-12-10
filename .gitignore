@@ -10,10 +10,8 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-.next
-.vercel
 *.local
-package-lock.json
+.next
 
 # Editor directories and files
 .vscode/*
