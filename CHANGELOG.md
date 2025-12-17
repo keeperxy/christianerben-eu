@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Ensured CV PDF/DOCX downloads always include the current date in the filename
+- Fixed chart tooltip typing to accept payload data during render
+- Updated resizable panel wrapper to match current react-resizable-panels API and types
+- Stabilized sidebar skeleton widths without using random values
+- Moved language and CV state initialization to avoid setState in effects
 
 ### Technical
 - Updated all dependencies to latest versions (excluding major updates) using npm

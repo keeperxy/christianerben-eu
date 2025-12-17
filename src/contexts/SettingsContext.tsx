@@ -19,24 +19,19 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode; initialLang
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   };
 
-  const [language, setLanguageState] = useState<Language>(initialLanguage);
-  const [theme, setThemeState] = useState<Theme>('light');
-
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
+  const getInitialLanguage = (): Language => {
+    if (typeof window === 'undefined') return initialLanguage;
 
     const savedLanguage = window.localStorage.getItem('language') as Language | null;
     if (savedLanguage === 'en' || savedLanguage === 'de') {
-      setLanguageState(savedLanguage);
-      document.documentElement.setAttribute('lang', savedLanguage);
-    } else {
-      document.documentElement.setAttribute('lang', initialLanguage);
+      return savedLanguage;
     }
 
-    setThemeState(getInitialTheme());
-  }, [initialLanguage]);
+    return initialLanguage;
+  };
+
+  const [language, setLanguageState] = useState<Language>(getInitialLanguage);
+  const [theme, setThemeState] = useState<Theme>(() => getInitialTheme());
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -57,20 +52,21 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode; initialLang
   // Language setting function
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem('language', lang);
-    }
-    // Set <html lang> attribute
-    document.documentElement.setAttribute('lang', lang);
   };
 
   // Theme setting function
   const setTheme = (theme: Theme) => {
     setThemeState(theme);
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem('theme', theme);
-    }
   };
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    document.documentElement.setAttribute('lang', language);
+    window.localStorage.setItem('language', language);
+  }, [language]);
 
   // Translation helper
   const t = (text: { en: string; de: string }): string => {
