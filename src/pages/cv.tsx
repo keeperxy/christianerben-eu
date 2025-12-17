@@ -142,29 +142,32 @@ const CV = () => {
     return decompressFromUint8Array(bytes) || '';
   };
 
+  const getInitialCvData = (): SiteContent => {
+    if (typeof window === 'undefined') {
+      return siteContent;
+    }
+
+    const hash = window.location.hash;
+    const savedData = hash.startsWith('#data=') ? hash.slice(6) : null;
+
+    if (!savedData) {
+      return siteContent;
+    }
+
+    try {
+      const decodedJson = decodeData(savedData);
+      const decodedData = JSON.parse(decodedJson);
+      return decodedData;
+    } catch (e) {
+      console.error('Failed to parse saved data', e);
+      return siteContent;
+    }
+  };
+
   const [clickCount, setClickCount] = useState(0);
   const [editMode, setEditMode] = useState(false);
-  const [cvData, setCvData] = useState(siteContent);
+  const [cvData, setCvData] = useState<SiteContent>(() => getInitialCvData());
   useScrollToTop();
-
-  // Check URL for saved data on component mount
-  useEffect(() => {
-    // Read from hash: #data=base64string
-    const hash = window.location.hash;
-    let savedData = null;
-    if (hash.startsWith('#data=')) {
-      savedData = hash.slice(6);
-    }
-    if (savedData) {
-      try {
-        const decodedJson = decodeData(savedData);
-        const decodedData = JSON.parse(decodedJson);
-        setCvData(decodedData);
-      } catch (e) {
-        console.error('Failed to parse saved data', e);
-      }
-    }
-  }, []);
 
   const handleTitleClick = () => {
     setClickCount(prev => {
