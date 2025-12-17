@@ -16,6 +16,8 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ### Fixed (Behoben)
 - CV-PDF/DOCX-Downloads nutzen jetzt immer den aktuellen Datumsteil im Dateinamen
+- Typisierung des Diagramm-Tooltips angepasst, damit Payload-Daten verfügbar sind
+- Resizable-Panel-Wrapper an die aktuelle react-resizable-panels-API und Typen angepasst
 
 ### Technical (Technisch)
 - Alle Dependencies auf neueste Versionen aktualisiert (außer Major Updates) mit npm
