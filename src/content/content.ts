@@ -520,8 +520,8 @@ export const siteContent: SiteContent = {
         {
           type: "text",
           text: {
-            en: "Oversees the design of secure, redundant infrastructures including firewall concepts, VPN solutions, and backup strategies.",
-            de: "Überwacht die Konzeption sicherer, redundanter Infrastrukturen einschließlich Firewall-Konzepten, VPN-Lösungen und Backup-Strategien.",
+            en: "Oversees the design of secure, redundant infrastructures including firewall concepts, VPN solutions (IPv6, Zero Trust, Zero-Config VPN, etc.) and backup strategies.",
+            de: "Überwacht die Konzeption sicherer, redundanter Infrastrukturen einschließlich Firewall-Konzepten, VPN-Lösungen (IPv6, Zero Trust, Zero-Config VPN, etc.) und Backup-Strategien.",
           },
         },
         {
@@ -563,6 +563,7 @@ export const siteContent: SiteContent = {
         { en: "Cloudflare", de: "Cloudflare" },
         { en: "Supabase", de: "Supabase" },
         { en: "Azure", de: "Azure" },
+        { en: "IPv6", de: "IPv6" },
       ],
     },
     {
@@ -659,6 +660,13 @@ export const siteContent: SiteContent = {
         {
           type: "achievement",
           text: {
+            en: "Implementation of IPv6 across the organization, future-proofing the network.",
+            de: "Implementierung von IPv6 im gesamten Unternehmen, Zukunftssicherung des Netzwerks.",
+          },
+        },
+        {
+          type: "achievement",
+          text: {
             en: "Rolled out secure SD-WAN connectivity for branch offices, improving stability and visibility of network communication.",
             de: "Ausrollen sicherer SD-WAN-Anbindungen für Außenstandorte zur Verbesserung von Stabilität und Transparenz der Netzwerkkommunikation.",
           },
@@ -677,6 +685,7 @@ export const siteContent: SiteContent = {
         { en: "IPSec", de: "IPSec" },
         { en: "Proxy", de: "Proxy" },
         { en: "Azure", de: "Azure" },
+        { en: "IPv6", de: "IPv6" },
         { en: "Change Management", de: "Change Management" },
         { en: "Documentation", de: "Dokumentation" },
         { en: "Cloud Security", de: "Cloud Security" },
@@ -808,6 +817,7 @@ export const siteContent: SiteContent = {
         { en: "High Availability", de: "Hochverfügbarkeit" },
         { en: "Puppet", de: "Puppet" },
         { en: "Ansible", de: "Ansible" },
+        { en: "IPv6", de: "IPv6" },
       ],
     },
     {
@@ -852,6 +862,13 @@ export const siteContent: SiteContent = {
             de: "Aufbau einer Mail-Archivierungsplattform, die Langzeit-Compliance sicherstellte und eDiscovery vereinfachte.",
           },
         },
+        {
+          type: "achievement",
+          text: {
+            en: "Design and implementation of IPv6 at the network perimeter to ensure external accessibility.",
+            de: "Konzeption und Implementierung von IPv6 im Netzwerk-Perimeter zur Sicherstellung der externen Erreichbarkeit.",
+          },
+        },
       ],
       tags: [
         { en: "Linux", de: "Linux" },
@@ -860,6 +877,7 @@ export const siteContent: SiteContent = {
         { en: "Storage", de: "Storage" },
         { en: "Puppet", de: "Puppet" },
         { en: "Ceph", de: "Ceph" },
+        { en: "IPv6", de: "IPv6" },
       ],
     },
   ],

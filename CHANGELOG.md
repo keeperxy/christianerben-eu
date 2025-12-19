@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Replaced profile, about, and project showcase images with WebP assets for faster loading times
 - Removed GitHub discovery link from the projects section call-to-action
+- Enhanced experience descriptions with IPv6 implementation details and achievements
+- Added IPv6 tags to relevant work experiences (DEGIT AG, DVAG Network Security, Schwarz IT, DVAG Linux Systems)
 
 ### Fixed
 - Ensured CV PDF/DOCX downloads always include the current date in the filename
