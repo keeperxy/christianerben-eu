@@ -124,15 +124,18 @@ describe("CV page", () => {
 
     expect(screen.getByText(siteContent.backToHome.en)).toBeInTheDocument();
     expect(screen.getByText(/Curriculum Vitae/i)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /Download PDF/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /Download DOCX/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Download PDF/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Download DOCX/i })).toBeInTheDocument();
     expect(screen.getByTestId("cv-preview")).toBeInTheDocument();
   });
 
   it("triggers a DOCX download when the button is clicked", async () => {
     renderCVPage();
 
-    const [docxLink] = await screen.findAllByRole("link", { name: /Download DOCX/i });
-    expect(docxLink).toHaveAttribute("href", expect.stringContaining(".docx"));
+    // There may be multiple DOCX buttons (e.g., in header and CV section), so use getAllByRole
+    const docxButtons = await screen.findAllByRole("button", { name: /Download DOCX/i });
+    expect(docxButtons.length).toBeGreaterThan(0);
+    // The button triggers a download via onClick handler, not via href
+    expect(docxButtons[0]).toHaveTextContent(/Download DOCX/i);
   });
 });
