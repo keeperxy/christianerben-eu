@@ -72,7 +72,10 @@ describe("Index page", () => {
       `${siteContent.hero.name}.*${siteContent.hero.titleElements[0].en}`,
       "i",
     );
-    expect(await screen.findByRole("heading", { name: heroHeading })).toBeInTheDocument();
+    // Use getAllByRole since the hero heading appears multiple times (in header and hero section)
+    const heroHeadings = await screen.findAllByRole("heading", { name: heroHeading });
+    expect(heroHeadings.length).toBeGreaterThan(0);
+    expect(heroHeadings[0]).toBeInTheDocument();
     expect(await screen.findByRole("heading", { name: siteContent.about.title.en })).toBeInTheDocument();
     expect(await screen.findByRole("heading", { name: siteContent.experienceSectionTitle.en })).toBeInTheDocument();
     expect(await screen.findByRole("heading", { name: siteContent.contact.title.en })).toBeInTheDocument();
