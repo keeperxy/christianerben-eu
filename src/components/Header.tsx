@@ -108,7 +108,7 @@ const Header = () => {
             {language === "en" ? "DE" : "EN"}
           </Button>
 
-          {/* Theme Toggle */}
+          {/* Theme Toggle - suppressHydrationWarning to prevent mismatch between server and client */}
           <Button
             variant="ghost"
             size="icon"
@@ -118,6 +118,7 @@ const Header = () => {
                 ? siteContent.translations.themeSwitch.light
                 : siteContent.translations.themeSwitch.dark
             )}
+            suppressHydrationWarning
           >
             {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
           </Button>
@@ -182,6 +183,7 @@ const Header = () => {
                     variant="outline"
                     className="flex-1"
                     onClick={toggleTheme}
+                    suppressHydrationWarning
                   >
                     {theme === "light" ? (
                       <>
