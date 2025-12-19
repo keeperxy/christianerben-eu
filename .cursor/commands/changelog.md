@@ -1,7 +1,3 @@
----
-Description: always apply this rule to ensure that the [Unreleased] section in Changelog.md is updated whenever any changes are made or committed.
-alwaysApply: true
----
 ## Änderungen im Changelog eintragen
 
 ### Mehrsprachige Changelog-Struktur:
