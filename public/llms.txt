@@ -1,7 +1,7 @@
 # llms.txt for christianerben.eu
 # This file provides structured information for AI language models.
 # For more information, see https://llmstxt.org/
-# Version 1.0, Generated on 2025-12-10
+# Version 1.0, Generated on 2025-12-19
 
 # --- PERMISSIONS ---
 User-Agent: *
@@ -21,8 +21,8 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [de] Christian Erben
 
 [Published]:
-[en] 2025-12-10
-[de] 10.12.2025
+[en] 2025-12-19
+[de] 19.12.2025
 
 [Languages]:
 [en] English, German
@@ -144,8 +144,8 @@ Sitemap: https://christianerben.eu/sitemap.xml
   - [de] Vorstandsmitglied mit Fokus auf Datenschutz, Informationssicherheit und Netzwerkstrategie für mittelständische Kund:innen.
   - [en] Connects clients with specialists from DEGIT's expert network and coordinates interdisciplinary consulting teams.
   - [de] Vernetzt Kund:innen mit Spezialist:innen aus dem DEGIT-Expertennetzwerk und koordiniert interdisziplinäre Beratungsteams.
-  - [en] Oversees the design of secure, redundant infrastructures including firewall concepts, VPN solutions, and backup strategies.
-  - [de] Überwacht die Konzeption sicherer, redundanter Infrastrukturen einschließlich Firewall-Konzepten, VPN-Lösungen und Backup-Strategien.
+  - [en] Oversees the design of secure, redundant infrastructures including firewall concepts, VPN solutions (IPv6, Zero Trust, Zero-Config VPN, etc.) and backup strategies.
+  - [de] Überwacht die Konzeption sicherer, redundanter Infrastrukturen einschließlich Firewall-Konzepten, VPN-Lösungen (IPv6, Zero Trust, Zero-Config VPN, etc.) und Backup-Strategien.
   - [en] Introduction of a company-wide security governance framework including policy design and access governance
   - [de] Einführung eines unternehmensweiten Security-Governance-Frameworks inkl. Policy-Design und Access Governance
   - [en] Conducting structured risk analyses and deriving technical security measures
@@ -186,6 +186,8 @@ Sitemap: https://christianerben.eu/sitemap.xml
   - [de] Reduktion der Firewall-Regelkomplexität von 5.000 auf unter 1.000 Einträge für mehr Transparenz und Performance.
   - [en] migration from Palo Alto to Fortinet, translating complex security policies without service interruption.
   - [de] Migration von Palo Alto zu Fortinet und Übernahme komplexer Sicherheitsrichtlinien ohne Betriebsunterbrechung.
+  - [en] Implementation of IPv6 across the organization, future-proofing the network.
+  - [de] Implementierung von IPv6 im gesamten Unternehmen, Zukunftssicherung des Netzwerks.
   - [en] Rolled out secure SD-WAN connectivity for branch offices, improving stability and visibility of network communication.
   - [de] Ausrollen sicherer SD-WAN-Anbindungen für Außenstandorte zur Verbesserung von Stabilität und Transparenz der Netzwerkkommunikation.
   - [en] Introduced Microsoft Azure services into the infrastructure while ensuring compliant hybrid connectivity.
@@ -246,6 +248,8 @@ Sitemap: https://christianerben.eu/sitemap.xml
   - [de] Implementierung von Storage-Lösungen wie Ceph und Cloud Storage für skalierbare Datendienste.
   - [en] Delivered a mail archiving platform that ensured long-term compliance and simplified eDiscovery.
   - [de] Aufbau einer Mail-Archivierungsplattform, die Langzeit-Compliance sicherstellte und eDiscovery vereinfachte.
+  - [en] Design and implementation of IPv6 at the network perimeter to ensure external accessibility.
+  - [de] Konzeption und Implementierung von IPv6 im Netzwerk-Perimeter zur Sicherstellung der externen Erreichbarkeit.
 
 # --- PROJECTS ---
 
