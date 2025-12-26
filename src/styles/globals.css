@@ -47,6 +47,19 @@
   --color-theme-gray-light: #F7FAFC;
   --color-theme-gray: #8E9196;
   --color-theme-gray-dark: #1A1F2C;
+
+  --animate-fade-in: fade-in 0.7s ease-out forwards;
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 @view-transition {

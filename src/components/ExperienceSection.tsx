@@ -24,6 +24,7 @@ const ExperienceSection = () => {
         if (entry.isIntersecting) {
           entry.target.classList.add("animate-fade-in");
           entry.target.classList.remove("opacity-0");
+          observer.unobserve(entry.target);
         }
       });
     }, {
@@ -37,9 +38,7 @@ const ExperienceSection = () => {
       observer.observe(item);
     });
     return () => {
-      timelineItems.forEach(item => {
-        observer.unobserve(item);
-      });
+      observer.disconnect();
     };
   }, []);
 
