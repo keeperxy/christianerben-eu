@@ -67,6 +67,14 @@ export interface HeroSection {
   imageAlt: LocalizedString;
   titleElements: LocalizedString[];
   description: LocalizedString;
+  availability: {
+    label: LocalizedString;
+    status: LocalizedString;
+    detail: LocalizedString;
+    availableFrom: LocalizedString;
+    bookedPercent: number;
+    availablePercent: number;
+  };
   ctaPrimary: LocalizedString;
   ctaSecondary: LocalizedString;
   decorativeElements: {
@@ -340,6 +348,14 @@ export const siteContent: SiteContent = {
     description: {
       en: "I have many years of experience in system and network administration, with a focus on designing and securing complex, redundant infrastructures. This includes professional firewall management, planning secure network architectures, as well as solid knowledge of classic and advanced protocols and platforms. Additionally, I bring extensive practice in Linux administration, security-oriented operational processes, and the establishment of structured security mechanisms such as IAM, ISMS, as well as incident and vulnerability management.",
       de: "Ich verfüge über langjährige Erfahrung in der System- und Netzwerkadministration, mit Schwerpunkt auf dem Design und der Absicherung komplexer, redundanter Infrastrukturen. Dazu zählen professionelles Firewall-Management, die Planung sicherer Netzwerkarchitekturen sowie fundierte Kenntnisse klassischer und anspruchsvoller Protokolle und Plattformen. Ergänzend bringe ich umfangreiche Praxis in der Linux-Administration, in sicherheitsorientierten Betriebsprozessen und im Aufbau strukturierter Security-Mechanismen wie IAM, ISMS sowie Incident- und Vulnerability-Management mit.",
+    },
+    availability: {
+      label: { en: "Availability", de: "Verfügbarkeit" },
+      status: { en: "20% available", de: "20% verfügbar" },
+      detail: { en: "80% booked until April 30, 2026", de: "80% ausgelastet bis 30. April 2026" },
+      availableFrom: { en: "Fully available from May 4, 2026", de: "Voll verfügbar ab 4. Mai 2026" },
+      bookedPercent: 80,
+      availablePercent: 20,
     },
     ctaPrimary: { en: "Explore my work", de: "Meine Arbeit entdecken" },
     ctaSecondary: { en: "Download CV", de: "Lebenslauf herunterladen" },

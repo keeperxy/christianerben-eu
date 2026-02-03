@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { ArrowDown, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { useSettings } from "@/contexts/settings-hook";
 import { siteContent } from "@/content/content";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -81,6 +83,25 @@ const HeroSection = () => {
             <p className="text-lg md:text-xl text-muted-foreground max-w-lg mb-8">
               {t(hero.description)}
             </p>
+
+            <div className="bg-card/80 border border-border rounded-xl p-5 shadow-sm backdrop-blur-sm max-w-lg mb-8">
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
+                <Badge variant="secondary">{t(hero.availability.label)}</Badge>
+                <span className="text-sm font-semibold text-foreground">
+                  {t(hero.availability.status)}
+                </span>
+              </div>
+              <p className="text-sm text-muted-foreground mb-3">
+                {t(hero.availability.detail)}
+              </p>
+              <Progress
+                value={hero.availability.bookedPercent}
+                aria-label={`${t(hero.availability.label)}: ${t(hero.availability.status)}`}
+              />
+              <div className="text-xs text-muted-foreground mt-2">
+                {t(hero.availability.availableFrom)}
+              </div>
+            </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
