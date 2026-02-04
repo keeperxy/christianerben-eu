@@ -100,7 +100,10 @@ const ExperienceSection = () => {
                       <img
                         src={exp.logoUrl}
                         alt={`${exp.company} logo`}
-                        className="h-12 object-contain mx-auto mt-6 md:mx-0 md:float-right md:ml-2 md:mb-2 md:mr-6"
+                        className={cn(
+                          "h-12 w-auto object-contain mx-auto mt-6 md:mx-0 md:float-right md:ml-2 md:mb-2 md:mr-6",
+                          exp.logoClassName
+                        )}
                       />
                     )}
 

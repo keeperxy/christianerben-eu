@@ -121,6 +121,7 @@ export interface Experience {
   description: ExperienceDescriptionItem[];
   tags: LocalizedString[];
   logoUrl?: string;
+  logoClassName?: string;
 }
 
 export interface Project {
@@ -256,11 +257,12 @@ export interface PrivacySection {
     title: LocalizedString;
     paragraphs: LocalizedString[];
     list?: Array<
-      LocalizedString | {
-        en: string;
-        de: string;
-        description?: LocalizedString;
-      }
+      | LocalizedString
+      | {
+          en: string;
+          de: string;
+          description?: LocalizedString;
+        }
     >;
   }>;
 }
@@ -323,11 +325,17 @@ export const siteContent: SiteContent = {
     },
     author: "Christian Erben",
   },
-  projectsSectionTitle: { en: "Highlighted Projects", de: "Ausgewählte Projekte" },
+  projectsSectionTitle: {
+    en: "Highlighted Projects",
+    de: "Ausgewählte Projekte",
+  },
   navigation: [
     { label: { en: "Home", de: "Start" }, href: "#hero" },
     { label: { en: "About", de: "Über mich" }, href: "#about" },
-    { label: { en: "Security & Compliance", de: "Security & Compliance" }, href: "#security-compliance" },
+    {
+      label: { en: "Security & Compliance", de: "Security & Compliance" },
+      href: "#security-compliance",
+    },
     { label: { en: "Experience", de: "Erfahrung" }, href: "#experience" },
     { label: { en: "Projects", de: "Projekte" }, href: "#projects" },
     { label: { en: "Skills", de: "Fähigkeiten" }, href: "#skills" },
@@ -352,8 +360,14 @@ export const siteContent: SiteContent = {
     availability: {
       label: { en: "Availability", de: "Verfügbarkeit" },
       status: { en: "20% available", de: "20% verfügbar" },
-      detail: { en: "80% booked until April 30, 2026", de: "80% ausgelastet bis 30. April 2026" },
-      availableFrom: { en: "Fully available from May 4, 2026", de: "Voll verfügbar ab 4. Mai 2026" },
+      detail: {
+        en: "80% booked until April 30, 2026",
+        de: "80% ausgelastet bis 30. April 2026",
+      },
+      availableFrom: {
+        en: "Fully available from May 4, 2026",
+        de: "Voll verfügbar ab 4. Mai 2026",
+      },
       bookedPercent: 80,
       availablePercent: 20,
     },
@@ -583,7 +597,79 @@ export const siteContent: SiteContent = {
       ],
     },
     {
-      title: { en: "Network Security / Management", de: "Network Security / Management" },
+      title: {
+        en: "SchlauFabrik \u2013 Multi-tenant Compliance & AI Training Platform",
+        de: "SchlauFabrik \u2013 Multi-Tenant Compliance- & KI-Trainingsplattform",
+      },
+      company: "xtensible UG (haftungsbeschränkt) & Co. KG",
+      logoUrl: "/logos/schlaufabrik-de.png",
+      logoClassName: "w-32 h-auto",
+      period: { en: "December 2025 - Present", de: "Dezember 2025 - Heute" },
+      location: "Hockenheim, Germany",
+      description: [
+        {
+          type: "text",
+          text: {
+            en: "Designed and built a modern, responsive training platform for compliance and AI topics (SME-focused) with tenant isolation and role-based access.",
+            de: "Konzeption und Umsetzung einer modernen, responsiven Trainingsplattform f\u00fcr Compliance- und KI-Themen (KMU-Fokus) mit Mandantentrennung und RBAC.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Implemented security-by-design with Postgres Row-Level Security, audit logging, rate limiting, and hardened authentication flows (Passkey/Magic Link/2FA/SSO).",
+            de: "Umsetzung von Security-by-Design mit Postgres Row-Level Security, Audit-Logs, Rate Limiting sowie geh\u00e4rteten Auth-Flows (Passkey/Magic Link/2FA/SSO).",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Built course delivery with progress tracking, quizzes, enrollments, and admin dashboards for tenant/user management.",
+            de: "Aufbau der Kursplattform inkl. Fortschritts-Tracking, Quiz, Zuweisungen sowie Admin-Dashboards f\u00fcr Tenant-/User-Management.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Delivered tamper-evident PDF certificates with QR verification and cryptographic hashing; enabled bulk export for audits.",
+            de: "Implementierung manipulationssicherer PDF-Zertifikate mit QR-Verifikation und kryptografischem Hashing inkl. Bulk-Export f\u00fcr Audits.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Integrated Stripe billing (subscriptions, portal, webhooks) with license models and soft-lock mechanisms for tenant limits.",
+            de: "Integration von Stripe-Abrechnung (Subscriptions, Portal, Webhooks) inkl. Lizenzmodellen und Soft-Lock-Mechanismen f\u00fcr Tenant-Limits.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Tech: Next.js (App Router), TypeScript, Bun, Tailwind, next-intl (DE/EN), Neon Postgres, Stripe, Resend, Vitest/Playwright.",
+            de: "Tech: Next.js (App Router), TypeScript, Bun, Tailwind, next-intl (DE/EN), Neon Postgres, Stripe, Resend, Vitest/Playwright.",
+          },
+        },
+      ],
+      tags: [
+        { en: "Multi-tenant", de: "Multi-Tenant" },
+        { en: "Compliance", de: "Compliance" },
+        { en: "AI Training", de: "KI-Training" },
+        { en: "RBAC", de: "RBAC" },
+        { en: "Postgres RLS", de: "Postgres RLS" },
+        { en: "Stripe", de: "Stripe" },
+        { en: "Next.js", de: "Next.js" },
+        { en: "TypeScript", de: "TypeScript" },
+        { en: "Tailwind", de: "Tailwind" },
+        { en: "Neon Postgres", de: "Neon Postgres" },
+        { en: "Vitest", de: "Vitest" },
+        { en: "Playwright", de: "Playwright" },
+      ],
+    },
+    {
+      title: {
+        en: "Network Security / Management",
+        de: "Network Security / Management",
+      },
       company: "Deutsche Vermögensberatung AG",
       logoUrl: "/logos/dvag.svg",
       period: { en: "Oct 2019 - Present", de: "Okt 2019 - Heute" },
@@ -784,7 +870,10 @@ export const siteContent: SiteContent = {
       ],
     },
     {
-      title: { en: "Linux Systems Administrator / Nagios Administrator", de: "Linux-Systemadministrator / Nagios-Administrator" },
+      title: {
+        en: "Linux Systems Administrator / Nagios Administrator",
+        de: "Linux-Systemadministrator / Nagios-Administrator",
+      },
       company: "Schwarz IT GmbH & Co. KG",
       logoUrl: "/logos/schwarz.svg",
       period: { en: "Apr 2018 - Dec 2018", de: "Apr 2018 - Dez 2018" },
@@ -837,7 +926,10 @@ export const siteContent: SiteContent = {
       ],
     },
     {
-      title: { en: "Linux Systems Administrator", de: "Linux-Systemadministrator" },
+      title: {
+        en: "Linux Systems Administrator",
+        de: "Linux-Systemadministrator",
+      },
       company: "Deutsche Vermögensberatung AG",
       logoUrl: "/logos/dvag.svg",
       period: { en: "Feb 2011 - Dec 2017", de: "Feb 2011 - Dez 2017" },
