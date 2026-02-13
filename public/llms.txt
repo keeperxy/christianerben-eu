@@ -1,7 +1,7 @@
 # llms.txt for christianerben.eu
 # This file provides structured information for AI language models.
 # For more information, see https://llmstxt.org/
-# Version 1.0, Generated on 2026-02-05
+# Version 1.0, Generated on 2026-02-13
 
 # --- PERMISSIONS ---
 User-Agent: *
@@ -21,8 +21,8 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [de] Christian Erben
 
 [Published]:
-[en] 2026-02-05
-[de] 05.02.2026
+[en] 2026-02-13
+[de] 13.02.2026
 
 [Languages]:
 [en] English, German
@@ -132,6 +132,26 @@ Sitemap: https://christianerben.eu/sitemap.xml
   - [de] Operatives Schwachstellenmanagement (inkl. Patch-Planung und Follow-up)
 
 # --- EXPERIENCE ---
+
+[Experience]:
+  [en] Network Administrator (Palo Alto / Fortinet)
+  [de] Netzwerkadministrator (Palo Alto / Fortinet)
+  [en] Company: St. Dominikus Krankenhaus und Jugendhilfe gGmbH
+  [de] Firma: St. Dominikus Krankenhaus und Jugendhilfe gGmbH
+  [en] Feb 2026 - Present
+  [de] Feb 2026 - Heute
+  - [en] Responsible for high availability and secure operation of LAN, WLAN, and VPN services for medical and administrative environments.
+  - [de] Verantwortlich für die Hochverfügbarkeit und den sicheren Betrieb von LAN-, WLAN- und VPN-Services in medizinischen und administrativen Umgebungen.
+  - [en] Operate and maintain network infrastructure including switches, routers, firewalls, and VLAN segmentation for different hospital areas.
+  - [de] Betrieb und Pflege der Netzwerkinfrastruktur inkl. Switches, Routern, Firewalls und VLAN-Segmentierung für unterschiedliche Krankenhausbereiche.
+  - [en] Implement security controls and policies aligned with ISO 27001, BSI baseline protection, GDPR, and sector-specific requirements.
+  - [de] Umsetzung von Sicherheitskontrollen und Richtlinien gemäß ISO 27001, BSI-Grundschutz, DSGVO und sektorspezifischen Anforderungen.
+  - [en] Monitor network performance and fault tolerance for critical systems and provide rapid troubleshooting in incident scenarios.
+  - [de] Monitoring von Netzwerkperformance und Ausfallsicherheit kritischer Systeme sowie schnelle Störungsbehebung in Incident-Szenarien.
+  - [en] Integrate medical devices into hospital network environments and ensure secure interoperability with clinical information systems.
+  - [de] Integration medizinischer Geräte in die Krankenhausnetzwerke und Sicherstellung einer sicheren Interoperabilität mit klinischen Informationssystemen.
+  - [en] Currently migrating IPSec VPN tunnels from Cisco to Palo Alto with phased cutover planning and no service disruption.
+  - [de] Derzeitige Migration IPSec-VPN-Tunnel von Cisco auf Palo Alto mit stufenweiser Umschaltplanung und ohne Betriebsunterbrechung.
 
 [Experience]:
   [en] Member of the Board
