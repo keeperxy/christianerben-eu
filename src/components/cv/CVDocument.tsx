@@ -442,7 +442,7 @@ const CVDocument: React.FC<CVDocumentProps> = ({ language, data, profileImageSrc
                     <Text style={styles.companyName}>{sortedExperiences[0].company}</Text>
                     <Text style={styles.period}>{t(sortedExperiences[0].period)}</Text>
                   </View>
-                  <Text style={styles.location}>{sortedExperiences[0].location}</Text>
+                  <Text style={styles.location}>{t(sortedExperiences[0].location)}</Text>
                   
                   <View style={styles.descriptionList}>
                     {sortedExperiences[0].description.map((item, idx) => (
@@ -471,7 +471,7 @@ const CVDocument: React.FC<CVDocumentProps> = ({ language, data, profileImageSrc
                   <Text style={styles.companyName}>{exp.company}</Text>
                   <Text style={styles.period}>{t(exp.period)}</Text>
                 </View>
-                <Text style={styles.location}>{exp.location}</Text>
+                <Text style={styles.location}>{t(exp.location)}</Text>
                 
                 <View style={styles.descriptionList}>
                   {exp.description.map((item, idx) => (

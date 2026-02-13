@@ -355,13 +355,26 @@ const CVEditor: React.FC<CVEditorProps> = ({ data, onChange, language }) => {
                   <div>
                     <label className="block text-sm font-medium mb-1">
                       {t({
-                        en: 'Location',
-                        de: 'Ort'
+                        en: 'Location (EN)',
+                        de: 'Ort (EN)'
                       })}
                     </label>
                     <Input 
-                      value={exp.location != null ? String(exp.location) : '' as string} 
-                      onChange={(e) => handleChange(['experiences', expIndex, 'location'], String(e.target.value))}
+                      value={exp.location.en != null ? String(exp.location.en) : '' as string} 
+                      onChange={(e) => handleMultiLangChange(['experiences', expIndex, 'location'], 'en', String(e.target.value))}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      {t({
+                        en: 'Location (DE)',
+                        de: 'Ort (DE)'
+                      })}
+                    </label>
+                    <Input 
+                      value={exp.location.de != null ? String(exp.location.de) : '' as string} 
+                      onChange={(e) => handleMultiLangChange(['experiences', expIndex, 'location'], 'de', String(e.target.value))}
                     />
                   </div>
                   
@@ -547,7 +560,7 @@ const CVEditor: React.FC<CVEditorProps> = ({ data, onChange, language }) => {
               onClick={() => addArrayItem(['experiences'], {
                 title: { en: 'New Position', de: 'Neue Position' },
                 company: 'Company Name',
-                location: 'Location',
+                location: { en: 'Location', de: 'Ort' },
                 period: { en: 'Month Year - Present', de: 'Monat Jahr - Heute' },
                 description: [
                   { 
