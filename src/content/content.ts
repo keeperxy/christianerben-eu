@@ -117,7 +117,7 @@ export interface Experience {
   title: LocalizedString;
   company: string;
   period: LocalizedString;
-  location: string;
+  location: LocalizedString;
   description: ExperienceDescriptionItem[];
   tags: LocalizedString[];
   logoUrl?: string;
@@ -527,11 +527,78 @@ export const siteContent: SiteContent = {
   },
   experiences: [
     {
+      title: {
+        en: "Network Administrator (Palo Alto / Fortinet)",
+        de: "Netzwerkadministrator (Palo Alto / Fortinet)",
+      },
+      company: "St. Dominikus Krankenhaus und Jugendhilfe gGmbH",
+      logoUrl: "/logos/st-marienkrankenhaus.svg",
+      logoClassName: "h-20 w-auto md:h-24",
+      period: { en: "Feb 2026 - Present", de: "Feb 2026 - Heute" },
+      location: { en: "Ludwigshafen, Germany", de: "Ludwigshafen, Deutschland" },
+      description: [
+        {
+          type: "text",
+          text: {
+            en: "Responsible for high availability and secure operation of LAN, WLAN, and VPN services for medical and administrative environments.",
+            de: "Verantwortlich für die Hochverfügbarkeit und den sicheren Betrieb von LAN-, WLAN- und VPN-Services in medizinischen und administrativen Umgebungen.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Operate and maintain network infrastructure including switches, routers, firewalls, and VLAN segmentation for different hospital areas.",
+            de: "Betrieb und Pflege der Netzwerkinfrastruktur inkl. Switches, Routern, Firewalls und VLAN-Segmentierung für unterschiedliche Krankenhausbereiche.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Implement security controls and policies aligned with ISO 27001, BSI baseline protection, GDPR, and sector-specific requirements.",
+            de: "Umsetzung von Sicherheitskontrollen und Richtlinien gemäß ISO 27001, BSI-Grundschutz, DSGVO und sektorspezifischen Anforderungen.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Monitor network performance and fault tolerance for critical systems and provide rapid troubleshooting in incident scenarios.",
+            de: "Monitoring von Netzwerkperformance und Ausfallsicherheit kritischer Systeme sowie schnelle Störungsbehebung in Incident-Szenarien.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Integrate medical devices into hospital network environments and ensure secure interoperability with clinical information systems.",
+            de: "Integration medizinischer Geräte in die Krankenhausnetzwerke und Sicherstellung einer sicheren Interoperabilität mit klinischen Informationssystemen.",
+          },
+        },
+        {
+          type: "achievement",
+          text: {
+            en: "Currently migrating IPSec VPN tunnels from Cisco to Palo Alto with phased cutover planning and no service disruption.",
+            de: "Derzeitige Migration IPSec-VPN-Tunnel von Cisco auf Palo Alto mit stufenweiser Umschaltplanung und ohne Betriebsunterbrechung.",
+          },
+        },
+      ],
+      tags: [
+        { en: "Palo Alto", de: "Palo Alto" },
+        { en: "Fortinet", de: "Fortinet" },
+        { en: "LAN/WLAN/VPN", de: "LAN/WLAN/VPN" },
+        { en: "VLAN Segmentation", de: "VLAN-Segmentierung" },
+        { en: "ISO 27001", de: "ISO 27001" },
+        { en: "BSI Baseline Protection", de: "BSI-Grundschutz" },
+        { en: "GDPR", de: "DSGVO" },
+        { en: "IDS/IPS", de: "IDS/IPS" },
+        { en: "Zero Trust", de: "Zero Trust" },
+        { en: "Healthcare IT", de: "Krankenhaus-IT" },
+      ],
+    },
+    {
       title: { en: "Member of the Board", de: "Vorstandsmitglied" },
       company: "DEGIT AG",
       logoUrl: "/logos/degit.png",
       period: { en: "Apr 2020 - Present", de: "Apr 2020 - Heute" },
-      location: "Hockenheim, Germany",
+      location: { en: "Hockenheim, Germany", de: "Hockenheim, Deutschland" },
       description: [
         {
           type: "text",
@@ -605,7 +672,7 @@ export const siteContent: SiteContent = {
       logoUrl: "/logos/schlaufabrik-de.png",
       logoClassName: "w-32 h-auto",
       period: { en: "December 2025 - Present", de: "Dezember 2025 - Heute" },
-      location: "Hockenheim, Germany",
+      location: { en: "Hockenheim, Germany", de: "Hockenheim, Deutschland" },
       description: [
         {
           type: "text",
@@ -673,7 +740,7 @@ export const siteContent: SiteContent = {
       company: "Deutsche Vermögensberatung AG",
       logoUrl: "/logos/dvag.svg",
       period: { en: "Oct 2019 - Present", de: "Okt 2019 - Heute" },
-      location: "Frankfurt am Main, Germany",
+      location: { en: "Frankfurt am Main, Germany", de: "Frankfurt am Main, Deutschland" },
       description: [
         {
           type: "text",
@@ -801,7 +868,7 @@ export const siteContent: SiteContent = {
       company: "DEGIT AG",
       logoUrl: "/logos/degit.png",
       period: { en: "Aug 2025 - Oct 2025", de: "Aug 2025 - Okt 2025" },
-      location: "Hockenheim, Germany",
+      location: { en: "Hockenheim, Germany", de: "Hockenheim, Deutschland" },
       description: [
         {
           type: "text",
@@ -877,7 +944,7 @@ export const siteContent: SiteContent = {
       company: "Schwarz IT GmbH & Co. KG",
       logoUrl: "/logos/schwarz.svg",
       period: { en: "Apr 2018 - Dec 2018", de: "Apr 2018 - Dez 2018" },
-      location: "Weinsberg, Germany",
+      location: { en: "Weinsberg, Germany", de: "Weinsberg, Deutschland" },
       description: [
         {
           type: "text",
@@ -933,7 +1000,7 @@ export const siteContent: SiteContent = {
       company: "Deutsche Vermögensberatung AG",
       logoUrl: "/logos/dvag.svg",
       period: { en: "Feb 2011 - Dec 2017", de: "Feb 2011 - Dez 2017" },
-      location: "Frankfurt am Main, Germany",
+      location: { en: "Frankfurt am Main, Germany", de: "Frankfurt am Main, Deutschland" },
       description: [
         {
           type: "text",

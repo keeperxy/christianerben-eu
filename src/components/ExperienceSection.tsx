@@ -129,7 +129,7 @@ const ExperienceSection = () => {
                         </div>
                         <div className="flex items-center">
                           <MapPin size={14} className="mr-1" />
-                          <span>{exp.location}</span>
+                          <span>{t(exp.location)}</span>
                         </div>
                       </div>
 

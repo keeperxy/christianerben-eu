@@ -211,7 +211,7 @@ export async function generateCvDocx({
                           new TextRun({ text: exp.company, italics: true, size: 18, color: theme.primary }),
                           new TextRun({ text: ` — ${t(exp.period)}`, size: 18, color: theme.accent }),
                         ]}),
-                        new Paragraph({ children: [new TextRun({ text: exp.location, size: 18, color: theme.accent })], spacing: { after: 100 } }),
+                        new Paragraph({ children: [new TextRun({ text: t(exp.location), size: 18, color: theme.accent })], spacing: { after: 100 } }),
                         ...exp.description.map(item => new Paragraph({ bullet: { level: 0 }, children: [new TextRun({ text: item.type === 'text' ? t(item.text) : t(content.experienceAchievementPrefix) + ' ' + t(item.text), size: 18, color: item.type === 'achievement' ? theme.primary : theme.foreground, bold: item.type === 'achievement' })] })),
                         new Paragraph({ text: '' }),
                       ]).flat(),
