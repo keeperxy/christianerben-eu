@@ -1,6 +1,6 @@
 # AGENTS Instructions
 
-This repository contains a personal portfolio built with React, TypeScript, Vite and Tailwind CSS.
+This repository contains a personal portfolio built with Next.js, React, TypeScript, and Tailwind CSS.
 
 ## Project layout
 - `src/` – application source code (pages, components, hooks).
@@ -8,14 +8,18 @@ This repository contains a personal portfolio built with React, TypeScript, Vite
 - `scripts/` – utility scripts executed by the build or git hooks.
 
 ## Useful commands
-- `npm run dev` – start a development server on port 8080.
-- `npm run build` – create a production build.
-- `npm run lint` – run ESLint over the codebase.
-- `npm test` – execute all unit tests via Vitest.
-- `npm test <file>` – run a single test file (e.g., `npm test src/components/HeroSection.test.tsx`).
+- `bun run dev` – start a development server on port 3000.
+- `bun run build` – create a production build.
+- `bun run lint` – run ESLint over the codebase.
+- `bun run test` – execute all unit tests via Vitest.
+- `bun run test -- <file>` – run a single test file (e.g., `bun run test -- src/components/HeroSection.test.tsx`).
 
 ## Git hooks
-A pre-commit hook is configured with Husky. When committing on the `main` branch it runs `node scripts/generate-sitemap.cjs` and stages the resulting `public/sitemap.xml` file. Ensure the sitemap is updated and committed when changes land on `main`.
+A pre-commit hook is configured in `.githooks/pre-commit`. When committing on the `development` branch it runs:
+- `bun run generate:cv` and stages `public/cv`
+- `bun run generate:llms` and stages `public/llms.txt`
+- `bun run generate:sitemap` and stages `public/sitemap.xml`
+- `bun run update:last-updated` and stages `src/content/content.ts`
 
 ## Code style guidelines
 - Use PascalCase for components and interfaces, camelCase for functions/variables
@@ -29,6 +33,6 @@ A pre-commit hook is configured with Husky. When committing on the `main` branch
 
 ## Agent workflow
 When modifying files in this repository:
-1. Run `npm run lint` and `npm test` before committing to confirm everything passes.
+1. Run `bun run lint` and `bun run test` before committing to confirm everything passes.
 2. Include a clear commit message summarising the change.
 3. Reference any modified files in PR summaries when applicable.
