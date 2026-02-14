@@ -351,6 +351,32 @@ const CVEditor: React.FC<CVEditorProps> = ({ data, onChange, language }) => {
                       onChange={(e) => handleChange(['experiences', expIndex, 'company'], String(e.target.value))}
                     />
                   </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      {t({
+                        en: 'Category',
+                        de: 'Kategorie'
+                      })}
+                    </label>
+                    <select
+                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                      value={exp.experienceCategory ?? 'key'}
+                      onChange={(e) =>
+                        handleChange(
+                          ['experiences', expIndex, 'experienceCategory'],
+                          e.target.value === 'additional' ? 'additional' : 'key',
+                        )
+                      }
+                    >
+                      <option value="key">
+                        {t({ en: 'Key Projects', de: 'Schlüsselprojekte' })}
+                      </option>
+                      <option value="additional">
+                        {t({ en: 'Additional Projects', de: 'Zusatzprojekte' })}
+                      </option>
+                    </select>
+                  </div>
                   
                   <div>
                     <label className="block text-sm font-medium mb-1">
@@ -560,6 +586,7 @@ const CVEditor: React.FC<CVEditorProps> = ({ data, onChange, language }) => {
               onClick={() => addArrayItem(['experiences'], {
                 title: { en: 'New Position', de: 'Neue Position' },
                 company: 'Company Name',
+                experienceCategory: 'key',
                 location: { en: 'Location', de: 'Ort' },
                 period: { en: 'Month Year - Present', de: 'Monat Jahr - Heute' },
                 description: [

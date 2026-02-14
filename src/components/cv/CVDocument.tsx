@@ -23,8 +23,9 @@ const resolveAssetPath = (assetUrl: URL) => (
 const interRegularSrc = resolveAssetPath(new URL("../../assets/fonts/Inter-Regular.ttf", import.meta.url));
 const interBoldSrc = resolveAssetPath(new URL("../../assets/fonts/Inter-Bold.ttf", import.meta.url));
 const spaceGroteskBoldSrc = resolveAssetPath(new URL("../../assets/fonts/SpaceGrotesk-Bold.ttf", import.meta.url));
-import { SVGProps } from "react";
-import { siteContent as defaultSiteContent, SiteContent } from "@/content/content";
+import type { SVGProps } from "react";
+import { siteContent as defaultSiteContent, type Experience, type SiteContent } from "@/content/content";
+import { groupAndSortExperiences } from "@/lib/experience-utils";
 
 // Register fonts - adjust with actual fonts if needed
 Font.register({
@@ -225,6 +226,19 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 16,
   },
+  experienceCategoryTitle: {
+    fontSize: 10,
+    fontWeight: 700,
+    color: theme.sectionTitle,
+    marginBottom: 2,
+    marginTop: 4,
+  },
+  experienceCategorySubtitle: {
+    fontSize: 8.5,
+    color: theme.accent,
+    marginBottom: 6,
+    lineHeight: 1.4,
+  },
   heroDescription: {
     fontSize: 9,
     color: theme.primary,
@@ -346,17 +360,41 @@ const CVDocument: React.FC<CVDocumentProps> = ({ language, data, profileImageSrc
   // Helper function to get text in the current language
   const t = (text: { en: string; de: string }) => text[language];
 
-  // Sort experiences by date (most recent first)
-  const sortedExperiences = [...experiences].sort((a, b) => {
-    // Assuming the format is "Month Year - Present/Month Year"
-    const aEndsWith = t(a.period).endsWith(language === 'en' ? 'Present' : 'Heute');
-    const bEndsWith = t(b.period).endsWith(language === 'en' ? 'Present' : 'Heute');
-    
-    if (aEndsWith && !bEndsWith) return -1;
-    if (!aEndsWith && bEndsWith) return 1;
-    
-    return 0;
-  });
+  const groupedExperiences = groupAndSortExperiences(experiences);
+  const experienceCategories = content.experienceCategories;
+
+  const renderExperienceItem = (exp: Experience, key: string | number) => (
+    <View key={key} style={styles.experienceItem} wrap={false}>
+      <Text style={styles.jobTitle}>{t(exp.title)}</Text>
+      <View style={styles.experienceHeader}>
+        <Text style={styles.companyName}>{exp.company}</Text>
+        <Text style={styles.period}>{t(exp.period)}</Text>
+      </View>
+      <Text style={styles.location}>{t(exp.location)}</Text>
+
+      <View style={styles.descriptionList}>
+        {exp.description.map((item, idx) =>
+          item.type === "text" ? (
+            <Text key={idx} style={styles.descriptionItem}>
+              • {t(item.text)}
+            </Text>
+          ) : (
+            <Text key={idx} style={styles.achievementItem}>
+              • {t(content.experienceAchievementPrefix)} {t(item.text)}
+            </Text>
+          ),
+        )}
+      </View>
+
+      <View style={styles.tagContainer}>
+        {exp.tags.map((tag, tagIndex) => (
+          <Text key={tagIndex} style={styles.tag}>
+            {t(tag)}
+          </Text>
+        ))}
+      </View>
+    </View>
+  );
 
   // Group skills by category
   const skillsByCategory = skills.reduce((acc, skill) => {
@@ -433,65 +471,24 @@ const CVDocument: React.FC<CVDocumentProps> = ({ language, data, profileImageSrc
           </View>
           {/* Experience */}
           <View style={styles.section}>
-            {sortedExperiences.length > 0 && (
+            <Text style={styles.sectionTitle}>{t(content.experienceSectionTitle)}</Text>
+            {experienceCategories && (
               <View wrap={false}>
-                <Text style={styles.sectionTitle}>{t(content.experienceSectionTitle)}</Text>
-                <View key={0} style={styles.experienceItem} wrap={false}>
-                  <Text style={styles.jobTitle}>{t(sortedExperiences[0].title)}</Text>
-                  <View style={styles.experienceHeader}>
-                    <Text style={styles.companyName}>{sortedExperiences[0].company}</Text>
-                    <Text style={styles.period}>{t(sortedExperiences[0].period)}</Text>
-                  </View>
-                  <Text style={styles.location}>{t(sortedExperiences[0].location)}</Text>
-                  
-                  <View style={styles.descriptionList}>
-                    {sortedExperiences[0].description.map((item, idx) => (
-                      item.type === 'text' ? (
-                        <Text key={idx} style={styles.descriptionItem}>• {t(item.text)}</Text>
-                      ) : (
-                        <Text key={idx} style={styles.achievementItem}>
-                          • {t(content.experienceAchievementPrefix)} {t(item.text)}
-                        </Text>
-                      )
-                    ))}
-                  </View>
-                  
-                  <View style={styles.tagContainer}>
-                    {sortedExperiences[0].tags.map((tag, tagIndex) => (
-                      <Text key={tagIndex} style={styles.tag}>{t(tag)}</Text>
-                    ))}
-                  </View>
-                </View>
+                <Text style={styles.experienceCategoryTitle}>{t(experienceCategories.key.title)}</Text>
+                <Text style={styles.experienceCategorySubtitle}>{t(experienceCategories.key.subtitle)}</Text>
               </View>
             )}
-            {sortedExperiences.slice(1).map((exp, index) => (
-              <View key={index + 1} style={styles.experienceItem} wrap={false}>
-                <Text style={styles.jobTitle}>{t(exp.title)}</Text>
-                <View style={styles.experienceHeader}>
-                  <Text style={styles.companyName}>{exp.company}</Text>
-                  <Text style={styles.period}>{t(exp.period)}</Text>
-                </View>
-                <Text style={styles.location}>{t(exp.location)}</Text>
-                
-                <View style={styles.descriptionList}>
-                  {exp.description.map((item, idx) => (
-                    item.type === 'text' ? (
-                      <Text key={idx} style={styles.descriptionItem}>• {t(item.text)}</Text>
-                    ) : (
-                      <Text key={idx} style={styles.achievementItem}>
-                        • {t(content.experienceAchievementPrefix)} {t(item.text)}
-                      </Text>
-                    )
-                  ))}
-                </View>
-                
-                <View style={styles.tagContainer}>
-                  {exp.tags.map((tag, tagIndex) => (
-                    <Text key={tagIndex} style={styles.tag}>{t(tag)}</Text>
-                  ))}
-                </View>
+            {groupedExperiences.key.map((exp, index) => renderExperienceItem(exp, `key-${index}`))}
+
+            {experienceCategories && groupedExperiences.additional.length > 0 && (
+              <View wrap={false}>
+                <Text style={styles.experienceCategoryTitle}>{t(experienceCategories.additional.title)}</Text>
+                <Text style={styles.experienceCategorySubtitle}>{t(experienceCategories.additional.subtitle)}</Text>
               </View>
-            ))}
+            )}
+            {groupedExperiences.additional.map((exp, index) =>
+              renderExperienceItem(exp, `additional-${index}`),
+            )}
           </View>
           {/* Skills */}
           <View style={styles.section} wrap={false}>
