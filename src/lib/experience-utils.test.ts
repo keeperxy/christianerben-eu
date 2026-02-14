@@ -31,9 +31,11 @@ describe("parsePeriodToSortKey", () => {
   it("parses open-ended and closed ranges", () => {
     const present = parsePeriodToSortKey("Feb 2026 - Present");
     const closed = parsePeriodToSortKey("Aug 2025 - Oct 2025");
+    const enDash = parsePeriodToSortKey("Feb 2026 – Present");
 
     expect(present).not.toBeNull();
     expect(closed).not.toBeNull();
+    expect(enDash).not.toBeNull();
     expect((present as { endSort: number }).endSort).toBe(Number.POSITIVE_INFINITY);
     expect((closed as { endSort: number }).endSort).toBe(202510);
   });
@@ -126,7 +128,7 @@ describe("groupAndSortExperiences", () => {
     ]);
   });
 
-  it("keeps stable order fallback when period parsing fails", () => {
+  it("pushes unparseable periods to the end while preserving their relative order", () => {
     const experiences: Experience[] = [
       makeExperience({
         title: { en: "First Raw", de: "Erstes Raw" },
@@ -138,9 +140,14 @@ describe("groupAndSortExperiences", () => {
         period: { en: "Jan 2024 - Present", de: "Jan 2024 - Heute" },
         experienceCategory: "key",
       }),
+      makeExperience({
+        title: { en: "Third Raw", de: "Drittes Raw" },
+        period: { en: "No Date", de: "Kein Datum" },
+        experienceCategory: "key",
+      }),
     ];
 
     const grouped = groupAndSortExperiences(experiences);
-    expect(grouped.key.map((item) => item.title.en)).toEqual(["First Raw", "Second Parsed"]);
+    expect(grouped.key.map((item) => item.title.en)).toEqual(["Second Parsed", "First Raw", "Third Raw"]);
   });
 });

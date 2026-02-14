@@ -76,7 +76,7 @@ function toSortValue(year: number, month: number): number {
 }
 
 export function parsePeriodToSortKey(periodEn: string): ParsedPeriod | null {
-  const parts = periodEn.split("-").map((part) => part.trim());
+  const parts = periodEn.split(/[-–—]/).map((part) => part.trim());
   if (parts.length !== 2) {
     return null;
   }
@@ -110,23 +110,15 @@ export function resolveExperienceCategory(experience: Experience): ExperienceCat
     return experience.experienceCategory;
   }
 
-  const company = normalize(experience.company);
   const titleEn = normalize(experience.title.en);
   const titleDe = normalize(experience.title.de);
 
-  if (company === "degit ag" && (titleEn === "member of the board" || titleDe === "vorstandsmitglied")) {
-    return "additional";
-  }
-
-  if (company === "degit ag" && (titleEn === "ai training platform & ai tools evaluation" || titleDe === "ki-trainingsplattform & evaluierung von ki-werkzeugen")) {
-    return "additional";
-  }
-
-  if (ADDITIONAL_PROJECT_TITLES.has(titleEn) || ADDITIONAL_PROJECT_TITLES.has(titleDe)) {
-    return "additional";
-  }
-
-  if (titleEn.includes("schlaufabrik") || titleDe.includes("schlaufabrik")) {
+  if (
+    ADDITIONAL_PROJECT_TITLES.has(titleEn) ||
+    ADDITIONAL_PROJECT_TITLES.has(titleDe) ||
+    titleEn.includes("schlaufabrik") ||
+    titleDe.includes("schlaufabrik")
+  ) {
     return "additional";
   }
 
@@ -134,7 +126,15 @@ export function resolveExperienceCategory(experience: Experience): ExperienceCat
 }
 
 function compareIndexedExperiences(a: IndexedExperience, b: IndexedExperience): number {
-  if (!a.parsedPeriod || !b.parsedPeriod) {
+  if (!a.parsedPeriod && b.parsedPeriod) {
+    return 1;
+  }
+
+  if (a.parsedPeriod && !b.parsedPeriod) {
+    return -1;
+  }
+
+  if (!a.parsedPeriod && !b.parsedPeriod) {
     return a.index - b.index;
   }
 
