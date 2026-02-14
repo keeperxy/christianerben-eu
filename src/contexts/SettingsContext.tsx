@@ -21,18 +21,7 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode; initialLang
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   };
 
-  const getInitialLanguage = (): Language => {
-    if (typeof window === 'undefined') return initialLanguage;
-
-    const savedLanguage = window.localStorage.getItem('language') as Language | null;
-    if (savedLanguage === 'en' || savedLanguage === 'de') {
-      return savedLanguage;
-    }
-
-    return initialLanguage;
-  };
-
-  const [language, setLanguageState] = useState<Language>(getInitialLanguage);
+  const [language, setLanguageState] = useState<Language>(initialLanguage);
   // Initialize with 'light' to match server, then update in useLayoutEffect
   const [theme, setThemeState] = useState<Theme>('light');
   const themeInitialized = useRef(false);
@@ -54,6 +43,18 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode; initialLang
     }
     themeInitialized.current = true;
   }, [theme]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const savedLanguage = window.localStorage.getItem('language') as Language | null;
+    if (savedLanguage === 'en' || savedLanguage === 'de') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Sync local language preference only after hydration to keep SSR/client render consistent.
+      setLanguageState((current) => (current === savedLanguage ? current : savedLanguage));
+    }
+  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -88,6 +89,8 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode; initialLang
 
     document.documentElement.setAttribute('lang', language);
     window.localStorage.setItem('language', language);
+    const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+    window.document.cookie = `language=${language}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`;
   }, [language]);
 
   // Translation helper
