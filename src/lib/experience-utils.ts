@@ -126,24 +126,31 @@ export function resolveExperienceCategory(experience: Experience): ExperienceCat
 }
 
 function compareIndexedExperiences(a: IndexedExperience, b: IndexedExperience): number {
-  if (!a.parsedPeriod && b.parsedPeriod) {
+  const aParsed = a.parsedPeriod;
+  const bParsed = b.parsedPeriod;
+
+  if (!aParsed && bParsed) {
     return 1;
   }
 
-  if (a.parsedPeriod && !b.parsedPeriod) {
+  if (aParsed && !bParsed) {
     return -1;
   }
 
-  if (!a.parsedPeriod && !b.parsedPeriod) {
+  if (!aParsed && !bParsed) {
     return a.index - b.index;
   }
 
-  if (a.parsedPeriod.endSort !== b.parsedPeriod.endSort) {
-    return b.parsedPeriod.endSort - a.parsedPeriod.endSort;
+  if (!aParsed || !bParsed) {
+    return a.index - b.index;
   }
 
-  if (a.parsedPeriod.startSort !== b.parsedPeriod.startSort) {
-    return b.parsedPeriod.startSort - a.parsedPeriod.startSort;
+  if (aParsed.endSort !== bParsed.endSort) {
+    return bParsed.endSort - aParsed.endSort;
+  }
+
+  if (aParsed.startSort !== bParsed.startSort) {
+    return bParsed.startSort - aParsed.startSort;
   }
 
   return a.index - b.index;
