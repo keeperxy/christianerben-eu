@@ -15,6 +15,7 @@ import {
 } from "docx";
 import type { SiteContent, Skill } from "@/content/content";
 import { siteContent as defaultSiteContent } from "@/content/content";
+import { groupAndSortExperiences } from "@/lib/experience-utils";
 
 type LocalizedString = { en: string; de: string };
   
@@ -70,14 +71,36 @@ export async function generateCvDocx({
     // Übersetzungs-Helper
     const t = (obj: LocalizedString): string => obj[language] || "";
   
-    // Erfahrungen sortieren (Present/Heute zuerst)
-    const sortedExperiences = [...experiences].sort((a, b) => {
-      const aPresent = t(a.period).match(/(?:Present|Heute)$/);
-      const bPresent = t(b.period).match(/(?:Present|Heute)$/);
-      if (aPresent && !bPresent) return -1;
-      if (!aPresent && bPresent) return 1;
-      return 0;
-    });
+    const groupedExperiences = groupAndSortExperiences(experiences);
+    const experienceCategories = content.experienceCategories;
+
+    const renderExperienceParagraphs = (exp: SiteContent["experiences"][number]) => [
+      new Paragraph({ children: [new TextRun({ text: t(exp.title), bold: true, size: 20 })] }),
+      new Paragraph({
+        children: [
+          new TextRun({ text: exp.company, italics: true, size: 18, color: theme.primary }),
+          new TextRun({ text: ` — ${t(exp.period)}`, size: 18, color: theme.accent }),
+        ],
+      }),
+      new Paragraph({
+        children: [new TextRun({ text: t(exp.location), size: 18, color: theme.accent })],
+        spacing: { after: 100 },
+      }),
+      ...exp.description.map((item) =>
+        new Paragraph({
+          bullet: { level: 0 },
+          children: [
+            new TextRun({
+              text: item.type === "text" ? t(item.text) : `${t(content.experienceAchievementPrefix)} ${t(item.text)}`,
+              size: 18,
+              color: item.type === "achievement" ? theme.primary : theme.foreground,
+              bold: item.type === "achievement",
+            }),
+          ],
+        }),
+      ),
+      new Paragraph({ text: "" }),
+    ];
   
     // Skills gruppieren
     const skillsByCategory: Record<Skill["category"], Skill[]> = {} as Record<Skill["category"], Skill[]>;
@@ -205,16 +228,28 @@ export async function generateCvDocx({
     
                       // Erfahrung
                       new Paragraph({ text: t(content.experienceSectionTitle), heading: HeadingLevel.HEADING_2, thematicBreak: true, keepLines: true }),
-                      ...sortedExperiences.map(exp => [
-                        new Paragraph({ children: [new TextRun({ text: t(exp.title), bold: true, size: 20 })] }),
-                        new Paragraph({ children: [
-                          new TextRun({ text: exp.company, italics: true, size: 18, color: theme.primary }),
-                          new TextRun({ text: ` — ${t(exp.period)}`, size: 18, color: theme.accent }),
-                        ]}),
-                        new Paragraph({ children: [new TextRun({ text: t(exp.location), size: 18, color: theme.accent })], spacing: { after: 100 } }),
-                        ...exp.description.map(item => new Paragraph({ bullet: { level: 0 }, children: [new TextRun({ text: item.type === 'text' ? t(item.text) : t(content.experienceAchievementPrefix) + ' ' + t(item.text), size: 18, color: item.type === 'achievement' ? theme.primary : theme.foreground, bold: item.type === 'achievement' })] })),
-                        new Paragraph({ text: '' }),
-                      ]).flat(),
+                      ...(experienceCategories
+                        ? [
+                            new Paragraph({
+                              children: [new TextRun({ text: t(experienceCategories.key.title), bold: true, size: 20, color: theme.sectionTitle })],
+                            }),
+                            new Paragraph({
+                              children: [new TextRun({ text: t(experienceCategories.key.subtitle), size: 16, color: theme.accent })],
+                            }),
+                          ]
+                        : []),
+                      ...groupedExperiences.key.flatMap((exp) => renderExperienceParagraphs(exp)),
+                      ...(experienceCategories && groupedExperiences.additional.length > 0
+                        ? [
+                            new Paragraph({
+                              children: [new TextRun({ text: t(experienceCategories.additional.title), bold: true, size: 20, color: theme.sectionTitle })],
+                            }),
+                            new Paragraph({
+                              children: [new TextRun({ text: t(experienceCategories.additional.subtitle), size: 16, color: theme.accent })],
+                            }),
+                          ]
+                        : []),
+                      ...groupedExperiences.additional.flatMap((exp) => renderExperienceParagraphs(exp)),
     
                       // Skills
                       new Paragraph({ text: t(skillsSection.title), heading: HeadingLevel.HEADING_2, thematicBreak: true }),

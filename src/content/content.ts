@@ -113,11 +113,14 @@ export interface ExperienceDescriptionItem {
   text: LocalizedString;
 }
 
+export type ExperienceCategory = "key" | "additional";
+
 export interface Experience {
   title: LocalizedString;
   company: string;
   period: LocalizedString;
   location: LocalizedString;
+  experienceCategory?: ExperienceCategory;
   description: ExperienceDescriptionItem[];
   tags: LocalizedString[];
   logoUrl?: string;
@@ -276,6 +279,17 @@ export interface LLMSSection {
   title: LocalizedString;
 }
 
+export interface ExperienceCategories {
+  key: {
+    title: LocalizedString;
+    subtitle: LocalizedString;
+  };
+  additional: {
+    title: LocalizedString;
+    subtitle: LocalizedString;
+  };
+}
+
 export interface SiteContent {
   siteMetadata: {
     title: string;
@@ -289,6 +303,7 @@ export interface SiteContent {
   about: AboutSection;
   securityCompliance: SecurityComplianceSection;
   experiences: Experience[];
+  experienceCategories?: ExperienceCategories;
   projects: Project[];
   skills: Skill[];
   skillsSection: SkillsSection;
@@ -328,6 +343,22 @@ export const siteContent: SiteContent = {
   projectsSectionTitle: {
     en: "Highlighted Projects",
     de: "Ausgewählte Projekte",
+  },
+  experienceCategories: {
+    key: {
+      title: { en: "Key Projects", de: "Schlüsselprojekte" },
+      subtitle: {
+        en: "Core technical and organizational engagements with high responsibility.",
+        de: "Wesentliche technische und organisatorische Engagements mit hoher Verantwortung.",
+      },
+    },
+    additional: {
+      title: { en: "Additional Projects", de: "Zusatzprojekte" },
+      subtitle: {
+        en: "Complementary or specialized projects with flexible scope.",
+        de: "Ergänzende oder spezialisierte Projekte mit flexiblem Umfang.",
+      },
+    },
   },
   navigation: [
     { label: { en: "Home", de: "Start" }, href: "#hero" },
@@ -536,6 +567,7 @@ export const siteContent: SiteContent = {
       logoClassName: "h-20 w-auto md:h-24",
       period: { en: "Feb 2026 - Present", de: "Feb 2026 - Heute" },
       location: { en: "Ludwigshafen, Germany", de: "Ludwigshafen, Deutschland" },
+      experienceCategory: "key",
       description: [
         {
           type: "text",
@@ -599,6 +631,7 @@ export const siteContent: SiteContent = {
       logoUrl: "/logos/degit.png",
       period: { en: "Apr 2020 - Present", de: "Apr 2020 - Heute" },
       location: { en: "Hockenheim, Germany", de: "Hockenheim, Deutschland" },
+      experienceCategory: "additional",
       description: [
         {
           type: "text",
@@ -673,6 +706,7 @@ export const siteContent: SiteContent = {
       logoClassName: "w-32 h-auto",
       period: { en: "December 2025 - Present", de: "Dezember 2025 - Heute" },
       location: { en: "Hockenheim, Germany", de: "Hockenheim, Deutschland" },
+      experienceCategory: "additional",
       description: [
         {
           type: "text",
@@ -741,6 +775,7 @@ export const siteContent: SiteContent = {
       logoUrl: "/logos/dvag.svg",
       period: { en: "Oct 2019 - Present", de: "Okt 2019 - Heute" },
       location: { en: "Frankfurt am Main, Germany", de: "Frankfurt am Main, Deutschland" },
+      experienceCategory: "key",
       description: [
         {
           type: "text",
@@ -869,6 +904,7 @@ export const siteContent: SiteContent = {
       logoUrl: "/logos/degit.png",
       period: { en: "Aug 2025 - Oct 2025", de: "Aug 2025 - Okt 2025" },
       location: { en: "Hockenheim, Germany", de: "Hockenheim, Deutschland" },
+      experienceCategory: "additional",
       description: [
         {
           type: "text",
@@ -945,6 +981,7 @@ export const siteContent: SiteContent = {
       logoUrl: "/logos/schwarz.svg",
       period: { en: "Apr 2018 - Dec 2018", de: "Apr 2018 - Dez 2018" },
       location: { en: "Weinsberg, Germany", de: "Weinsberg, Deutschland" },
+      experienceCategory: "key",
       description: [
         {
           type: "text",
@@ -1001,6 +1038,7 @@ export const siteContent: SiteContent = {
       logoUrl: "/logos/dvag.svg",
       period: { en: "Feb 2011 - Dec 2017", de: "Feb 2011 - Dez 2017" },
       location: { en: "Frankfurt am Main, Germany", de: "Frankfurt am Main, Deutschland" },
+      experienceCategory: "key",
       description: [
         {
           type: "text",
