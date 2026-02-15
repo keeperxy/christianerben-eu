@@ -1,6 +1,7 @@
 import React from "react";
 import { describe, it, expect, beforeAll, afterEach, afterAll, vi } from "vitest";
-import { screen, waitFor } from "@testing-library/react";
+import { screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import CV from "@/pages/cv";
 import { siteContent, type SiteContent } from "@/content/content";
 import type { SettingsContextType } from "@/contexts/settings-hook";
@@ -126,7 +127,24 @@ describe("CV page", () => {
     expect(screen.getByText(/Curriculum Vitae/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Download PDF/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Download DOCX/i })).toBeInTheDocument();
-    expect(screen.getByTestId("cv-preview")).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: /Without certificates/i }).length).toBeGreaterThan(0);
+    expect(screen.getAllByTestId("cv-preview").length).toBeGreaterThan(0);
+  });
+
+  it("switches preview to the certificate pdf variant when toggled", async () => {
+    renderCVPage();
+
+    const user = userEvent.setup();
+    const toggle = screen.getAllByRole("button", { name: /Without certificates/i })[0];
+    const preview = screen.getAllByTestId("cv-preview")[0];
+
+    expect(preview).toHaveAttribute("src", expect.stringContaining("/cv/christian_erben_cv_en.pdf"));
+    await user.click(toggle);
+
+    expect(preview).toHaveAttribute(
+      "src",
+      expect.stringContaining("/cv/christian_erben_cv_en_with_certificates.pdf"),
+    );
   });
 
   it("triggers a DOCX download when the button is clicked", async () => {
@@ -135,7 +153,6 @@ describe("CV page", () => {
     // There may be multiple DOCX buttons (e.g., in header and CV section), so use getAllByRole
     const docxButtons = await screen.findAllByRole("button", { name: /Download DOCX/i });
     expect(docxButtons.length).toBeGreaterThan(0);
-    // The button triggers a download via onClick handler, not via href
     expect(docxButtons[0]).toHaveTextContent(/Download DOCX/i);
   });
 });

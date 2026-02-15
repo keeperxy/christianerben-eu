@@ -222,6 +222,35 @@ export interface ContactSection {
 
 export interface CV {
   title: LocalizedString;
+  certificateToggleLabel: LocalizedString;
+  certificateToggleHint: LocalizedString;
+  certificateToggleOn: LocalizedString;
+  certificateToggleOff: LocalizedString;
+}
+
+export interface CertificateDocument {
+  title: LocalizedString;
+  issuer: LocalizedString;
+  filePath: string;
+}
+
+export interface CertificateBadge {
+  title: string;
+  shareBadgeId: string;
+  publicUrl: string;
+  imageUrl: string;
+}
+
+export interface CertificatesSection {
+  title: LocalizedString;
+  subtitle: LocalizedString;
+  badgeIntro: LocalizedString;
+  documentsTitle: LocalizedString;
+  documentsSubtitle: LocalizedString;
+  viewLabel: LocalizedString;
+  downloadLabel: LocalizedString;
+  badges: CertificateBadge[];
+  documents: CertificateDocument[];
 }
 
 export interface Footer {
@@ -309,6 +338,7 @@ export interface SiteContent {
   skillsSection: SkillsSection;
   contact: ContactSection;
   cv: CV;
+  certificates: CertificatesSection;
   footer: Footer;
   imprint: ImprintSection;
   privacy: PrivacySection;
@@ -370,6 +400,7 @@ export const siteContent: SiteContent = {
     { label: { en: "Experience", de: "Erfahrung" }, href: "#experience" },
     { label: { en: "Projects", de: "Projekte" }, href: "#projects" },
     { label: { en: "Skills", de: "Fähigkeiten" }, href: "#skills" },
+    { label: { en: "Certificates", de: "Zertifikate" }, href: "#certificates" },
     { label: { en: "Contact", de: "Kontakt" }, href: "#contact" },
   ],
   hero: {
@@ -1751,6 +1782,114 @@ export const siteContent: SiteContent = {
   },
   cv: {
     title: { en: "Resume / CV", de: "Lebenslauf / CV" },
+    certificateToggleLabel: {
+      en: "PDF includes certificates",
+      de: "PDF enthält Zertifikate",
+    },
+    certificateToggleHint: {
+      en: "When enabled, the PDF includes a certificate list and attached certificate pages.",
+      de: "Wenn aktiviert, enthält das PDF eine Zertifikatsliste und angehängte Zertifikatsseiten.",
+    },
+    certificateToggleOn: {
+      en: "With certificates",
+      de: "Mit Zertifikaten",
+    },
+    certificateToggleOff: {
+      en: "Without certificates",
+      de: "Ohne Zertifikate",
+    },
+  },
+  certificates: {
+    title: {
+      en: "Certificates & Badges",
+      de: "Zertifikate & Badges",
+    },
+    subtitle: {
+      en: "Industry certifications and verified Credly badges with direct proof documents.",
+      de: "Branchenzertifikate und verifizierte Credly-Badges mit direkten Nachweisdokumenten.",
+    },
+    badgeIntro: {
+      en: "Verified badges",
+      de: "Verifizierte Badges",
+    },
+    documentsTitle: {
+      en: "Official certificates (PDF)",
+      de: "Offizielle Zertifikate (PDF)",
+    },
+    documentsSubtitle: {
+      en: "Direct links to the original PDF certificates.",
+      de: "Direkte Links zu den originalen Zertifikats-PDFs.",
+    },
+    viewLabel: {
+      en: "View",
+      de: "Ansehen",
+    },
+    downloadLabel: {
+      en: "Download",
+      de: "Herunterladen",
+    },
+    badges: [
+      {
+        title: "Fortinet Certified Associate Cybersecurity",
+        shareBadgeId: "4f3414be-36c2-46f9-a72b-76865634455c",
+        publicUrl: "https://www.credly.com/badges/4f3414be-36c2-46f9-a72b-76865634455c/public_url",
+        imageUrl: "https://images.credly.com/images/20082fc1-94af-4773-9df0-28856b566748/linkedin_thumb_image.png",
+      },
+      {
+        title: "Fortinet Certified Fundamentals Cybersecurity",
+        shareBadgeId: "06c60aa5-825a-48c3-bd45-3ee70658bd38",
+        publicUrl: "https://www.credly.com/badges/06c60aa5-825a-48c3-bd45-3ee70658bd38/public_url",
+        imageUrl: "https://images.credly.com/images/22a0ece5-ff05-4594-8320-25e55e9ae203/linkedin_thumb_image.png",
+      },
+      {
+        title: "Getting Started in Cybersecurity 3.0",
+        shareBadgeId: "03c8bacd-9bf8-4ccc-be41-3d9cf0edfe49",
+        publicUrl: "https://www.credly.com/badges/03c8bacd-9bf8-4ccc-be41-3d9cf0edfe49/public_url",
+        imageUrl: "https://images.credly.com/images/a27867b1-d64f-4890-b577-89f162015407/linkedin_thumb_blob",
+      },
+      {
+        title: "Introduction to the Threat Landscape 3.0",
+        shareBadgeId: "d23002da-8f7f-4898-9985-fce85fea3bc8",
+        publicUrl: "https://www.credly.com/badges/d23002da-8f7f-4898-9985-fce85fea3bc8/public_url",
+        imageUrl: "https://images.credly.com/images/a06a4e98-21bf-49ab-ad70-c61641f26fc8/linkedin_thumb_blob",
+      },
+      {
+        title: "Technical Introduction to Cybersecurity 3.0",
+        shareBadgeId: "898c455e-4fb9-4b8a-9967-830525a70c00",
+        publicUrl: "https://www.credly.com/badges/898c455e-4fb9-4b8a-9967-830525a70c00/public_url",
+        imageUrl: "https://images.credly.com/images/eb17d3c5-12f5-4be9-87b5-a6ccff62a22b/linkedin_thumb_blob",
+      },
+      {
+        title: "Fortinet FortiGate 7.6 Operator",
+        shareBadgeId: "46c41bb0-182c-45bd-836e-849bcb09a5a0",
+        publicUrl: "https://www.credly.com/badges/46c41bb0-182c-45bd-836e-849bcb09a5a0/public_url",
+        imageUrl: "https://images.credly.com/images/92f41b16-a144-41e5-a5ab-f853faaf0939/linkedin_thumb_blob",
+      },
+    ],
+    documents: [
+      {
+        title: {
+          en: "Fortinet Certified Associate in Cybersecurity",
+          de: "Fortinet Certified Associate in Cybersecurity",
+        },
+        issuer: {
+          en: "Fortinet",
+          de: "Fortinet",
+        },
+        filePath: "/certificate/Fortinet Certified Associate in Cybersecurity.pdf",
+      },
+      {
+        title: {
+          en: "Fortinet Certified Fundamentals in Cybersecurity",
+          de: "Fortinet Certified Fundamentals in Cybersecurity",
+        },
+        issuer: {
+          en: "Fortinet",
+          de: "Fortinet",
+        },
+        filePath: "/certificate/Fortinet Certified Fundamentals in Cybersecurity.pdf",
+      },
+    ],
   },
   footer: {
     copyright: {
