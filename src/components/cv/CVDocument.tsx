@@ -371,7 +371,8 @@ const CVDocument: React.FC<CVDocumentProps> = ({
 }) => {
   // Use passed data or fallback to siteContent
   const content = data || defaultSiteContent;
-  const { about, securityCompliance, experiences, skills, skillsSection, contact, hero, imprint, certificates } = content;
+  const { about, securityCompliance, experiences, skills, skillsSection, contact, hero, imprint } = content;
+  const certificates = content.certificates ?? defaultSiteContent.certificates;
   const homepage = contact.homepage ?? "";
   const linkedin = contact.socialLinks?.linkedin ?? "";
   const xing = contact.socialLinks?.xing ?? "";
@@ -547,7 +548,7 @@ const CVDocument: React.FC<CVDocumentProps> = ({
               </View>
             ))}
           </View>
-          {includeCertificates && (
+          {includeCertificates && certificates?.documents && (
             <View style={styles.section} wrap={false}>
               <Text style={styles.sectionTitle}>{t(certificates.title)}</Text>
               {certificates.documents.map((certificate, index) => (

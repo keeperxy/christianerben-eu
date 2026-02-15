@@ -18,6 +18,7 @@ const ROOT_DIR = path.resolve(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT_DIR, "public");
 const CV_OUTPUT_DIR = path.join(PUBLIC_DIR, "cv");
 const PROFILE_IMAGE_PATH = path.join(PUBLIC_DIR, "profile.jpg");
+// Sidebar width in PDF points for certificate page layout.
 const SIDEBAR_WIDTH = 160;
 const A4_PAGE_SIZE = { width: 595.28, height: 841.89 };
 const CERT_PAGE_LAYOUT = {
@@ -190,12 +191,12 @@ function drawStyledCertificatePage({
   });
 }
 
-async function readCertificatePdfOrThrow(certificatePath: string) {
+async function readCertificatePdfOrThrow(certificatePath: string, certificateTitle: string) {
   try {
     return await readFile(certificatePath);
   } catch {
     throw new Error(
-      `Certificate file not found: ${certificatePath}. Ensure all certificate PDFs are present before generating CV.`,
+      `Certificate file not found: ${certificatePath} (${certificateTitle}). Ensure all certificate PDFs are present before generating CV.`,
     );
   }
 }
@@ -213,7 +214,7 @@ async function appendCertificatesAsStyledPages(targetPdfPath: string, language: 
 
   for (const certificate of siteContent.certificates.documents) {
     const certificatePath = path.join(PUBLIC_DIR, certificate.filePath.replace(/^\//, ""));
-    const certificateBytes = await readCertificatePdfOrThrow(certificatePath);
+    const certificateBytes = await readCertificatePdfOrThrow(certificatePath, certificate.title[language]);
     const certificatePdf = await PDFDocument.load(certificateBytes);
     const certificatePages = certificatePdf.getPages();
 

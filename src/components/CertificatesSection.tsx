@@ -3,13 +3,22 @@ import { BadgeCheck, Download, ExternalLink, FileText } from "lucide-react";
 import { siteContent } from "@/content/content";
 import { useSettings } from "@/contexts/settings-hook";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-const CertificatesSection = () => {
+interface CertificatesSectionProps extends React.HTMLAttributes<HTMLElement> {}
+
+const CertificatesSection = React.forwardRef<HTMLElement, CertificatesSectionProps>(
+  ({ className, ...props }, ref) => {
   const { t } = useSettings();
   const { certificates } = siteContent;
 
   return (
-    <section id="certificates" className="section-padding relative overflow-hidden">
+    <section
+      ref={ref}
+      id="certificates"
+      className={cn("section-padding relative overflow-hidden", className)}
+      {...props}
+    >
       <div className="absolute -top-24 left-1/2 -translate-x-1/2 h-56 w-56 rounded-full bg-primary/25 blur-3xl" />
       <div className="absolute -bottom-24 right-12 h-56 w-56 rounded-full bg-accent/20 blur-3xl" />
 
@@ -96,6 +105,8 @@ const CertificatesSection = () => {
       </div>
     </section>
   );
-};
+});
+
+CertificatesSection.displayName = "CertificatesSection";
 
 export default CertificatesSection;
