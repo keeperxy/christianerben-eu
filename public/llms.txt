@@ -51,6 +51,7 @@ Sitemap: https://christianerben.eu/sitemap.xml
 - Experience / Erfahrung
 - Projects / Projekte
 - Skills / Fähigkeiten
+- Certificates / Zertifikate
 - Contact / Kontakt
 
 [Keywords]:
