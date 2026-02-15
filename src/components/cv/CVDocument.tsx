@@ -336,10 +336,12 @@ const styles = StyleSheet.create({
     bottom: 18,
     left: -75,
     width: 150,
+    paddingTop: 7,
+  },
+  footerText: {
     fontSize: 8,
     color: theme.sidebarFooterText,
     textAlign: "center",
-    paddingTop: 7,
   },
   certificateItem: {
     marginBottom: 8,
@@ -369,12 +371,12 @@ const CVDocument: React.FC<CVDocumentProps> = ({
 }) => {
   // Use passed data or fallback to siteContent
   const content = data || defaultSiteContent;
-  const { about, securityCompliance, experiences, skills, skillsSection, contact, footer, hero, imprint, certificates } = content;
+  const { about, securityCompliance, experiences, skills, skillsSection, contact, hero, imprint, certificates } = content;
   const homepage = contact.homepage ?? "";
   const linkedin = contact.socialLinks?.linkedin ?? "";
   const xing = contact.socialLinks?.xing ?? "";
   const homepagePrefix = homepage.endsWith("/") ? homepage.slice(0, -1) : homepage;
-  const certificateHref = (filePath: string) => `${homepagePrefix}${filePath}`;
+  const certificateHref = (filePath: string) => `${homepagePrefix}${encodeURI(filePath)}`;
   
   // Helper function to get text in the current language
   const t = (text: { en: string; de: string }) => text[language];
@@ -564,7 +566,7 @@ const CVDocument: React.FC<CVDocumentProps> = ({
           {showFooter && (
             <View style={styles.footer} fixed>
               <Text
-                style={styles.footer}
+                style={styles.footerText}
                 render={({ pageNumber, totalPages }) => {
                   const pageLabel = language === 'en' ? 'Page' : 'Seite';
                   const pageNumberLabel = language === 'en' ? 'of' : 'von';
