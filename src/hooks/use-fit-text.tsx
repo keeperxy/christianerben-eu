@@ -53,7 +53,6 @@ export function useFitText({
       }
     }
     setFontSize(best);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- depKey is intentionally a dependency to allow external trigger
   }, [minFontSize, maxFontSize, resolution, depKey]);
 
   useIsomorphicLayoutEffect(() => {

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useRef } from "react";
 import { siteContent, type Experience } from "@/content/content";
 import { useSettings } from "@/contexts/settings-hook";

@@ -38,7 +38,6 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode; initialLang
     
     // Only set if different to avoid unnecessary re-renders
     if (preferredTheme !== theme) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- Required to initialize theme from localStorage after mount to prevent hydration mismatch
       setThemeState(preferredTheme);
     }
     themeInitialized.current = true;
@@ -51,7 +50,6 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode; initialLang
 
     const savedLanguage = window.localStorage.getItem('language') as Language | null;
     if (savedLanguage === 'en' || savedLanguage === 'de') {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- Sync local language preference only after hydration to keep SSR/client render consistent.
       setLanguageState((current) => (current === savedLanguage ? current : savedLanguage));
     }
   }, []);

@@ -8,7 +8,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --max-warnings 0",
+    "lint": "oxlint --react-plugin --nextjs-plugin --vitest-plugin --import-plugin --deny-warnings -A no-unused-vars -A no-html-link-for-pages .",
     "test": "vitest",
     "generate:cv": "bun scripts/generate-cv.tsx",
     "generate:sitemap": "bun scripts/generate-sitemap.cjs",
@@ -78,8 +78,6 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
-    "@eslint/js": "9.39.2",
-    "@next/eslint-plugin-next": "16.1.6",
     "@tailwindcss/postcss": "4.1.18",
     "@tailwindcss/typography": "0.5.19",
     "@testing-library/dom": "^10.4.1",
@@ -89,16 +87,12 @@
     "@types/node": "25.2.0",
     "@types/react": "19.2.10",
     "@types/react-dom": "19.2.3",
-    "eslint": "9.39.2",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "0.5.0",
-    "globals": "17.3.0",
     "jsdom": "^28.0.0",
     "lovable-tagger": "1.1.13",
+    "oxlint": "^1.47.0",
     "postcss": "8.5.6",
     "tailwindcss": "4.1.18",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.54.0",
     "vitest": "^4.0.18"
   }
 }
