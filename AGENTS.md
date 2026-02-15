@@ -10,7 +10,7 @@ This repository contains a personal portfolio built with Next.js, React, TypeScr
 ## Useful commands
 - `bun run dev` – start a development server on port 3000.
 - `bun run build` – create a production build.
-- `bun run lint` – run ESLint over the codebase.
+- `bun run lint` – run Oxlint over the codebase.
 - `bun run test` – execute all unit tests via Vitest.
 - `bun run test -- <file>` – run a single test file (e.g., `bun run test -- src/components/HeroSection.test.tsx`).
 

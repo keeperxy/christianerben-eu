@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import { siteContent } from '@/content/content';
 import { useSettings } from '@/contexts/settings-hook';

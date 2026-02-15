@@ -24,7 +24,7 @@ bun run dev   # starts Next.js on http://localhost:3000
 ## Useful Scripts
 
 - `bun run dev` – start the Next.js dev server
-- `bun run lint` – lint the project with ESLint
+- `bun run lint` – lint the project with Oxlint
 - `bun run test` – run unit tests with Vitest
 - `bun run build` – create a production build
 - `bun run start` – serve the production build locally
