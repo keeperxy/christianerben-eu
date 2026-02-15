@@ -341,21 +341,40 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingTop: 7,
   },
+  certificateItem: {
+    marginBottom: 8,
+  },
+  certificateLink: {
+    fontSize: 9,
+    color: theme.primary,
+    textDecoration: "underline",
+    marginTop: 1,
+  },
 });
 
 interface CVDocumentProps {
   language: "en" | "de";
   data?: SiteContent; // Allow custom data to be passed in
   profileImageSrc?: string;
+  includeCertificates?: boolean;
+  showFooter?: boolean;
 }
 
-const CVDocument: React.FC<CVDocumentProps> = ({ language, data, profileImageSrc }) => {
+const CVDocument: React.FC<CVDocumentProps> = ({
+  language,
+  data,
+  profileImageSrc,
+  includeCertificates = false,
+  showFooter = true,
+}) => {
   // Use passed data or fallback to siteContent
   const content = data || defaultSiteContent;
-  const { about, securityCompliance, experiences, skills, skillsSection, contact, footer, hero, imprint } = content;
+  const { about, securityCompliance, experiences, skills, skillsSection, contact, footer, hero, imprint, certificates } = content;
   const homepage = contact.homepage ?? "";
   const linkedin = contact.socialLinks?.linkedin ?? "";
   const xing = contact.socialLinks?.xing ?? "";
+  const homepagePrefix = homepage.endsWith("/") ? homepage.slice(0, -1) : homepage;
+  const certificateHref = (filePath: string) => `${homepagePrefix}${filePath}`;
   
   // Helper function to get text in the current language
   const t = (text: { en: string; de: string }) => text[language];
@@ -526,24 +545,41 @@ const CVDocument: React.FC<CVDocumentProps> = ({ language, data, profileImageSrc
               </View>
             ))}
           </View>
-          {/* Footer */}
-          <View style={styles.footer} fixed>
-            <Text
-              style={styles.footer}
-              render={({ pageNumber, totalPages }) => {
-                const pageLabel = language === 'en' ? 'Page' : 'Seite';
-                const pageNumberLabel = language === 'en' ? 'of' : 'von';
-                const updateLabel = language === 'en' ? 'Last updated' : 'Letztes Update';
-                const locale = language === 'en' ? 'en-US' : 'de-DE';
-                const date = new Date().toLocaleDateString(locale, {
-                  year: 'numeric',
-                  month: 'long',
-                });
+          {includeCertificates && (
+            <View style={styles.section} wrap={false}>
+              <Text style={styles.sectionTitle}>{t(certificates.title)}</Text>
+              {certificates.documents.map((certificate, index) => (
+                <View key={`${certificate.filePath}-${index}`} style={styles.certificateItem} wrap={false}>
+                  <Text style={styles.jobTitle}>{t(certificate.title)}</Text>
+                  <Text style={styles.description}>
+                    {language === "en" ? "Issuer" : "Aussteller"}: {t(certificate.issuer)}
+                  </Text>
+                  <Link href={certificateHref(certificate.filePath)} style={styles.certificateLink}>
+                    {certificateHref(certificate.filePath)}
+                  </Link>
+                </View>
+              ))}
+            </View>
+          )}
+          {showFooter && (
+            <View style={styles.footer} fixed>
+              <Text
+                style={styles.footer}
+                render={({ pageNumber, totalPages }) => {
+                  const pageLabel = language === 'en' ? 'Page' : 'Seite';
+                  const pageNumberLabel = language === 'en' ? 'of' : 'von';
+                  const updateLabel = language === 'en' ? 'Last updated' : 'Letztes Update';
+                  const locale = language === 'en' ? 'en-US' : 'de-DE';
+                  const date = new Date().toLocaleDateString(locale, {
+                    year: 'numeric',
+                    month: 'long',
+                  });
 
-                return `${pageLabel} ${pageNumber} ${pageNumberLabel} ${totalPages}\n${updateLabel}: ${date}`;
-              }}
-            />
-          </View>
+                  return `${pageLabel} ${pageNumber} ${pageNumberLabel} ${totalPages}\n${updateLabel}: ${date}`;
+                }}
+              />
+            </View>
+          )}
         </View>
       </Page>
     </Document>

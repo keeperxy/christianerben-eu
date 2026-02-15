@@ -31,6 +31,15 @@ vi.mock("@/components/ContactSection", () => ({
   ),
 }));
 
+vi.mock("@/components/CertificatesSection", () => ({
+  __esModule: true,
+  default: () => (
+    <section id="certificates">
+      <h2>{siteContent.certificates.title.en}</h2>
+    </section>
+  ),
+}));
+
 import Index from "@/pages/index";
 
 describe("Index page", () => {
@@ -79,5 +88,6 @@ describe("Index page", () => {
     expect(await screen.findByRole("heading", { name: siteContent.about.title.en })).toBeInTheDocument();
     expect(await screen.findByRole("heading", { name: siteContent.experienceSectionTitle.en })).toBeInTheDocument();
     expect(await screen.findByRole("heading", { name: siteContent.contact.title.en })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: siteContent.certificates.title.en })).toBeInTheDocument();
   });
 });

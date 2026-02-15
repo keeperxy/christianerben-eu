@@ -15,6 +15,9 @@ const SkillsSection = dynamic(() => import('@/components/SkillsSection'), {
 const ContactSection = dynamic(() => import('@/components/ContactSection'), {
   loading: () => <div>Loading…</div>,
 });
+const CertificatesSection = dynamic(() => import('@/components/CertificatesSection'), {
+  loading: () => <div>Loading…</div>,
+});
 
 const Index = () => {
   return (
@@ -27,6 +30,7 @@ const Index = () => {
         <ExperienceSection />
         <ProjectsSection />
         <SkillsSection />
+        <CertificatesSection />
         <ContactSection />
       </main>
       <Footer />

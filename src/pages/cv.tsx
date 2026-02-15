@@ -13,18 +13,27 @@ const CVEditor = React.lazy(() => import("@/components/cv/CVEditor"));
 
 
 // Reusable Buttons für PDF und DOCX Download
-const CvDownloadButtons: React.FC<{ language: 'en' | 'de'; cvData: SiteContent }> = ({ language, cvData }) => {
+const CvDownloadButtons: React.FC<{
+  language: "en" | "de";
+  cvData: SiteContent;
+  includeCertificates: boolean;
+}> = ({ language, cvData, includeCertificates }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const [staticLoading, setStaticLoading] = useState({ pdf: false, docx: false });
 
   const isDefaultData = cvData === siteContent;
   const downloadDate = useMemo(() => new Date().toISOString().split('T')[0], []);
-  const staticPdfHref = `/cv/christian_erben_cv_${language}.pdf`;
+  const staticPdfHref = includeCertificates
+    ? `/cv/christian_erben_cv_${language}_with_certificates.pdf`
+    : `/cv/christian_erben_cv_${language}.pdf`;
   const staticDocxHref = `/cv/christian_erben_cv_${language}.docx`;
 
-  const buildStaticFilename = (ext: 'pdf' | 'docx') => `christian_erben_cv_${language}_${downloadDate}.${ext}`;
+  const buildStaticFilename = (ext: "pdf" | "docx") => {
+    const suffix = ext === "pdf" && includeCertificates ? "_with_certificates" : "";
+    return `christian_erben_cv_${language}_${downloadDate}${suffix}.${ext}`;
+  };
 
-  const handleStaticDownload = async (ext: 'pdf' | 'docx') => {
+  const handleStaticDownload = async (ext: "pdf" | "docx") => {
     setStaticLoading(prev => ({ ...prev, [ext]: true }));
     try {
       const href = ext === 'pdf' ? staticPdfHref : staticDocxHref;
@@ -167,7 +176,15 @@ const CV = () => {
   const [clickCount, setClickCount] = useState(0);
   const [editMode, setEditMode] = useState(false);
   const [cvData, setCvData] = useState<SiteContent>(() => getInitialCvData());
+  const [includeCertificates, setIncludeCertificates] = useState(false);
+  const isDefaultData = cvData === siteContent;
   useScrollToTop();
+
+  useEffect(() => {
+    if (!isDefaultData && includeCertificates) {
+      setIncludeCertificates(false);
+    }
+  }, [isDefaultData, includeCertificates]);
 
   const handleTitleClick = () => {
     setClickCount(prev => {
@@ -239,8 +256,27 @@ const CV = () => {
               {language === 'en' ? 'Deutsch' : 'English'}
             </Button>
 
+            {isDefaultData && !editMode && (
+              <Button
+                variant={includeCertificates ? "default" : "outline"}
+                size="sm"
+                className="rounded-full shadow-sm hover-scale"
+                onClick={() => setIncludeCertificates((previous) => !previous)}
+                aria-pressed={includeCertificates}
+                title={t(siteContent.cv.certificateToggleHint)}
+              >
+                {includeCertificates
+                  ? t(siteContent.cv.certificateToggleOn)
+                  : t(siteContent.cv.certificateToggleOff)}
+              </Button>
+            )}
+
             {/* Download-Buttons */}
-            <CvDownloadButtons language={language} cvData={cvData} />
+            <CvDownloadButtons
+              language={language}
+              cvData={cvData}
+              includeCertificates={includeCertificates}
+            />
           </div>
         </div>
       </div>
@@ -277,7 +313,7 @@ const CV = () => {
                 <div className="bg-gradient-to-br from-primary/40 to-accent/40 justify-center flex-grow flex flex-col">
                   <div className="m-6 flex flex-grow justify-center">
                     <iframe
-                      src={`/cv/christian_erben_cv_${language}.pdf#toolbar=0&navpanes=0`}
+                      src={`/cv/christian_erben_cv_${language}${isDefaultData && includeCertificates ? "_with_certificates" : ""}.pdf#toolbar=0&navpanes=0`}
                       className="max-w-[796px] w-full h-full min-h-[600px] border-0 rounded"
                       title={language === 'en' ? 'Curriculum Vitae' : 'Lebenslauf'}
                       data-testid="cv-preview"
