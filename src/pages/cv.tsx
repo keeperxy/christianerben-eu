@@ -266,8 +266,8 @@ const CV = () => {
                 title={t(siteContent.cv.certificateToggleHint)}
               >
                 {includeCertificates
-                  ? t(siteContent.cv.certificateToggleOn)
-                  : t(siteContent.cv.certificateToggleOff)}
+                  ? t(siteContent.cv.certificateToggleOff)
+                  : t(siteContent.cv.certificateToggleOn)}
               </Button>
             )}
 

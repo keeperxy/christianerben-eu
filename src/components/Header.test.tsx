@@ -3,9 +3,7 @@ import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithSettings } from '../test-utils'
 import Header from './Header'
-import { vi, describe, it, expect } from 'vitest'
-
-vi.mock('../hooks/use-mobile', () => ({ useIsMobile: () => false }))
+import { describe, it, expect } from 'vitest'
 
 describe('Header', () => {
   it('renders navigation', () => {

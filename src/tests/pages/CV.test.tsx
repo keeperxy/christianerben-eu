@@ -127,7 +127,7 @@ describe("CV page", () => {
     expect(screen.getByText(/Curriculum Vitae/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Download PDF/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Download DOCX/i })).toBeInTheDocument();
-    expect(screen.getAllByRole("button", { name: /Without certificates/i }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole("button", { name: /With certificates/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByTestId("cv-preview").length).toBeGreaterThan(0);
   });
 
@@ -135,7 +135,7 @@ describe("CV page", () => {
     renderCVPage();
 
     const user = userEvent.setup();
-    const toggle = screen.getAllByRole("button", { name: /Without certificates/i })[0];
+    const toggle = screen.getAllByRole("button", { name: /With certificates/i })[0];
     const preview = screen.getAllByTestId("cv-preview")[0];
 
     expect(preview).toHaveAttribute("src", expect.stringContaining("/cv/christian_erben_cv_en.pdf"));

@@ -334,9 +334,9 @@ const styles = StyleSheet.create({
   footer: {
     position: "absolute",
     bottom: 18,
-    left: -75,
-    width: 150,
-    paddingTop: 7,
+    left: 0,
+    width: 160,
+    paddingHorizontal: 6,
   },
   footerText: {
     fontSize: 8,
@@ -384,6 +384,7 @@ const CVDocument: React.FC<CVDocumentProps> = ({
 
   const groupedExperiences = groupAndSortExperiences(experiences);
   const experienceCategories = content.experienceCategories;
+  const [firstKeyExperience, ...remainingKeyExperiences] = groupedExperiences.key;
 
   const renderExperienceItem = (exp: Experience, key: string | number) => (
     <View key={key} style={styles.experienceItem} wrap={false}>
@@ -493,14 +494,17 @@ const CVDocument: React.FC<CVDocumentProps> = ({
           </View>
           {/* Experience */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{t(content.experienceSectionTitle)}</Text>
-            {experienceCategories && (
-              <View wrap={false}>
-                <Text style={styles.experienceCategoryTitle}>{t(experienceCategories.key.title)}</Text>
-                <Text style={styles.experienceCategorySubtitle}>{t(experienceCategories.key.subtitle)}</Text>
-              </View>
-            )}
-            {groupedExperiences.key.map((exp, index) => renderExperienceItem(exp, `key-${index}`))}
+            <View wrap={false}>
+              <Text style={styles.sectionTitle}>{t(content.experienceSectionTitle)}</Text>
+              {experienceCategories && (
+                <View>
+                  <Text style={styles.experienceCategoryTitle}>{t(experienceCategories.key.title)}</Text>
+                  <Text style={styles.experienceCategorySubtitle}>{t(experienceCategories.key.subtitle)}</Text>
+                </View>
+              )}
+              {firstKeyExperience && renderExperienceItem(firstKeyExperience, "key-0")}
+            </View>
+            {remainingKeyExperiences.map((exp, index) => renderExperienceItem(exp, `key-${index + 1}`))}
 
             {experienceCategories && groupedExperiences.additional.length > 0 && (
               <View wrap={false}>
@@ -564,26 +568,26 @@ const CVDocument: React.FC<CVDocumentProps> = ({
               ))}
             </View>
           )}
-          {showFooter && (
-            <View style={styles.footer} fixed>
-              <Text
-                style={styles.footerText}
-                render={({ pageNumber, totalPages }) => {
-                  const pageLabel = language === 'en' ? 'Page' : 'Seite';
-                  const pageNumberLabel = language === 'en' ? 'of' : 'von';
-                  const updateLabel = language === 'en' ? 'Last updated' : 'Letztes Update';
-                  const locale = language === 'en' ? 'en-US' : 'de-DE';
-                  const date = new Date().toLocaleDateString(locale, {
-                    year: 'numeric',
-                    month: 'long',
-                  });
-
-                  return `${pageLabel} ${pageNumber} ${pageNumberLabel} ${totalPages}\n${updateLabel}: ${date}`;
-                }}
-              />
-            </View>
-          )}
         </View>
+        {showFooter && (
+          <View style={styles.footer} fixed>
+            <Text
+              style={styles.footerText}
+              render={({ pageNumber, totalPages }) => {
+                const pageLabel = language === 'en' ? 'Page' : 'Seite';
+                const pageNumberLabel = language === 'en' ? 'of' : 'von';
+                const updateLabel = language === 'en' ? 'Last updated' : 'Letztes Update';
+                const locale = language === 'en' ? 'en-US' : 'de-DE';
+                const date = new Date().toLocaleDateString(locale, {
+                  year: 'numeric',
+                  month: 'long',
+                });
+
+                return `${pageLabel} ${pageNumber} ${pageNumberLabel} ${totalPages}\n${updateLabel}: ${date}`;
+              }}
+            />
+          </View>
+        )}
       </Page>
     </Document>
   );

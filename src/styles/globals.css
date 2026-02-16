@@ -157,6 +157,10 @@
     @apply py-16 px-4 sm:py-24 sm:px-8 lg:px-16;
   }
 
+  section[id] {
+    scroll-margin-top: 7rem;
+  }
+
   /* Custom animations and transitions */
   .hover-scale {
     @apply transition-transform duration-300 hover:scale-[1.02];
