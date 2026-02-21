@@ -53,7 +53,7 @@ vi.mock("@/components/cv/CVDocumentDocx", () => ({
 
 vi.mock("@/components/cv/CvDownloadButtonsCustom", () => ({
   __esModule: true,
-  default: ({ language, cvData }: { language: "en" | "de"; cvData: unknown }) => (
+  default: ({ language, cvData }: { language: "en" | "de"; cvData: SiteContent }) => (
     <button onClick={() => generateCvDocx({ language, data: cvData })}>
       Download DOCX
     </button>
@@ -63,10 +63,7 @@ vi.mock("@/components/cv/CvDownloadButtonsCustom", () => ({
 const originalCreateObjectURL = URL.createObjectURL;
 const originalRevokeObjectURL = URL.revokeObjectURL;
 
-const renderCVPage = (
-  ctx?: Partial<SettingsContextType>,
-  initialData?: SiteContent
-) => {
+const renderCVPage = (ctx?: Partial<SettingsContextType>) => {
   const context: SettingsContextType = {
     language: "en",
     theme: "light",
@@ -77,7 +74,7 @@ const renderCVPage = (
   };
 
   return renderWithSettings(
-    <CV initialData={initialData} />,
+    <CV />,
     context,
     { pathname: "/cv", asPath: "/cv" }
   );
