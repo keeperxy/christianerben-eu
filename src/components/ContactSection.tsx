@@ -2,7 +2,7 @@ import React from "react";
 import { siteContent } from "@/content/content";
 import { useSettings } from "@/contexts/settings-hook";
 import { Mail, Send, Phone } from "lucide-react";
-import { SiXing, SiX, SiGithub, SiBluesky, SiFreelancermap } from "@icons-pack/react-simple-icons";
+import { SiBluesky, SiFreelancermap, SiGithub, SiX, SiXing } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";

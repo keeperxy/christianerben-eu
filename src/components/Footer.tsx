@@ -2,6 +2,7 @@
 import React from "react";
 import { siteContent } from "@/content/content";
 import { useSettings } from "@/contexts/settings-hook";
+import type { Route } from "next";
 import Link from "next/link";
 
 const Footer = () => {
@@ -31,7 +32,7 @@ const Footer = () => {
             {footer.links.map((link, index) => (
               <Link
                 key={index}
-                href={link.href}
+                href={link.href as Route}
                 className="text-sm text-muted-foreground hover:text-primary transition-colors link-underline"
               >
                 {t(link.label)}
