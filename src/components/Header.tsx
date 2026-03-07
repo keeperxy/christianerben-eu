@@ -4,6 +4,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useSettings } from "@/contexts/settings-hook";
 import { siteContent } from "@/content/content";
 import { Button } from "@/components/ui/button";
+import type { Route } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -81,11 +82,11 @@ const Header = () => {
                 {t(item.label)}
               </a>
             ) : (
-              <Link
-                key={item.href}
-                href={`/${item.href}`}
-                className="text-lg font-medium text-foreground hover:text-primary transition-colors link-underline"
-              >
+                    <Link
+                      key={item.href}
+                      href={`/${item.href}` as Route}
+                      className="text-lg font-medium text-foreground hover:text-primary transition-colors link-underline"
+                    >
                 {t(item.label)}
               </Link>
             )
@@ -155,7 +156,7 @@ const Header = () => {
                   ) : (
                     <Link
                       key={item.href}
-                      href={`/${item.href}`}
+                      href={`/${item.href}` as Route}
                       className="text-lg sm:text-xl font-medium text-foreground hover:text-primary transition-colors"
                     >
                       {t(item.label)}
