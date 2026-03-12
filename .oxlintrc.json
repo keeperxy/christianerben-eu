@@ -1,5 +1,5 @@
 {
-  "ignorePatterns": [".next", "dist"],
+  "ignorePatterns": [".astro", ".next", ".vercel", "dist"],
   "rules": {
     "no-unused-vars": "off",
     "no-html-link-for-pages": "off"
