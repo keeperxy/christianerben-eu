@@ -42,7 +42,7 @@ vi.mock("@react-pdf/renderer", () => {
 });
 
 vi.mock("@/components/cv/CVDocumentDocx", () => ({
-  generateCvDocx: vi.fn(() =>
+  generateCvDocx: vi.fn<() => Promise<Blob>>(() =>
     Promise.resolve(
       new Blob(["mock docx"], {
         type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -67,8 +67,8 @@ const renderCVPage = (ctx?: Partial<SettingsContextType>) => {
   const context: SettingsContextType = {
     language: "en",
     theme: "light",
-    setLanguage: vi.fn(),
-    setTheme: vi.fn(),
+    setLanguage: vi.fn<SettingsContextType["setLanguage"]>(),
+    setTheme: vi.fn<SettingsContextType["setTheme"]>(),
     t: (text) => text.en,
     ...ctx,
   };
@@ -82,7 +82,7 @@ const renderCVPage = (ctx?: Partial<SettingsContextType>) => {
 
 describe("CV page", () => {
   beforeAll(() => {
-    window.scrollTo = vi.fn() as typeof window.scrollTo;
+    window.scrollTo = vi.fn<(options?: ScrollToOptions | number, y?: number) => void>() as typeof window.scrollTo;
     if (!URL.createObjectURL) {
       Object.defineProperty(URL, "createObjectURL", {
         configurable: true,

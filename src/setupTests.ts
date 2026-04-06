@@ -9,11 +9,11 @@ if (!('matchMedia' in window)) {
       matches: false,
       media: query,
       onchange: null,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      dispatchEvent: vi.fn(),
+      addEventListener: vi.fn<(type: string, listener: EventListenerOrEventListenerObject | null, options?: boolean | AddEventListenerOptions) => void>(),
+      removeEventListener: vi.fn<(type: string, listener: EventListenerOrEventListenerObject | null, options?: boolean | EventListenerOptions) => void>(),
+      addListener: vi.fn<(listener: ((this: MediaQueryList, event: MediaQueryListEvent) => void) | null) => void>(),
+      removeListener: vi.fn<(listener: ((this: MediaQueryList, event: MediaQueryListEvent) => void) | null) => void>(),
+      dispatchEvent: vi.fn<(event: Event) => boolean>(),
     }),
   })
 }

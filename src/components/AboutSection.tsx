@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { useSettings } from '@/contexts/settings-hook';
 import { siteContent } from '@/content/content';
 import { Users, FolderArchive, Code, LucideIcon } from 'lucide-react';
@@ -36,9 +37,13 @@ const AboutSection = () => {
               {/* Main image */}
               <div className="rounded-lg overflow-hidden shadow-xl hover-scale border-4 border-white dark:border-gray-800">
                 <div className="bg-gradient-to-br from-primary/40 to-accent/40 aspect-[4/5] flex items-center justify-center">
-                  <img src="/about-me.webp"
+                  <Image
+                    src="/about-me.webp"
                     alt={t(about.imageAlt)}
-                    className="size-4/5 object-cover aspect-[4/5]" />
+                    width={800}
+                    height={1000}
+                    className="size-4/5 object-cover aspect-[4/5]"
+                  />
                 </div>
               </div>
               

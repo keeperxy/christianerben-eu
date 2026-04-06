@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { BadgeCheck, Download, ExternalLink, FileText } from "lucide-react";
 import { siteContent } from "@/content/content";
 import { useSettings } from "@/contexts/settings-hook";
@@ -46,9 +47,11 @@ const CertificatesSection = React.forwardRef<HTMLElement, CertificatesSectionPro
                 className="group rounded-xl border border-border bg-background/80 p-4 flex flex-col items-center text-center gap-3 transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-lg"
               >
                 <div className="w-full rounded-lg bg-card/90 border border-border/70 p-3 min-h-[210px] flex items-center justify-center">
-                  <img
+                  <Image
                     src={badge.imageUrl}
                     alt={badge.title}
+                    width={320}
+                    height={320}
                     data-testid="credly-badge-image"
                     loading="lazy"
                     className="h-44 w-auto max-w-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.2)]"

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import Image from "next/image";
 import { siteContent, type Experience } from "@/content/content";
 import { useSettings } from "@/contexts/settings-hook";
 import { FileText, MapPin, Calendar, MessageSquareMore } from "lucide-react";
@@ -80,9 +81,11 @@ const ExperienceSection = () => {
             )}
           >
             {exp.logoUrl && (
-              <img
+              <Image
                 src={exp.logoUrl}
                 alt={`${exp.company} logo`}
+                width={200}
+                height={48}
                 className={cn(
                   "h-12 w-auto object-contain mx-auto mt-6 md:mx-0 md:float-right md:ml-2 md:mb-2 md:mr-6",
                   exp.logoClassName,
