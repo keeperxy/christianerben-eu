@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { siteContent } from '@/content/content';
 import { useSettings } from '@/contexts/settings-hook';
 import { Badge } from '@/components/ui/badge';
@@ -39,9 +40,11 @@ const ProjectsSection = () => {
                     <div className="aspect-video relative">
                       <div className="absolute inset-0 bg-gradient-to-br from-primary/40 to-accent/40 flex items-center justify-center">
                         {project.imageUrl && (
-                          <img
+                          <Image
                             src={project.imageUrl}
                             alt={`${t(project.imageAlt)}`}
+                            width={512}
+                            height={288}
                             className="object-contain max-h-48 max-w-64 h-auto mx-auto"
                           />
                         )}

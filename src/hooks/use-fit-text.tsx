@@ -53,7 +53,7 @@ export function useFitText({
       }
     }
     setFontSize(best);
-  }, [minFontSize, maxFontSize, resolution, depKey]);
+  }, [minFontSize, maxFontSize, resolution]);
 
   useIsomorphicLayoutEffect(() => {
     fit();
@@ -81,6 +81,10 @@ export function useFitText({
     window.addEventListener("resize", fit);
     return () => window.removeEventListener("resize", fit);
   }, [fit]);
+
+  useIsomorphicLayoutEffect(() => {
+    fit();
+  }, [fit, depKey]);
 
   return { ref: containerRef, fontSize };
 } 

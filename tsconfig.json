@@ -20,7 +20,6 @@
     "types": [
       "@testing-library/jest-dom"
     ],
-    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
