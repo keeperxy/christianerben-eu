@@ -1,0 +1,4 @@
+interface:
+  display_name: "Christian Erben Update"
+  short_description: "Update Bun deps with visual regression checks"
+  default_prompt: "Use $christianerben-update to create an update branch, bump this portfolio to the latest Bun package versions, compare before-and-after screenshots, fix regressions, and open a PR against development."
