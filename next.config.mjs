@@ -7,6 +7,40 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 const nextConfig = {
   reactStrictMode: true,
   typedRoutes: true,
+  async headers() {
+    return [
+      {
+        source: "/",
+        headers: [
+          {
+            key: "Link",
+            value: '</llms.txt>; rel="describedby"; type="text/plain"',
+          },
+          {
+            key: "Vary",
+            value: "Accept",
+          },
+        ],
+      },
+    ];
+  },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: "/",
+          has: [
+            {
+              type: "header",
+              key: "accept",
+              value: ".*[Tt][Ee][Xx][Tt]/[Mm][Aa][Rr][Kk][Dd][Oo][Ww][Nn].*",
+            },
+          ],
+          destination: "/api/markdown/homepage",
+        },
+      ],
+    };
+  },
   turbopack: {
     root: projectRoot,
   },
