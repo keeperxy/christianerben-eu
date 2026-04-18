@@ -11,6 +11,7 @@ User-agent: facebookexternalhit
 Allow: /
 
 User-agent: *
+Content-Signal: ai-train=no, search=yes, ai-input=no
 Allow: /
 
 Sitemap: https://christianerben.eu/sitemap.xml
