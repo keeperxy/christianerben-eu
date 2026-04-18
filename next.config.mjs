@@ -16,6 +16,10 @@ const nextConfig = {
             key: "Link",
             value: '</llms.txt>; rel="describedby"; type="text/plain"',
           },
+          {
+            key: "Vary",
+            value: "Accept",
+          },
         ],
       },
     ];
@@ -29,7 +33,7 @@ const nextConfig = {
             {
               type: "header",
               key: "accept",
-              value: ".*text/markdown.*",
+              value: ".*[Tt][Ee][Xx][Tt]/[Mm][Aa][Rr][Kk][Dd][Oo][Ww][Nn].*",
             },
           ],
           destination: "/api/markdown/homepage",

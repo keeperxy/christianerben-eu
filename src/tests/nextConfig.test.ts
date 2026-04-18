@@ -20,6 +20,10 @@ describe("next config", () => {
       key: "Link",
       value: '</llms.txt>; rel="describedby"; type="text/plain"',
     });
+    expect(homeHeaders?.headers).toContainEqual({
+      key: "Vary",
+      value: "Accept",
+    });
   });
 
   it("rewrites markdown accept requests on the homepage to a markdown endpoint", async () => {
@@ -37,7 +41,7 @@ describe("next config", () => {
     expect(markdownRewrite?.has).toContainEqual({
       type: "header",
       key: "accept",
-      value: ".*text/markdown.*",
+      value: ".*[Tt][Ee][Xx][Tt]/[Mm][Aa][Rr][Kk][Dd][Oo][Ww][Nn].*",
     });
   });
 });
