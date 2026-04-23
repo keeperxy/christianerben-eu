@@ -1,34 +1,36 @@
 ---
 name: christianerben-update
-description: Update this `christianerben-eu` portfolio to the latest Bun package versions with mandatory visual regression checks and GitHub delivery flow. Use when Codex needs to create a dedicated update branch, run `bun update --latest`, refresh the lockfile, capture before-and-after screenshots of every user-facing route in `src/pages`, compare the screenshots, diagnose large visual diffs, fix any regressions, and open a pull request against `development` when the update is successful.
+description: Check whether this `christianerben-eu` portfolio has outdated Bun dependencies first, and only if updates exist create a dedicated update branch, run `bun update --latest`, refresh the lockfile, capture before-and-after screenshots of every user-facing route in `src/pages`, compare the screenshots, diagnose large visual diffs, fix any regressions, and open a pull request against `development`.
 ---
 
 # Christianerben Update
 
 ## Overview
 
-Keep dependency upgrades in this repository safe by enforcing a screenshot-first workflow around every Bun update. Capture every user-facing page before and after the update, quantify visual diffs, and treat unexpected breakage as code to fix instead of noise to report.
+Keep dependency upgrades in this repository safe by checking for outdated packages before doing any heavy work. If `bun outdated` shows no actionable updates, stop immediately and skip branch creation, screenshots, and PR work. Only run the screenshot-first workflow when there is a real dependency change to validate.
 
 ## Workflow
 
-1. Check `git status --short` before changing dependencies. Stop only if unrelated local changes would make the update or screenshot baseline ambiguous.
-2. Create a dedicated branch before taking screenshots or changing dependencies. Use a clear name such as `codex/christianerben-update-2026-04-17` or `codex/christianerben-update-next-react`.
-3. Read [`./references/project-routes.md`](references/project-routes.md) from this skill folder when the current route inventory matters.
-4. Derive the current route list with `scripts/discover_routes.py` instead of hardcoding routes when there is any doubt.
-5. Ensure browser tooling exists. If Playwright Chromium is missing, run `bunx playwright install chromium`.
-6. Start the local site from the repository root with `bun run dev` on port `3000`. Use `http://localhost:3000` for screenshots so Next.js dev-mode origin checks stay quiet.
-7. Capture baseline screenshots with `scripts/capture_screenshots.py`. Default to both `desktop` and `mobile` modes unless the request explicitly narrows the scope.
-8. Run `bun update --latest` from the repository root. Use Bun for dependency upgrades and let it update `package.json` and `bun.lock`.
-9. Run follow-up validation immediately after the update:
+1. Check `git status --short` before changing dependencies. Stop only if unrelated local changes would make the update result or screenshot baseline ambiguous.
+2. Run `bun outdated --no-progress` from the repository root before creating a branch or taking screenshots.
+3. If `bun outdated` reports no outdated dependencies, stop immediately and report that no update run is needed. Do not create a branch, do not capture screenshots, and do not open a PR.
+4. Create a dedicated branch only after confirming that updates exist. Use a clear name such as `codex/christianerben-update-2026-04-17` or `codex/christianerben-update-next-react`.
+5. Read [`./references/project-routes.md`](references/project-routes.md) from this skill folder when the current route inventory matters.
+6. Derive the current route list with `scripts/discover_routes.py` instead of hardcoding routes when there is any doubt.
+7. Ensure browser tooling exists. If Playwright Chromium is missing, run `bunx playwright install chromium`.
+8. Start the local site from the repository root with `bun run dev` on port `3000`. Use `http://localhost:3000` for screenshots so Next.js dev-mode origin checks stay quiet.
+9. Capture baseline screenshots with `scripts/capture_screenshots.py`. Default to both `desktop` and `mobile` modes unless the request explicitly narrows the scope.
+10. Run `bun update --latest` from the repository root. Use Bun for dependency upgrades and let it update `package.json` and `bun.lock`.
+11. Run follow-up validation immediately after the update:
    - `bun run lint`
    - `bun run test`
    - `bun run build`
-10. Restart the app if the update invalidated the current dev server, then capture a fresh `after` screenshot set with the same routes and modes.
-11. Compare the two screenshot sets with `scripts/compare_screenshots.py`. Read the JSON summary and inspect the generated diff overlays.
-12. Treat large diffs as bugs. Identify the affected route, inspect the owning page/component pair, determine the root cause, and implement the smallest viable fix.
-13. Re-run the relevant checks and recapture screenshots until the remaining diffs are understood and acceptable.
-14. Stage only the relevant files, create a focused commit, and push the branch once the update, tests, build, and screenshot comparison are all green.
-15. Open a pull request from the update branch into `development`. The PR body should summarize the updated packages, validation steps, screenshot comparison result, and any fixes or pins that were required.
+12. Restart the app if the update invalidated the current dev server, then capture a fresh `after` screenshot set with the same routes and modes.
+13. Compare the two screenshot sets with `scripts/compare_screenshots.py`. Read the JSON summary and inspect the generated diff overlays.
+14. Treat large diffs as bugs. Identify the affected route, inspect the owning page/component pair, determine the root cause, and implement the smallest viable fix.
+15. Re-run the relevant checks and recapture screenshots until the remaining diffs are understood and acceptable.
+16. Stage only the relevant files, create a focused commit, and push the branch once the update, tests, build, and screenshot comparison are all green.
+17. Open a pull request from the update branch into `development`. The PR body should summarize the updated packages, validation steps, screenshot comparison result, and any fixes or pins that were required.
 
 ## Route Rules
 
@@ -39,7 +41,7 @@ Keep dependency upgrades in this repository safe by enforcing a screenshot-first
 
 ## Visual Diff Rules
 
-- Treat screenshots as mandatory for package updates in this repository.
+- Treat screenshots as mandatory only when dependencies were actually updated in this repository.
 - Keep the environment stable across captures: same base URL, same browser, same color scheme, same locale, same wait time.
 - Use the same route inventory for both passes. Do not silently skip a broken route on the second pass.
 - Prefer `desktop,mobile` as the default mode set, because layout regressions often only appear on one breakpoint.
@@ -62,6 +64,11 @@ Keep dependency upgrades in this repository safe by enforcing a screenshot-first
 ## Commands
 
 ```bash
+git status --short
+bun outdated --no-progress
+
+# Stop here if no outdated dependencies are reported.
+
 git switch -c codex/christianerben-update-2026-04-17
 
 python3 .codex/skills/christianerben-update/scripts/discover_routes.py --json
