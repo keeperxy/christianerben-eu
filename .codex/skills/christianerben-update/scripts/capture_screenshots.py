@@ -83,7 +83,7 @@ def build_command(url: str, destination: Path, wait_ms: int, timeout_ms: int, mo
         "chromium",
         "--full-page",
         "--wait-for-selector",
-        "#__next",
+        "body",
         "--wait-for-timeout",
         str(wait_ms),
         "--timeout",
