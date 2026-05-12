@@ -1,0 +1,4 @@
+interface:
+  display_name: "Christian Erben Dependency Release"
+  short_description: "Upgrade dependencies and release safely"
+  default_prompt: "Use $christianerben-dependency-release to update all dependencies, verify screenshots, open the PR, merge, and check Vercel deployments."
