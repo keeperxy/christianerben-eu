@@ -31,7 +31,7 @@ const urls = [
   },
   {
     url: '/llms.txt',
-    files: ['src/pages/LLMs.tsx', 'src/pages/Index.tsx', 'src/components/Header.tsx', 'src/components/Footer.tsx'],
+    files: ['public/llms.txt', 'src/pages/LLMs.tsx', 'src/pages/Index.tsx', 'src/components/Header.tsx', 'src/components/Footer.tsx'],
     priority: 0.3
   }
 ];
@@ -51,7 +51,8 @@ function getLatestMtime(files) {
   return latest ? new Date(latest).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
 }
 
-const xml = `<?xml version="1.0" encoding="UTF-8"?>
+function generateSitemapXml() {
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(({ url, files, priority }) => `
   <url>
@@ -61,6 +62,20 @@ ${urls.map(({ url, files, priority }) => `
   </url>
 `).join('')}
 </urlset>`;
+}
 
-fs.writeFileSync(path.join(__dirname, '../public/sitemap.xml'), xml);
-console.log('sitemap.xml generated!');
+function writeSitemap() {
+  fs.writeFileSync(path.join(__dirname, '../public/sitemap.xml'), generateSitemapXml());
+  console.log('sitemap.xml generated!');
+}
+
+if (require.main === module) {
+  writeSitemap();
+}
+
+module.exports = {
+  generateSitemapXml,
+  getLatestMtime,
+  urls,
+  writeSitemap,
+};
