@@ -39,12 +39,15 @@ After opening the PR, leave time for delayed GitHub reviews before merging. Star
 
 Default watch window: poll every 5 minutes for up to 30 minutes after the PR is opened. Extend the wait if checks are still pending, review activity is ongoing, or the user explicitly asks for a longer watch. Address actionable unresolved review feedback, push fixes, and restart the relevant verification loop before merging.
 
-## Release Report
+## Final Summary
 
-Generate an HTML report before merging the PR:
+Do not generate a separate HTML report. Finish the release with a concise plain-text summary in the final user response, modelled after an automation run log. Include the most useful operational facts:
 
-```bash
-bun .codex/skills/christianerben-dependency-release/scripts/generate-release-report.mjs --run-id <run-id> --base-ref origin/development --pr-url <pr-url>
-```
-
-The report lives at `.artifacts/dependency-update-release/<run-id>/release-report.html` and summarizes package changes, diff stats, verification results, failures, and before/after screenshots. Keep it uncommitted with the other `.artifacts/` files, but include the report path in the final user summary.
+- run id, job/status/session/cwd/finished timestamp when available
+- one-sentence completion outcome
+- merged PR URL and final branch commit
+- visual artifact path, if screenshots were captured
+- package upgrades as `name old -> new`
+- validation commands that passed
+- Vercel deployment results for `development`, `preproduction`, and `main`
+- GitHub review/check watch outcome and any residual notes
