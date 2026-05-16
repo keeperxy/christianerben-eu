@@ -7,7 +7,7 @@ description: End-to-end dependency update and release workflow for the christian
 
 Use this skill to perform a full dependency release for `/home/coach007/dev/sites/christianerben-eu`. Keep the workflow conservative: update everything only when updates exist, verify locally and visually, then promote through the configured branch chain with Vercel checks at each stage.
 
-Read `references/repo-workflow.md` before starting. Use the bundled scripts from this skill for page discovery, screenshot capture, tolerant visual comparison, and the final HTML release report.
+Read `references/repo-workflow.md` before starting. Use the bundled scripts from this skill for page discovery, screenshot capture, and tolerant visual comparison.
 
 ## Preflight
 
@@ -51,7 +51,7 @@ bun .codex/skills/christianerben-dependency-release/scripts/compare-screenshots.
 
 Treat blank pages, Next error pages, severe layout collapse, unexpected browser console errors, and HTTP failures as blockers. Do not require pixel-perfect equality.
 
-## PR Review, Report, And Merge Flow
+## PR Review And Merge Flow
 
 1. Before opening the PR, run the generator commands on the PR branch so hook-generated files are current:
 
@@ -72,23 +72,24 @@ bun run update:last-updated
    - Poll for review state at a calm cadence for up to 30 minutes by default, or longer if checks are still running or the user asked for a longer watch. A practical cadence is every 5 minutes after the PR is opened.
    - If actionable unresolved review feedback appears, address it locally, re-run the relevant verification (`bun run lint`, `bun run test`, `bun run build`, screenshots when UI output may change), push again, and repeat the review watch.
    - Do not reply on GitHub, resolve threads, or submit reviews unless the user explicitly asks for those write actions.
-6. Generate the final release report after local verification and before merging:
-
-```bash
-bun .codex/skills/christianerben-dependency-release/scripts/generate-release-report.mjs --run-id <run-id> --base-ref origin/development --pr-url <pr-url>
-```
-
-The report is written to `.artifacts/dependency-update-release/<run-id>/release-report.html`. Include the path in the final user summary. Keep the report and all screenshots out of commits.
-7. Merge locally into updated `development`, then run `.githooks/pre-commit` on the real `development` branch. Include any generated files in the merge commit.
-8. Push `development`, wait for Vercel deployment `READY`, and fetch logs/fix/retry on `ERROR` or `CANCELED`.
-9. Merge and push `development -> preproduction`, wait for Vercel `READY`.
-10. Merge and push `preproduction -> main`, wait for Vercel `READY`.
+6. Merge locally into updated `development`, then run `.githooks/pre-commit` on the real `development` branch. Include any generated files in the merge commit.
+7. Push `development`, wait for Vercel deployment `READY`, and fetch logs/fix/retry on `ERROR` or `CANCELED`.
+8. Merge and push `development -> preproduction`, wait for Vercel `READY`.
+9. Merge and push `preproduction -> main`, wait for Vercel `READY`.
+10. Finish with a concise plain-text summary in the final response. Prefer this shape:
+    - run id, job/status/session/cwd/finished timestamp when available
+    - one-sentence completion outcome
+    - merged PR URL and final branch commit
+    - visual artifact path, if screenshots were captured
+    - package upgrades as `name old -> new`
+    - validation commands that passed
+    - Vercel deployment results for `development`, `preproduction`, and `main`
+    - GitHub review/check watch outcome and any residual notes
 
 ## Useful Scripts
 
 - `scripts/discover-pages.mjs`: lists real Pages Router routes, excluding API routes and special Next files.
 - `scripts/capture-pages.mjs`: captures desktop and mobile screenshots under `.artifacts/dependency-update-release/<run-id>/<phase>/`.
 - `scripts/compare-screenshots.mjs`: compares `before` and `after` screenshots with tolerant thresholds and writes `comparison-report.json`.
-- `scripts/generate-release-report.mjs`: writes `.artifacts/dependency-update-release/<run-id>/release-report.html` with package changes, diff summary, verification status, and before/after screenshot comparisons.
 
 All generated artifacts must remain under `.artifacts/` and must not be committed.
