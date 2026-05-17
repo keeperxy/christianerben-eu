@@ -35,9 +35,11 @@ Known risk: `scripts/vercel-deploy-check.sh` may be inverted because allowed bra
 
 ## GitHub Review Watch
 
-After opening the PR, leave time for delayed GitHub reviews before merging. Start with the GitHub plugin's general `github` skill for PR metadata. Route review-thread work to `gh-address-comments`, because unresolved inline comments and requested changes require thread-aware reads through `gh api graphql`. Route failing GitHub Actions checks to `gh-fix-ci`.
+After opening the PR, watch the Codex GitHub review lifecycle before merging. Start with the GitHub plugin's general `github` skill for PR metadata. Route review-thread work to `gh-address-comments`, because unresolved inline comments and requested changes require thread-aware reads through `gh api graphql`. Route failing GitHub Actions checks to `gh-fix-ci`.
 
-Default watch window: poll every 5 minutes for up to 30 minutes after the PR is opened. Extend the wait if checks are still pending, review activity is ongoing, or the user explicitly asks for a longer watch. Address actionable unresolved review feedback, push fixes, and restart the relevant verification loop before merging.
+Use PR reaction emojis as the authoritative Codex review lifecycle signal. The eyes emoji means review has started. The thumbs-up emoji means review has finished, and any objections should be recorded in the PR thread or review comments. Do not merge while the eyes emoji is present without a later thumbs-up completion signal for the current head commit.
+
+After the thumbs-up emoji appears, inspect review threads and PR comments. Address actionable unresolved review feedback, push fixes, restart the relevant verification loop, and then restart the emoji-based review watch from the beginning. After every new push, wait for a fresh eyes emoji followed by a fresh thumbs-up emoji for the new head commit before continuing.
 
 ## Final Summary
 

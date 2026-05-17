@@ -65,12 +65,14 @@ bun run update:last-updated
 2. Re-run `bun run lint`, `bun run test`, `bun run build`, and screenshot comparison when generated files change.
 3. Push the branch and open a PR against `development`.
 4. Self-review the PR diff, fix issues, and wait for required checks.
-5. Watch for delayed GitHub review feedback before merging:
+5. Watch the Codex GitHub review status before merging:
    - Use `github:github` for initial PR metadata and broad PR comment triage.
    - Use `github:gh-address-comments` when review threads, requested changes, unresolved inline comments, or resolution state matter. Prefer its bundled GraphQL workflow through `gh` for thread-aware reads.
    - Use `github:gh-fix-ci` only when GitHub Actions checks fail and logs are needed.
-   - Poll for review state at a calm cadence for up to 30 minutes by default, or longer if checks are still running or the user asked for a longer watch. A practical cadence is every 5 minutes after the PR is opened.
-   - If actionable unresolved review feedback appears, address it locally, re-run the relevant verification (`bun run lint`, `bun run test`, `bun run build`, screenshots when UI output may change), push again, and repeat the review watch.
+   - Use PR reaction emojis as the authoritative Codex review lifecycle signal: the eyes emoji means review has started; the thumbs-up emoji means review has finished.
+   - Do not merge while the eyes emoji is present without a later thumbs-up completion signal for the current head commit.
+   - After the thumbs-up emoji appears, inspect review threads and PR comments. If actionable unresolved review feedback appears, address it locally, re-run the relevant verification (`bun run lint`, `bun run test`, `bun run build`, screenshots when UI output may change), push again, and repeat the emoji-based review watch from the beginning.
+   - After every new push, assume the Codex review lifecycle restarts. Wait for a fresh eyes emoji followed by a fresh thumbs-up emoji for the new head commit before continuing.
    - Do not reply on GitHub, resolve threads, or submit reviews unless the user explicitly asks for those write actions.
 6. Merge locally into updated `development`, then run `.githooks/pre-commit` on the real `development` branch. Include any generated files in the merge commit.
 7. Push `development`, wait for Vercel deployment `READY`, and fetch logs/fix/retry on `ERROR` or `CANCELED`.
