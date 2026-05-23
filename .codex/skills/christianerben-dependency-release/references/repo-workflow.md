@@ -27,6 +27,20 @@ Run these generator commands explicitly on the PR branch before final verificati
 
 Capture desktop and mobile screenshots for `/`, `/cv`, `/imprint`, `/privacy`, `/sitemap`, and `/404`. The comparison is tolerant: expect small rendering differences after dependency upgrades, but fail for blank pages, error pages, severe layout breaks, missing routes, failed network responses, or unexpected console errors.
 
+## Relevant Update Follow-Up
+
+After updating dependencies, inspect upstream release notes, changelogs, migration guides, and official documentation for the changed packages. Look for new features, framework capabilities, security or performance options, deprecations, and configuration changes that matter for this Next.js portfolio.
+
+Create a separate GitHub issue when an update introduces a relevant optional improvement that should be considered after the release. Keep that issue out of the dependency PR unless the adoption work is required for the package update to pass. The issue should explain:
+
+- what the update includes
+- how the repository could use the new feature or changed capability
+- what would need to change to activate or adopt it
+- advantages of enabling it
+- disadvantages, risks, migration cost, or reasons to defer it
+
+If no relevant optional improvement exists, do not create a placeholder issue. Note the no-op follow-up check in the final release summary.
+
 ## Vercel Checks
 
 After each push to `development`, `preproduction`, and `main`, poll the matching Vercel deployment for up to 5 minutes until it reaches `READY`. If deployment becomes `ERROR` or `CANCELED`, fetch build logs, fix the issue locally, re-run lint/test/build/screenshots, and resume from the failed branch.
@@ -43,6 +57,10 @@ After opening the PR, wait up to 10 minutes for the initial Codex review lifecyc
 
 After the thumbs-up emoji appears, inspect review threads and PR comments. Address actionable unresolved review feedback, push fixes, restart the relevant verification loop, and then restart the emoji-based review watch from the beginning. After every new push, assume the remote Codex review starts again automatically; wait for the delayed initial eyes emoji for the new head commit, apply the same 10-minute `@codex review` fallback only if no Codex activity starts, and then wait for the matching thumbs-up completion signal before continuing.
 
+## Local Cleanup
+
+After `development`, `preproduction`, and `main` have been pushed and the final `main` deployment is `READY`, leave the local checkout on `development`. Update it from `origin/development`, delete the merged local `codex/update-dependencies-<timestamp>` branch, and remove any temporary local worktree or checkout created only for the update run. Keep screenshot artifacts under `.artifacts/`, do not commit them, and leave the worktree clean unless the user explicitly asks to keep a branch, worktree, or artifact.
+
 ## Final Summary
 
 Do not generate a separate HTML report. Finish the release with a concise plain-text summary in the final user response, modelled after an automation run log. Include the most useful operational facts:
@@ -50,6 +68,8 @@ Do not generate a separate HTML report. Finish the release with a concise plain-
 - run id, job/status/session/cwd/finished timestamp when available
 - one-sentence completion outcome
 - merged PR URL and final branch commit
+- follow-up issue URLs created for relevant update features, or a note that no relevant follow-up was found
+- final local branch and cleanup result
 - visual artifact path, if screenshots were captured
 - package upgrades as `name old -> new`
 - validation commands that passed
