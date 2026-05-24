@@ -51,6 +51,20 @@ bun .codex/skills/christianerben-dependency-release/scripts/compare-screenshots.
 
 Treat blank pages, Next error pages, severe layout collapse, unexpected browser console errors, and HTTP failures as blockers. Do not require pixel-perfect equality.
 
+## Relevant Update Follow-Up
+
+After dependency updates are known and before opening the PR, review upstream release notes, changelogs, migration guides, and official documentation for the changed packages. Focus on new features, framework capabilities, security or performance options, deprecations, and config changes that are relevant to this repository's Next.js portfolio.
+
+If a relevant optional improvement exists, create a separate GitHub issue before merging the dependency PR. The issue must describe:
+
+- what the update includes
+- how the repository could use the new feature or changed capability
+- what would need to change to activate or adopt it
+- advantages of enabling it
+- disadvantages, risks, migration cost, or reasons to defer it
+
+Keep these issues separate from the dependency PR unless the change is required to keep the update working. If no relevant follow-up exists, mention that in the final summary instead of creating a placeholder issue.
+
 ## PR Review And Merge Flow
 
 1. Before opening the PR, run the generator commands on the PR branch so hook-generated files are current:
@@ -80,10 +94,18 @@ bun run update:last-updated
 7. Push `development`, wait for Vercel deployment `READY`, and fetch logs/fix/retry on `ERROR` or `CANCELED`.
 8. Merge and push `development -> preproduction`, wait for Vercel `READY`.
 9. Merge and push `preproduction -> main`, wait for Vercel `READY`.
-10. Finish with a concise plain-text summary in the final response. Prefer this shape:
+10. After the final `main` deployment is `READY`, clean up the local repository:
+    - switch back to `development`
+    - update `development` from `origin/development`
+    - delete the local `codex/update-dependencies-<timestamp>` branch after it has been merged
+    - remove any temporary local worktree or checkout created only for the update run
+    - keep `.artifacts/` uncommitted and leave the worktree clean unless the user explicitly asks to keep artifacts or branches
+11. Finish with a concise plain-text summary in the final response. Prefer this shape:
     - run id, job/status/session/cwd/finished timestamp when available
     - one-sentence completion outcome
     - merged PR URL and final branch commit
+    - follow-up issue URLs created for relevant update features, or a note that no relevant follow-up was found
+    - final local branch and cleanup result
     - visual artifact path, if screenshots were captured
     - package upgrades as `name old -> new`
     - validation commands that passed
