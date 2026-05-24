@@ -135,12 +135,30 @@ Sitemap: https://christianerben.eu/sitemap.xml
 # --- EXPERIENCE ---
 
 [Experience]:
+  [en] Middleware & IPv6 Migration Expert
+  [de] Middleware- & IPv6-Migrationsexperte
+  [en] Company: Confidential Client
+  [de] Firma: Confidential Client
+  [en] May 2026 - Present
+  [de] Mai 2026 - Heute
+  - [en] Provides technical guidance for the migration of specialist applications from IPv4 environments to IPv6-ready dual-stack operation.
+  - [de] Technische Begleitung der Migration von Fachverfahren aus IPv4-Umgebungen in einen IPv6-fähigen Dual-Stack-Betrieb.
+  - [en] Analyzes application dependencies, middleware components, database connections, and operational constraints to assess migration readiness.
+  - [de] Analyse von Anwendungsabhängigkeiten, Middleware-Komponenten, Datenbankanbindungen und betrieblichen Rahmenbedingungen zur Bewertung der Migrationsbereitschaft.
+  - [en] Develops migration plans for individual and clustered applications, coordinating closely with application owners, IT operations, and quality assurance teams.
+  - [de] Entwicklung von Migrationsplänen für einzelne und geclusterte Fachverfahren in enger Abstimmung mit Fachverfahrensverantwortlichen, IT-Betrieb und Qualitätssicherung.
+  - [en] Validates dual-stack capability, IPv6 functionality, security requirements, and documentation quality for reliable migration execution.
+  - [de] Validierung von Dual-Stack-Fähigkeit, IPv6-Funktionalität, Sicherheitsanforderungen und Dokumentationsqualität für eine verlässliche Migrationsdurchführung.
+  - [en] Supports a large-scale, multi-application IPv6 transition with structured readiness assessments, migration documentation, and stakeholder communication.
+  - [de] Unterstützung einer groß angelegten IPv6-Transition über mehrere Fachverfahren hinweg mit strukturierten Readiness-Assessments, Migrationsdokumentation und Stakeholder-Kommunikation.
+
+[Experience]:
   [en] Network Administrator (Palo Alto / Fortinet)
   [de] Netzwerkadministrator (Palo Alto / Fortinet)
   [en] Company: St. Dominikus Krankenhaus und Jugendhilfe gGmbH
   [de] Firma: St. Dominikus Krankenhaus und Jugendhilfe gGmbH
-  [en] Feb 2026 - Present
-  [de] Feb 2026 - Heute
+  [en] Feb 2026 - Apr 2026
+  [de] Februar 2026 - April 2026
   - [en] Responsible for high availability and secure operation of LAN, WLAN, and VPN services for medical and administrative environments.
   - [de] Verantwortlich für die Hochverfügbarkeit und den sicheren Betrieb von LAN-, WLAN- und VPN-Services in medizinischen und administrativen Umgebungen.
   - [en] Operate and maintain network infrastructure including switches, routers, firewalls, and VLAN segmentation for different hospital areas.
