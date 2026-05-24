@@ -421,17 +421,17 @@ export const siteContent: SiteContent = {
     },
     availability: {
       label: { en: "Availability", de: "Verfügbarkeit" },
-      status: { en: "20% available", de: "20% verfügbar" },
+      status: { en: "40% available", de: "40% verfügbar" },
       detail: {
-        en: "80% booked until April 30, 2026",
-        de: "80% ausgelastet bis 30. April 2026",
+        en: "60% booked until April 15, 2027",
+        de: "60% ausgelastet bis 15. April 2027",
       },
       availableFrom: {
-        en: "Fully available from May 4, 2026",
-        de: "Voll verfügbar ab 4. Mai 2026",
+        en: "Additional capacity by arrangement",
+        de: "Weitere Kapazitäten nach Absprache",
       },
-      bookedPercent: 80,
-      availablePercent: 20,
+      bookedPercent: 60,
+      availablePercent: 40,
     },
     ctaPrimary: { en: "Explore my work", de: "Meine Arbeit entdecken" },
     ctaSecondary: { en: "Download CV", de: "Lebenslauf herunterladen" },
@@ -590,13 +590,70 @@ export const siteContent: SiteContent = {
   experiences: [
     {
       title: {
+        en: "Middleware & IPv6 Migration Expert",
+        de: "Middleware- & IPv6-Migrationsexperte",
+      },
+      company: "Confidential Client",
+      period: { en: "May 2026 - Present", de: "Mai 2026 - Heute" },
+      location: { en: "Remote / Germany", de: "Remote / Deutschland" },
+      experienceCategory: "key",
+      description: [
+        {
+          type: "text",
+          text: {
+            en: "Provides technical guidance for the migration of specialist applications from IPv4 environments to IPv6-ready dual-stack operation.",
+            de: "Technische Begleitung der Migration von Fachverfahren aus IPv4-Umgebungen in einen IPv6-fähigen Dual-Stack-Betrieb.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Analyzes application dependencies, middleware components, database connections, and operational constraints to assess migration readiness.",
+            de: "Analyse von Anwendungsabhängigkeiten, Middleware-Komponenten, Datenbankanbindungen und betrieblichen Rahmenbedingungen zur Bewertung der Migrationsbereitschaft.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Develops migration plans for individual and clustered applications, coordinating closely with application owners, IT operations, and quality assurance teams.",
+            de: "Entwicklung von Migrationsplänen für einzelne und geclusterte Fachverfahren in enger Abstimmung mit Fachverfahrensverantwortlichen, IT-Betrieb und Qualitätssicherung.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Validates dual-stack capability, IPv6 functionality, security requirements, and documentation quality for reliable migration execution.",
+            de: "Validierung von Dual-Stack-Fähigkeit, IPv6-Funktionalität, Sicherheitsanforderungen und Dokumentationsqualität für eine verlässliche Migrationsdurchführung.",
+          },
+        },
+        {
+          type: "achievement",
+          text: {
+            en: "Supports a large-scale, multi-application IPv6 transition with structured readiness assessments, migration documentation, and stakeholder communication.",
+            de: "Unterstützung einer groß angelegten IPv6-Transition über mehrere Fachverfahren hinweg mit strukturierten Readiness-Assessments, Migrationsdokumentation und Stakeholder-Kommunikation.",
+          },
+        },
+      ],
+      tags: [
+        { en: "IPv6", de: "IPv6" },
+        { en: "Dual Stack", de: "Dual Stack" },
+        { en: "Middleware Migration", de: "Middleware-Migration" },
+        { en: "Database Migration", de: "Datenbankmigration" },
+        { en: "Application Migration", de: "Fachverfahrensmigration" },
+        { en: "Migration Planning", de: "Migrationsplanung" },
+        { en: "Documentation", de: "Dokumentation" },
+        { en: "Stakeholder Communication", de: "Stakeholder-Kommunikation" },
+      ],
+    },
+    {
+      title: {
         en: "Network Administrator (Palo Alto / Fortinet)",
         de: "Netzwerkadministrator (Palo Alto / Fortinet)",
       },
       company: "St. Dominikus Krankenhaus und Jugendhilfe gGmbH",
       logoUrl: "/logos/st-marienkrankenhaus.svg",
       logoClassName: "h-20 w-auto md:h-24",
-      period: { en: "Feb 2026 - Present", de: "Feb 2026 - Heute" },
+      period: { en: "Feb 2026 - Apr 2026", de: "Februar 2026 - April 2026" },
       location: { en: "Ludwigshafen, Germany", de: "Ludwigshafen, Deutschland" },
       experienceCategory: "key",
       description: [
