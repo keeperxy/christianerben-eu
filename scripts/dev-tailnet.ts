@@ -1,8 +1,8 @@
 import { spawn, spawnSync } from "node:child_process";
 
 const port = process.env.PORT ?? "3000";
-const host = process.env.DEV_HOST ?? "0.0.0.0";
-const localTarget = `http://127.0.0.1:${port}`;
+const host = "127.0.0.1";
+const localTarget = `http://${host}:${port}`;
 
 function commandExists(command: string) {
   const result = spawnSync("sh", ["-lc", `command -v ${command}`], {
