@@ -5,7 +5,10 @@
   "type": "module",
   "packageManager": "bun@1.3.4",
   "scripts": {
-    "dev": "next dev",
+    "dev": "bun scripts/dev-tailnet.ts",
+    "dev:local": "next dev",
+    "dev:tailnet:off": "tailscale serve --https=443 off",
+    "dev:tailnet:status": "tailscale serve status",
     "build": "next build",
     "start": "next start",
     "lint": "oxlint --react-plugin --nextjs-plugin --vitest-plugin --import-plugin --deny-warnings .",
