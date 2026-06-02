@@ -18,12 +18,15 @@ Personal portfolio built with **Next.js 16**, **React 19**, **TypeScript**, **Ta
 
 ```bash
 bun install
-bun run dev   # starts Next.js on http://localhost:3000
+bun run dev   # starts Next.js and exposes it at https://lyra.tailb44a3.ts.net/
 ```
 
 ## Useful Scripts
 
-- `bun run dev` – start the Next.js dev server
+- `bun run dev` – start the Next.js dev server and expose it through Tailscale Serve at `https://lyra.tailb44a3.ts.net/`
+- `bun run dev:local` – start the Next.js dev server without configuring Tailscale Serve
+- `bun run dev:tailnet:status` – show the active Tailscale Serve configuration
+- `bun run dev:tailnet:off` – disable the HTTPS proxy on port 443
 - `bun run lint` – lint the project with Oxlint
 - `bun run test` – run unit tests with Vitest
 - `bun run build` – create a production build

@@ -7,6 +7,7 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 const nextConfig = {
   reactStrictMode: true,
   typedRoutes: true,
+  allowedDevOrigins: ["lyra.tailb44a3.ts.net"],
   async headers() {
     return [
       {
