@@ -53,7 +53,7 @@
     "@supabase/supabase-js": "^2.108.1",
     "@tanstack/react-query": "^5.101.0",
     "buffer": "6.0.3",
-    "caniuse-lite": "1.0.30001797",
+    "caniuse-lite": "1.0.30001799",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "cmdk": "1.1.1",
@@ -79,6 +79,9 @@
     "tailwindcss-animate": "1.0.7",
     "vaul": "1.1.2",
     "zod": "4.4.3"
+  },
+  "overrides": {
+    "caniuse-lite": "1.0.30001799"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.0",
