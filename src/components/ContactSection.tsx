@@ -31,11 +31,17 @@ const ContactSection = () => {
     verify: z.string(),
     name: z.string().min(2, {
       message: t(contact.formStatus.validation.name),
+    }).max(100, {
+      message: t(contact.formStatus.validation.name),
     }),
-    email: z.string().email({
+    email: z.string().max(254, {
+      message: t(contact.formStatus.validation.email),
+    }).email({
       message: t(contact.formStatus.validation.email),
     }),
     message: z.string().min(10, {
+      message: t(contact.formStatus.validation.message),
+    }).max(5000, {
       message: t(contact.formStatus.validation.message),
     }),
   });
@@ -270,6 +276,7 @@ const ContactSection = () => {
                         </FormLabel>
                         <FormControl>
                           <Input
+                            maxLength={100}
                             placeholder={t(contact.formPlaceholders.name)}
                             {...field}
                           />
@@ -290,6 +297,7 @@ const ContactSection = () => {
                         <FormControl>
                           <Input
                             type="email"
+                            maxLength={254}
                             placeholder={t(contact.formPlaceholders.email)}
                             {...field}
                           />
@@ -309,6 +317,7 @@ const ContactSection = () => {
                         </FormLabel>
                         <FormControl>
                           <Textarea
+                            maxLength={5000}
                             rows={5}
                             placeholder={t(contact.formPlaceholders.message)}
                             {...field}

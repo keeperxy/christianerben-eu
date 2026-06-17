@@ -3,7 +3,7 @@
 This repository hosts a React + TypeScript portfolio site. To contribute changes:
 
 1. Install dependencies with `bun install`.
-2. Run `bun run lint` and `bun run test` to verify code quality and tests.
+2. Run `bun run check` before opening a pull request. It includes lint, typecheck, unit tests, and a production build.
 3. Make your changes in a feature branch.
 4. Commit with a descriptive message and open a pull request.
 
