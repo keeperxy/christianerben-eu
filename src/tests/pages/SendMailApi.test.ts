@@ -207,9 +207,32 @@ describe("send-mail API", () => {
     for (let attempt = 0; attempt < 5; attempt++) {
       const res = await post(
         createRequest({
+          remoteAddress: "203.0.113.40",
+        }),
+      );
+
+      expect(res.statusCode).toBe(200);
+    }
+
+    const limited = await post(
+      createRequest({
+        remoteAddress: "203.0.113.40",
+      }),
+    );
+
+    expect(limited.statusCode).toBe(429);
+    expect(limited.body).toEqual({ error: "Too many contact requests. Please try again later." });
+    expect(sendMock).toHaveBeenCalledTimes(5);
+  });
+
+  it("does not trust rotating x-forwarded-for values for rate limit buckets", async () => {
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const res = await post(
+        createRequest({
           headers: {
-            "x-forwarded-for": "203.0.113.40, 70.41.3.18",
+            "x-forwarded-for": `198.51.100.${attempt}, 70.41.3.18`,
           },
+          remoteAddress: "203.0.113.90",
         }),
       );
 
@@ -219,8 +242,9 @@ describe("send-mail API", () => {
     const limited = await post(
       createRequest({
         headers: {
-          "x-forwarded-for": "203.0.113.40, 70.41.3.18",
+          "x-forwarded-for": "198.51.100.200, 70.41.3.18",
         },
+        remoteAddress: "203.0.113.90",
       }),
     );
 

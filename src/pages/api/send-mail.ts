@@ -1,3 +1,4 @@
+import { createHash, randomBytes } from "node:crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Resend } from "resend";
 import { siteContent } from "@/content/content";
@@ -13,6 +14,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PREHEADER_SPACER = "&nbsp;".repeat(64);
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
+const RATE_LIMIT_KEY_SALT = randomBytes(16).toString("hex");
 
 const rateLimitBuckets = new Map<string, { count: number; expiresAt: number }>();
 
@@ -96,14 +98,13 @@ function parsePayload(data: unknown): ContactPayload {
   return { verify, name, email, message };
 }
 
-function getClientIp(req: NextApiRequest) {
-  const forwardedFor = req.headers["x-forwarded-for"];
-  const forwardedValue = Array.isArray(forwardedFor)
-    ? forwardedFor[0]
-    : forwardedFor;
-  const forwardedIp = forwardedValue?.split(",")[0]?.trim();
+function getRateLimitKey(req: NextApiRequest) {
+  const remoteAddress = req.socket.remoteAddress || "unknown";
 
-  return forwardedIp || req.socket.remoteAddress || "unknown";
+  return createHash("sha256")
+    .update(RATE_LIMIT_KEY_SALT)
+    .update(remoteAddress)
+    .digest("hex");
 }
 
 function consumeRateLimit(key: string, now = Date.now()) {
@@ -151,7 +152,7 @@ export default async function handler(
     return res.status(400).json({ error: message });
   }
 
-  if (!consumeRateLimit(getClientIp(req))) {
+  if (!consumeRateLimit(getRateLimitKey(req))) {
     return res
       .status(429)
       .json({ error: "Too many contact requests. Please try again later." });
@@ -312,6 +313,5 @@ export default async function handler(
     return res.status(500).json({ error: "Failed to send contact email." });
   }
 }
-
 
 
