@@ -165,10 +165,16 @@ describe("CV page", () => {
 
     expect(preview).toHaveAttribute("data-src", expect.stringContaining("/cv/christian_erben_cv_en.pdf"));
     expect(pdfLink).toHaveAttribute("href", expect.stringContaining("/cv/christian_erben_cv_en.pdf"));
+    expect(pdfLink).toHaveAttribute("download", "christian_erben_cv_en.pdf");
+    expect(docxLink).toHaveAttribute("href", expect.stringContaining("/cv/christian_erben_cv_en.docx"));
+    expect(docxLink).toHaveAttribute("download", "christian_erben_cv_en.docx");
+
+    await user.click(pdfLink);
+    await user.click(docxLink);
+
     expect(pdfLink.getAttribute("download")).toMatch(
       /^christian_erben_cv_en_\d{4}-\d{2}-\d{2}\.pdf$/,
     );
-    expect(docxLink).toHaveAttribute("href", expect.stringContaining("/cv/christian_erben_cv_en.docx"));
     expect(docxLink.getAttribute("download")).toMatch(
       /^christian_erben_cv_en_\d{4}-\d{2}-\d{2}\.docx$/,
     );
@@ -183,10 +189,13 @@ describe("CV page", () => {
       "href",
       expect.stringContaining("/cv/christian_erben_cv_en_with_certificates.pdf"),
     );
+    expect(pdfLink).toHaveAttribute("download", "christian_erben_cv_en_with_certificates.pdf");
+    expect(docxLink).toHaveAttribute("href", expect.stringContaining("/cv/christian_erben_cv_en.docx"));
+
+    await user.click(pdfLink);
     expect(pdfLink.getAttribute("download")).toMatch(
       /^christian_erben_cv_en_\d{4}-\d{2}-\d{2}_with_certificates\.pdf$/,
     );
-    expect(docxLink).toHaveAttribute("href", expect.stringContaining("/cv/christian_erben_cv_en.docx"));
   });
 
   it("keeps custom CV data on lazy generated DOCX downloads", async () => {
