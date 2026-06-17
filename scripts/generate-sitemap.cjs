@@ -21,7 +21,7 @@ const urls = [
   },
   {
     url: '/privacy',
-    files: ['src/pages/privacy.tsx', 'src/components/Header.tsx', 'src/components/Footer.tsx'],
+    files: ['src/pages/privacy.tsx', 'src/content/content.ts', 'src/components/Header.tsx', 'src/components/Footer.tsx'],
     priority: 0.5
   },
   {

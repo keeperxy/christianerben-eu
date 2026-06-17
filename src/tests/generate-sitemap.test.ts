@@ -31,6 +31,12 @@ describe("generate-sitemap", () => {
     expect(llmsUrl?.files).toContain("public/llms.txt");
   });
 
+  it("tracks shared privacy content for the privacy sitemap lastmod", () => {
+    const privacyUrl = urls.find(({ url }) => url === "/privacy");
+
+    expect(privacyUrl?.files).toContain("src/content/content.ts");
+  });
+
   it("maps every sitemap source file to an existing exact-case path", () => {
     const missing = urls.flatMap(({ url, files }) =>
       files
