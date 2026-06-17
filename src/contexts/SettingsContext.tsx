@@ -6,22 +6,20 @@ import {
   type SettingsContextType,
 } from './settings-hook';
 
-export const SettingsProvider: React.FC<{ children: React.ReactNode; initialLanguage?: Language }> = ({
+const getBrowserLanguage = (): Language => {
+  const browserLanguages = [
+    ...Array.from(window.navigator.languages ?? []),
+    window.navigator.language,
+  ];
+  const preferred = browserLanguages.find((value) => value);
+
+  return preferred?.toLowerCase().startsWith('de') ? 'de' : 'en';
+};
+
+export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
-  initialLanguage = 'en',
 }) => {
-  const getInitialTheme = (): Theme => {
-    // Always return 'light' on server to prevent hydration mismatch
-    // The actual theme will be set in useEffect after mount
-    if (typeof window === 'undefined') return 'light';
-
-    const savedTheme = window.localStorage.getItem('theme') as Theme;
-    if (savedTheme) return savedTheme;
-
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  };
-
-  const [language, setLanguageState] = useState<Language>(initialLanguage);
+  const [language, setLanguageState] = useState<Language>('en');
   // Initialize with 'light' to match server, then update in useLayoutEffect
   const [theme, setThemeState] = useState<Theme>('light');
   const themeInitialized = useRef(false);
@@ -51,7 +49,11 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode; initialLang
     const savedLanguage = window.localStorage.getItem('language') as Language | null;
     if (savedLanguage === 'en' || savedLanguage === 'de') {
       setLanguageState((current) => (current === savedLanguage ? current : savedLanguage));
+      return;
     }
+
+    const browserLanguage = getBrowserLanguage();
+    setLanguageState((current) => (current === browserLanguage ? current : browserLanguage));
   }, []);
 
   useEffect(() => {

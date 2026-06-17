@@ -29,6 +29,9 @@ bun run dev   # starts Next.js and exposes it at https://lyra.tailb44a3.ts.net/
 - `bun run dev:tailnet:off` – disable the HTTPS proxy on port 443
 - `bun run lint` – lint the project with Oxlint
 - `bun run test` – run unit tests with Vitest
+- `bun run test:run` – run the unit test suite once for CI/local verification
+- `bun run typecheck` – run TypeScript without emitting build output
+- `bun run check` – run lint, typecheck, unit tests, and a production build
 - `bun run build` – create a production build
 - `bun run start` – serve the production build locally
 
