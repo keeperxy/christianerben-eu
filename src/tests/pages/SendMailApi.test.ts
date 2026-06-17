@@ -103,6 +103,7 @@ describe("send-mail API", () => {
     sendMock.mockReset();
     sendMock.mockResolvedValue({ data: { id: "email-id" }, error: null });
     process.env.RESEND_API_KEY = "test-resend-key";
+    delete process.env.VERCEL;
     apiWithTestHooks.__resetContactRateLimitForTests?.();
   });
 
@@ -251,5 +252,43 @@ describe("send-mail API", () => {
     expect(limited.statusCode).toBe(429);
     expect(limited.body).toEqual({ error: "Too many contact requests. Please try again later." });
     expect(sendMock).toHaveBeenCalledTimes(5);
+  });
+
+  it("uses Vercel-provided forwarded addresses for separate visitor buckets", async () => {
+    process.env.VERCEL = "1";
+
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const res = await post(
+        createRequest({
+          headers: {
+            "x-vercel-forwarded-for": "198.51.100.40",
+          },
+          remoteAddress: "10.0.0.10",
+        }),
+      );
+
+      expect(res.statusCode).toBe(200);
+    }
+
+    const limited = await post(
+      createRequest({
+        headers: {
+          "x-vercel-forwarded-for": "198.51.100.40",
+        },
+        remoteAddress: "10.0.0.10",
+      }),
+    );
+    const separateVisitor = await post(
+      createRequest({
+        headers: {
+          "x-vercel-forwarded-for": "198.51.100.41",
+        },
+        remoteAddress: "10.0.0.10",
+      }),
+    );
+
+    expect(limited.statusCode).toBe(429);
+    expect(separateVisitor.statusCode).toBe(200);
+    expect(sendMock).toHaveBeenCalledTimes(6);
   });
 });

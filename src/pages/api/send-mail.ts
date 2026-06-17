@@ -98,12 +98,30 @@ function parsePayload(data: unknown): ContactPayload {
   return { verify, name, email, message };
 }
 
+function getHeaderValue(req: NextApiRequest, name: string) {
+  const value = req.headers[name];
+
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function getVercelClientAddress(req: NextApiRequest) {
+  const forwardedFor =
+    getHeaderValue(req, "x-vercel-forwarded-for") ||
+    getHeaderValue(req, "x-real-ip") ||
+    getHeaderValue(req, "x-forwarded-for");
+
+  return forwardedFor?.split(",")[0]?.trim();
+}
+
 function getRateLimitKey(req: NextApiRequest) {
-  const remoteAddress = req.socket.remoteAddress || "unknown";
+  const clientAddress =
+    process.env.VERCEL === "1"
+      ? getVercelClientAddress(req) || req.socket.remoteAddress || "unknown"
+      : req.socket.remoteAddress || "unknown";
 
   return createHash("sha256")
     .update(RATE_LIMIT_KEY_SALT)
-    .update(remoteAddress)
+    .update(clientAddress)
     .digest("hex");
 }
 
@@ -313,5 +331,4 @@ export default async function handler(
     return res.status(500).json({ error: "Failed to send contact email." });
   }
 }
-
 
