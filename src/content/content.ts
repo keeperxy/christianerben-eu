@@ -2082,6 +2082,10 @@ export const siteContent: SiteContent = {
             en: "This form processes data (name, e-mail, message) solely to reply to your request. Basis: consent / contract performance (Art. 6 GDPR lit. a & b).",
             de: "Die hier eingegebenen Daten (Name, E-Mail, Nachricht) verwenden wir ausschließlich zur Beantwortung deiner Anfrage. Rechtsgrundlage: Einwilligung und Vertragserfüllung (Art. 6 Abs. 1 lit. a & b DSGVO).",
           },
+          {
+            en: "To limit abuse, the application also keeps a temporary in-memory, salted hash of the sender's network address for up to one hour. The raw IP address is not stored in the application for this limiter.",
+            de: "Zur Missbrauchsbegrenzung hält die Anwendung außerdem für höchstens eine Stunde einen temporären, im Arbeitsspeicher gespeicherten, gesalzenen Hash der Netzwerkadresse vor. Die rohe IP-Adresse wird für diese Begrenzung nicht in der Anwendung gespeichert.",
+          },
         ],
       },
       {
@@ -2091,8 +2095,8 @@ export const siteContent: SiteContent = {
         },
         paragraphs: [
           {
-            en: "This site is hosted by Cloudflare; I do not have direct access to server logs or your IP address there. For the contact form, I use Resend to send emails. Only the data you enter into the form is forwarded – no other personal data is stored.",
-            de: "Diese Seite wird bei Cloudflare gehostet; ich habe dort keinen direkten Zugriff auf Server-Logs oder Deine IP-Adresse. Für das Kontaktformular nutze ich Resend, um E-Mails zu versenden. Es werden nur die von Dir im Formular eingegebenen Daten weitergeleitet – weitere personenbezogene Daten werden nicht gespeichert.",
+            en: "This site is hosted by Cloudflare; I do not have direct access to server logs or your IP address there. For the contact form, I use Resend to send emails. Only the data you enter into the form is forwarded to Resend.",
+            de: "Diese Seite wird bei Cloudflare gehostet; ich habe dort keinen direkten Zugriff auf Server-Logs oder Deine IP-Adresse. Für das Kontaktformular nutze ich Resend, um E-Mails zu versenden. Es werden nur die von Dir im Formular eingegebenen Daten an Resend weitergeleitet.",
           },
           {
             en: "Log retention: max. 30 days",

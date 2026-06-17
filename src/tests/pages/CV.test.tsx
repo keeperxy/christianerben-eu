@@ -1,7 +1,8 @@
 import React from "react";
 import { describe, it, expect, beforeAll, afterEach, afterAll, vi } from "vitest";
-import { screen } from "@testing-library/react";
+import { cleanup, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { compressToUint8Array } from "lz-string";
 import CV from "@/pages/cv";
 import { siteContent, type SiteContent } from "@/content/content";
 import type { SettingsContextType } from "@/contexts/settings-hook";
@@ -60,8 +61,32 @@ vi.mock("@/components/cv/CvDownloadButtonsCustom", () => ({
   ),
 }));
 
+vi.mock("@/components/cv/CVPreviewFrame", () => ({
+  __esModule: true,
+  default: ({
+    src,
+    title,
+    "data-testid": testId,
+  }: {
+    src: string;
+    title: string;
+    "data-testid"?: string;
+  }) => <div data-testid={testId} data-src={src} title={title} />,
+}));
+
 const originalCreateObjectURL = URL.createObjectURL;
 const originalRevokeObjectURL = URL.revokeObjectURL;
+
+const encodeHashData = (data: SiteContent) => {
+  const compressed = compressToUint8Array(JSON.stringify(data));
+  let binary = "";
+
+  for (let index = 0; index < compressed.length; index++) {
+    binary += String.fromCharCode(compressed[index]);
+  }
+
+  return window.btoa(binary);
+};
 
 const renderCVPage = (ctx?: Partial<SettingsContextType>) => {
   const context: SettingsContextType = {
@@ -100,6 +125,7 @@ describe("CV page", () => {
   });
 
   afterEach(() => {
+    cleanup();
     vi.clearAllMocks();
     window.location.hash = "";
   });
@@ -122,34 +148,72 @@ describe("CV page", () => {
 
     expect(screen.getByText(siteContent.backToHome.en)).toBeInTheDocument();
     expect(screen.getByText(/Curriculum Vitae/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Download PDF/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Download DOCX/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Download PDF/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Download DOCX/i })).toBeInTheDocument();
     expect(screen.getAllByRole("button", { name: /With certificates/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByTestId("cv-preview").length).toBeGreaterThan(0);
   });
 
-  it("switches preview to the certificate pdf variant when toggled", async () => {
+  it("uses static download links and switches the PDF certificate variant when toggled", async () => {
     renderCVPage();
 
     const user = userEvent.setup();
     const toggle = screen.getAllByRole("button", { name: /With certificates/i })[0];
     const preview = screen.getAllByTestId("cv-preview")[0];
+    const pdfLink = screen.getByRole("link", { name: /Download PDF/i });
+    const docxLink = screen.getByRole("link", { name: /Download DOCX/i });
 
-    expect(preview).toHaveAttribute("src", expect.stringContaining("/cv/christian_erben_cv_en.pdf"));
+    expect(preview).toHaveAttribute("data-src", expect.stringContaining("/cv/christian_erben_cv_en.pdf"));
+    expect(pdfLink).toHaveAttribute("href", expect.stringContaining("/cv/christian_erben_cv_en.pdf"));
+    expect(pdfLink).toHaveAttribute("download", "christian_erben_cv_en.pdf");
+    expect(docxLink).toHaveAttribute("href", expect.stringContaining("/cv/christian_erben_cv_en.docx"));
+    expect(docxLink).toHaveAttribute("download", "christian_erben_cv_en.docx");
+
+    await user.click(pdfLink);
+    await user.click(docxLink);
+
+    expect(pdfLink.getAttribute("download")).toMatch(
+      /^christian_erben_cv_en_\d{4}-\d{2}-\d{2}\.pdf$/,
+    );
+    expect(docxLink.getAttribute("download")).toMatch(
+      /^christian_erben_cv_en_\d{4}-\d{2}-\d{2}\.docx$/,
+    );
+
     await user.click(toggle);
 
     expect(preview).toHaveAttribute(
-      "src",
+      "data-src",
       expect.stringContaining("/cv/christian_erben_cv_en_with_certificates.pdf"),
+    );
+    expect(pdfLink).toHaveAttribute(
+      "href",
+      expect.stringContaining("/cv/christian_erben_cv_en_with_certificates.pdf"),
+    );
+    expect(pdfLink).toHaveAttribute("download", "christian_erben_cv_en_with_certificates.pdf");
+    expect(docxLink).toHaveAttribute("href", expect.stringContaining("/cv/christian_erben_cv_en.docx"));
+
+    await user.click(pdfLink);
+    expect(pdfLink.getAttribute("download")).toMatch(
+      /^christian_erben_cv_en_\d{4}-\d{2}-\d{2}_with_certificates\.pdf$/,
     );
   });
 
-  it("triggers a DOCX download when the button is clicked", async () => {
+  it("keeps custom CV data on lazy generated DOCX downloads", async () => {
+    window.location.hash = `data=${encodeHashData({
+      ...siteContent,
+      hero: {
+        ...siteContent.hero,
+        name: "Custom Candidate",
+      },
+    })}`;
+
     renderCVPage();
 
-    // There may be multiple DOCX buttons (e.g., in header and CV section), so use getAllByRole
-    const docxButtons = await screen.findAllByRole("button", { name: /Download DOCX/i });
-    expect(docxButtons.length).toBeGreaterThan(0);
-    expect(docxButtons[0]).toHaveTextContent(/Download DOCX/i);
+    const user = userEvent.setup();
+    const customDocxButtons = await screen.findAllByRole("button", { name: /Download DOCX/i });
+
+    expect(customDocxButtons.length).toBeGreaterThan(0);
+    await user.click(customDocxButtons[0]);
+    expect(generateCvDocx).toHaveBeenCalledTimes(1);
   });
 });
