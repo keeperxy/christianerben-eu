@@ -16,11 +16,25 @@ const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const RATE_LIMIT_KEY_SALT = randomBytes(16).toString("hex");
 
-const rateLimitBuckets = new Map<string, { count: number; expiresAt: number }>();
+interface RateLimitBucket {
+  count: number;
+  expiresAt: number;
+  purgeTimer?: ReturnType<typeof setTimeout>;
+}
+
+const rateLimitBuckets = new Map<string, RateLimitBucket>();
 
 export const __resetContactRateLimitForTests = () => {
+  for (const bucket of rateLimitBuckets.values()) {
+    if (bucket.purgeTimer) {
+      clearTimeout(bucket.purgeTimer);
+    }
+  }
+
   rateLimitBuckets.clear();
 };
+
+export const __getContactRateLimitBucketCountForTests = () => rateLimitBuckets.size;
 
 function getToEmail() {
   return process.env.CONTACT_TO_EMAIL || siteContent.contact.email;
@@ -125,20 +139,51 @@ function getRateLimitKey(req: NextApiRequest) {
     .digest("hex");
 }
 
+function unrefTimer(timer: ReturnType<typeof setTimeout>) {
+  (timer as { unref?: () => void }).unref?.();
+}
+
+function deleteRateLimitBucket(key: string, bucket: RateLimitBucket) {
+  if (bucket.purgeTimer) {
+    clearTimeout(bucket.purgeTimer);
+  }
+
+  rateLimitBuckets.delete(key);
+}
+
+function scheduleRateLimitBucketPurge(
+  key: string,
+  bucket: RateLimitBucket,
+  now: number,
+) {
+  const delay = Math.max(0, bucket.expiresAt - now);
+  const purgeTimer = setTimeout(() => {
+    if (rateLimitBuckets.get(key) === bucket) {
+      rateLimitBuckets.delete(key);
+    }
+  }, delay);
+
+  unrefTimer(purgeTimer);
+  bucket.purgeTimer = purgeTimer;
+}
+
 function consumeRateLimit(key: string, now = Date.now()) {
   for (const [bucketKey, bucket] of rateLimitBuckets) {
     if (bucket.expiresAt <= now) {
-      rateLimitBuckets.delete(bucketKey);
+      deleteRateLimitBucket(bucketKey, bucket);
     }
   }
 
   const bucket = rateLimitBuckets.get(key);
 
   if (!bucket) {
-    rateLimitBuckets.set(key, {
+    const nextBucket: RateLimitBucket = {
       count: 1,
       expiresAt: now + RATE_LIMIT_WINDOW_MS,
-    });
+    };
+
+    rateLimitBuckets.set(key, nextBucket);
+    scheduleRateLimitBucketPurge(key, nextBucket, now);
 
     return true;
   }
@@ -331,4 +376,3 @@ export default async function handler(
     return res.status(500).json({ error: "Failed to send contact email." });
   }
 }
-

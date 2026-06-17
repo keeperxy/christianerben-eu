@@ -31,6 +31,7 @@ interface MockApiResponse {
 
 const handler = sendMailApi.default;
 const apiWithTestHooks = sendMailApi as typeof sendMailApi & {
+  __getContactRateLimitBucketCountForTests?: () => number;
   __resetContactRateLimitForTests?: () => void;
 };
 
@@ -290,5 +291,27 @@ describe("send-mail API", () => {
     expect(limited.statusCode).toBe(429);
     expect(separateVisitor.statusCode).toBe(200);
     expect(sendMock).toHaveBeenCalledTimes(6);
+  });
+
+  it("purges expired rate limit hashes without waiting for another request", async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-06-17T12:00:00.000Z"));
+
+    try {
+      const res = await post(
+        createRequest({
+          remoteAddress: "203.0.113.70",
+        }),
+      );
+
+      expect(res.statusCode).toBe(200);
+      expect(apiWithTestHooks.__getContactRateLimitBucketCountForTests?.()).toBe(1);
+
+      vi.advanceTimersByTime(60 * 60 * 1000);
+
+      expect(apiWithTestHooks.__getContactRateLimitBucketCountForTests?.()).toBe(0);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });
