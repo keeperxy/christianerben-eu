@@ -187,6 +187,21 @@ describe("send-mail API", () => {
     expect(JSON.stringify(res.body)).not.toContain("provider quota details");
   });
 
+  it("returns a generic provider failure when Resend resolves with an error", async () => {
+    sendMock.mockResolvedValueOnce({
+      data: null,
+      error: {
+        message: "provider rejected message details",
+      },
+    });
+
+    const res = await post();
+
+    expect(res.statusCode).toBe(500);
+    expect(res.body).toEqual({ error: "Failed to send contact email." });
+    expect(JSON.stringify(res.body)).not.toContain("provider rejected");
+  });
+
   it.each([
     ["name", "a".repeat(101)],
     ["email", `${"a".repeat(245)}@example.com`],

@@ -363,13 +363,19 @@ export default async function handler(
     </html>`;
 
   try {
-    await resend.emails.send({
+    const sendResult = await resend.emails.send({
       from: getFromEmail(),
       to: getToEmail(),
       subject: "New contact form submission",
       replyTo: payload.email,
       html,
     });
+
+    if (sendResult.error) {
+      console.error("Failed to send contact email", sendResult.error);
+      return res.status(500).json({ error: "Failed to send contact email." });
+    }
+
     return res.status(200).json({ success: true });
   } catch (error) {
     console.error("Failed to send contact email", error);
