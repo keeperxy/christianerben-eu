@@ -1,10 +1,20 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 
 describe("next config", () => {
+  beforeAll(() => {
+    process.env.DEV_TAILNET_HOST = "codex.tailnet.example.ts.net";
+  });
+
   it("sets an explicit turbopack root for dev server resolution", async () => {
     const { default: nextConfig } = await import("../../next.config.mjs");
 
     expect(nextConfig.turbopack?.root).toBe(process.cwd());
+  });
+
+  it("allows the current Tailnet host during local development", async () => {
+    const { default: nextConfig } = await import("../../next.config.mjs");
+
+    expect(nextConfig.allowedDevOrigins).toContain("codex.tailnet.example.ts.net");
   });
 
   it("adds an RFC 8288 Link header on the homepage for agent discovery", async () => {

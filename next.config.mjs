@@ -2,12 +2,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
+const tailnetHost = process.env.DEV_TAILNET_HOST ?? "lyra.tailb44a3.ts.net";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   typedRoutes: true,
-  allowedDevOrigins: ["lyra.tailb44a3.ts.net"],
+  allowedDevOrigins: [tailnetHost],
   async headers() {
     return [
       {
