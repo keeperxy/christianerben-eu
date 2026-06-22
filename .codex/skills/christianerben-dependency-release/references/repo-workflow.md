@@ -61,12 +61,15 @@ After the thumbs-up emoji appears, inspect review threads and PR comments. Addre
 
 After `development`, `preproduction`, and `main` have been pushed and the final `main` deployment is `READY`, leave the local checkout on `development`. Update it from `origin/development`, delete the merged local `codex/update-dependencies-<timestamp>` branch, and remove any temporary local worktree or checkout created only for the update run. Keep screenshot artifacts under `.artifacts/`, do not commit them, and leave the worktree clean unless the user explicitly asks to keep a branch, worktree, or artifact.
 
-## Final Summary
+## Final Status Report
 
-Do not generate a separate HTML report. Finish the release with a concise plain-text summary in the final user response, modelled after an automation run log. Include the most useful operational facts:
+Generate a Markdown status report at `.artifacts/dependency-update-release/<run-id>/status.md`. Do not generate a separate HTML report. Keep the Markdown report and every supporting artifact under `.artifacts/`, and do not commit them.
+
+Include the most useful operational facts:
 
 - run id, job/status/session/cwd/finished timestamp when available
 - one-sentence completion outcome
+- what was changed and what steps were performed
 - merged PR URL and final branch commit
 - follow-up issue URLs created for relevant update features, or a note that no relevant follow-up was found
 - final local branch and cleanup result
@@ -75,3 +78,11 @@ Do not generate a separate HTML report. Finish the release with a concise plain-
 - validation commands that passed
 - Vercel deployment results for `development`, `preproduction`, and `main`
 - GitHub review/check watch outcome and any residual notes
+
+Publish this Markdown report through Pagecast after writing it. Read `/Users/coach007/dev/skills/pagecast/.codex/skills/publish-report/SKILL.md` when available and use:
+
+```bash
+npx pagecast publish "/absolute/path/to/.artifacts/dependency-update-release/<run-id>/status.md" --json
+```
+
+Return the public Pagecast `url` in the final user response so the report can be checked externally. If publishing fails because Cloudflare setup or account selection is required, report that action and still provide the local `.artifacts/.../status.md` path.
