@@ -100,9 +100,10 @@ bun run update:last-updated
     - delete the local `codex/update-dependencies-<timestamp>` branch after it has been merged
     - remove any temporary local worktree or checkout created only for the update run
     - keep `.artifacts/` uncommitted and leave the worktree clean unless the user explicitly asks to keep artifacts or branches
-11. Finish with a concise plain-text summary in the final response. Prefer this shape:
+11. Write a final Markdown status report under `.artifacts/dependency-update-release/<run-id>/status.md`. Keep this report and every supporting artifact uncommitted. Include:
     - run id, job/status/session/cwd/finished timestamp when available
     - one-sentence completion outcome
+    - what was changed and what steps were performed
     - merged PR URL and final branch commit
     - follow-up issue URLs created for relevant update features, or a note that no relevant follow-up was found
     - final local branch and cleanup result
@@ -111,6 +112,14 @@ bun run update:last-updated
     - validation commands that passed
     - Vercel deployment results for `development`, `preproduction`, and `main`
     - GitHub review/check watch outcome and any residual notes
+12. Publish the final Markdown status report with Pagecast so the user can verify it externally. Treat use of this dependency-release skill as explicit permission to publish this status report. Before publishing, read `/Users/coach007/dev/skills/pagecast/.codex/skills/publish-report/SKILL.md` when it exists, then use its headless workflow:
+
+```bash
+npx pagecast publish "/absolute/path/to/.artifacts/dependency-update-release/<run-id>/status.md" --json
+```
+
+Parse the JSON response and surface the public `url`. If Pagecast returns `401` or `409`, report the exact setup/account action needed and keep the local Markdown report path in the final response.
+13. Finish with a concise final response that includes the Pagecast URL first, then the local `.artifacts/.../status.md` path and any publish/setup failure note if publishing did not complete.
 
 ## Useful Scripts
 
