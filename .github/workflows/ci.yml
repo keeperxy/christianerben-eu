@@ -10,7 +10,7 @@ on:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, bosgame-devbox]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
