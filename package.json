@@ -9,7 +9,7 @@
     "dev:local": "next dev",
     "dev:tailnet:off": "tailscale serve --https=443 off",
     "dev:tailnet:status": "tailscale serve status",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "oxlint --react-plugin --nextjs-plugin --vitest-plugin --import-plugin --deny-warnings .",
     "test": "vitest",
