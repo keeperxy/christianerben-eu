@@ -54,7 +54,7 @@
     "@radix-ui/react-tooltip": "1.2.10",
     "@react-pdf/renderer": "4.5.1",
     "@supabase/supabase-js": "^2.108.2",
-    "@tanstack/react-query": "^5.101.1",
+    "@tanstack/react-query": "^5.101.2",
     "buffer": "6.0.3",
     "caniuse-lite": "1.0.30001799",
     "class-variance-authority": "0.7.1",
