@@ -63,7 +63,7 @@ After `development`, `preproduction`, and `main` have been pushed and the final 
 
 ## Final Status Report
 
-Generate a Markdown status report at `.artifacts/dependency-update-release/<run-id>/status.md`. Do not generate a separate HTML report. Keep the Markdown report and every supporting artifact under `.artifacts/`, and do not commit them.
+Generate a self-contained HTML status page at `.artifacts/dependency-update-release/<run-id>/status.html`. Keep the report and every supporting artifact under `.artifacts/`, and do not commit them.
 
 Include the most useful operational facts:
 
@@ -79,10 +79,6 @@ Include the most useful operational facts:
 - Vercel deployment results for `development`, `preproduction`, and `main`
 - GitHub review/check watch outcome and any residual notes
 
-Publish this Markdown report through Pagecast after writing it. Read `/Users/coach007/dev/skills/pagecast/.codex/skills/publish-report/SKILL.md` when available and use:
+Publish the HTML status page by using the `internal-pages-upload` skill with `.artifacts/dependency-update-release/<run-id>/status.html`. Read and follow `/Users/coach007/.agents/skills/internal-pages-upload/SKILL.md` at publish time; do not copy its upload commands into this workflow.
 
-```bash
-npx pagecast publish "/absolute/path/to/.artifacts/dependency-update-release/<run-id>/status.md" --json
-```
-
-Return the public Pagecast `url` in the final user response so the report can be checked externally. If publishing fails because Cloudflare setup or account selection is required, report that action and still provide the local `.artifacts/.../status.md` path.
+Return the uploaded internal status page URL in the final user response so the report can be checked externally. If publishing fails, report the exact upload failure and still provide the local `.artifacts/.../status.html` path.
