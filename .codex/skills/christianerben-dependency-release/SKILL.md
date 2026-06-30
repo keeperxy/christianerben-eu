@@ -100,7 +100,7 @@ bun run update:last-updated
     - delete the local `codex/update-dependencies-<timestamp>` branch after it has been merged
     - remove any temporary local worktree or checkout created only for the update run
     - keep `.artifacts/` uncommitted and leave the worktree clean unless the user explicitly asks to keep artifacts or branches
-11. Write a final Markdown status report under `.artifacts/dependency-update-release/<run-id>/status.md`. Keep this report and every supporting artifact uncommitted. Include:
+11. Write a final self-contained HTML status page under `.artifacts/dependency-update-release/<run-id>/status.html`. Keep this report and every supporting artifact uncommitted. Include:
     - run id, job/status/session/cwd/finished timestamp when available
     - one-sentence completion outcome
     - what was changed and what steps were performed
@@ -112,14 +112,10 @@ bun run update:last-updated
     - validation commands that passed
     - Vercel deployment results for `development`, `preproduction`, and `main`
     - GitHub review/check watch outcome and any residual notes
-12. Publish the final Markdown status report with Pagecast so the user can verify it externally. Treat use of this dependency-release skill as explicit permission to publish this status report. Before publishing, read `/Users/coach007/dev/skills/pagecast/.codex/skills/publish-report/SKILL.md` when it exists, then use its headless workflow:
-
-```bash
-npx pagecast publish "/absolute/path/to/.artifacts/dependency-update-release/<run-id>/status.md" --json
-```
-
-Parse the JSON response and surface the public `url`. If Pagecast returns `401` or `409`, report the exact setup/account action needed and keep the local Markdown report path in the final response.
-13. Finish with a concise final response that includes the Pagecast URL first, then the local `.artifacts/.../status.md` path and any publish/setup failure note if publishing did not complete.
+    - local artifact paths as text, not embedded local images
+    - escaped dynamic text before inserting it into HTML
+12. Publish the final HTML status page by using the `internal-pages-upload` skill with `.artifacts/dependency-update-release/<run-id>/status.html`. Do not duplicate upload implementation details here; read and follow `/Users/coach007/.agents/skills/internal-pages-upload/SKILL.md` at publish time so changes to that skill remain authoritative.
+13. Finish with a concise final response that includes the uploaded internal status page URL first, then the local `.artifacts/.../status.html` path and any upload failure note if publishing did not complete.
 
 ## Useful Scripts
 
