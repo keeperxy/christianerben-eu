@@ -45,12 +45,12 @@ import {
   SiFreebsd,
   SiGit,
   SiGooglegemini,
-  SiOpenai,
   SiPaperlessngx,
   SiPuppet,
   SiPython,
   SiX,
 } from "react-icons/si";
+import { RiOpenaiFill } from "react-icons/ri";
 
 interface LocalizedString {
   en: string;
@@ -1639,7 +1639,7 @@ export const siteContent: SiteContent = {
         en: "OpenAI / ChatGPT",
         de: "OpenAI / ChatGPT",
       },
-      icon: SiOpenai,
+      icon: RiOpenaiFill,
       category: "ai",
       level: 5,
     },
@@ -1958,8 +1958,8 @@ export const siteContent: SiteContent = {
       { label: { en: "Imprint", de: "Impressum" }, href: "/imprint" },
     ],
     lastUpdated: {
-      en: "Last updated: June 2026",
-      de: "Letzte Aktualisierung: Juni 2026",
+      en: "Last updated: July 2026",
+      de: "Letzte Aktualisierung: Juli 2026",
     },
   },
   imprint: {
