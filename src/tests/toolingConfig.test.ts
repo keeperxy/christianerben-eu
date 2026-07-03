@@ -30,6 +30,8 @@ describe("tooling configuration", () => {
 
     expect(pkg.engines?.node).toBe("24.x");
     expect(pkg.scripts["test:leaks"]).toContain("--detect-async-leaks");
+    expect(pkg.scripts["test:leaks"]).not.toContain("PIPESTATUS");
+    expect(pkg.scripts["test:leaks"]).toContain("&& ! grep");
     expect(pkg.scripts.check).toContain("bun run test:leaks");
     expect(appEntry).toContain("LucideProvider");
   });
