@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { spawnSync } = require('child_process');
 
 const baseUrl = 'https://christianerben.eu'; // Change to your domain
 
@@ -69,6 +70,27 @@ function validateSitemapSources() {
 }
 
 function getLatestMtime(files) {
+  const status = spawnSync('git', ['status', '--porcelain', '--', ...files], {
+    cwd: path.join(__dirname, '..'),
+    encoding: 'utf8',
+    stdio: 'pipe',
+  });
+
+  if (status.status === 0 && status.stdout.trim()) {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  const log = spawnSync('git', ['log', '-1', '--format=%cs', '--', ...files], {
+    cwd: path.join(__dirname, '..'),
+    encoding: 'utf8',
+    stdio: 'pipe',
+  });
+
+  const gitDate = log.status === 0 ? log.stdout.trim().split('\n')[0] : '';
+  if (gitDate) {
+    return gitDate;
+  }
+
   let latest = 0;
   for (const file of files) {
     try {

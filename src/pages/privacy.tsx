@@ -8,6 +8,13 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useScrollToTop } from '@/hooks/use-scroll-to-top';
 
+const renderTextWithLineBreaks = (text: string) =>
+  text.split(/<br\s*\/?>/i).map((part, index) => (
+    <React.Fragment key={`${part}-${index}`}>
+      {index > 0 && <br />}
+      {part}
+    </React.Fragment>
+  ));
 
 const Privacy = () => {
   const { t } = useSettings();
@@ -54,10 +61,10 @@ const Privacy = () => {
 
                         return (
                           <li key={i} className="flex flex-col">
-                            <span dangerouslySetInnerHTML={{ __html: text }} />
+                            <span>{renderTextWithLineBreaks(text)}</span>
                             {descriptionText && (
                               <span className="text-sm text-muted-foreground ml-4 mt-1">
-                                <span dangerouslySetInnerHTML={{ __html: descriptionText }} />
+                                <span>{renderTextWithLineBreaks(descriptionText)}</span>
                               </span>
                             )}
                           </li>

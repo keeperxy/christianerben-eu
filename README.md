@@ -6,8 +6,7 @@ Personal portfolio built with **Next.js 16**, **React 19**, **TypeScript**, **Ta
 
 - Next.js 16 (pages router) with React 19
 - Tailwind CSS 4 with shadcn-ui + Radix UI primitives
-- TanStack Query, React Hook Form, Zod validation, Resend mail API
-- Supabase client utilities
+- React Hook Form, Zod validation, Resend mail API
 - Bun 1.3 for scripts, installs, and development workflow
 
 ## Prerequisites
@@ -40,3 +39,4 @@ bun run dev   # starts Next.js and exposes it at https://lyra.tailb44a3.ts.net/
 - Build command: `bun run build`
 - Output directory: `.next`
 - Required env: `RESEND_API_KEY` (and optional `CONTACT_TO_EMAIL` / `CONTACT_FROM_EMAIL` for contact form delivery)
+- Optional env: `CONTACT_RATE_LIMIT_ENDPOINT`, `CONTACT_RATE_LIMIT_ENDPOINT_TOKEN`, and `CONTACT_RATE_LIMIT_KEY_SECRET` to delegate contact-form rate limiting to a durable service. The endpoint receives `{ key, maxRequests, windowMs }` and must return `{ allowed: boolean }`.

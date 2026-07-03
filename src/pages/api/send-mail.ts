@@ -1,4 +1,4 @@
-import { createHash, randomBytes } from "node:crypto";
+import { createHash, createHmac, randomBytes } from "node:crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Resend } from "resend";
 import { siteContent } from "@/content/content";
@@ -15,6 +15,7 @@ const PREHEADER_SPACER = "&nbsp;".repeat(64);
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const RATE_LIMIT_KEY_SALT = randomBytes(16).toString("hex");
+const DURABLE_RATE_LIMIT_KEY_NAMESPACE = "contact-rate-limit-v1";
 
 interface RateLimitBucket {
   count: number;
@@ -127,14 +128,26 @@ function getVercelClientAddress(req: NextApiRequest) {
   return forwardedFor?.split(",")[0]?.trim();
 }
 
-function getRateLimitKey(req: NextApiRequest) {
-  const clientAddress =
+function getClientAddress(req: NextApiRequest) {
+  return (
     process.env.VERCEL === "1"
       ? getVercelClientAddress(req) || req.socket.remoteAddress || "unknown"
-      : req.socket.remoteAddress || "unknown";
+      : req.socket.remoteAddress || "unknown"
+  );
+}
 
+function getEphemeralRateLimitKey(clientAddress: string) {
   return createHash("sha256")
     .update(RATE_LIMIT_KEY_SALT)
+    .update(clientAddress)
+    .digest("hex");
+}
+
+function getDurableRateLimitKey(clientAddress: string) {
+  return createHmac(
+    "sha256",
+    process.env.CONTACT_RATE_LIMIT_KEY_SECRET || DURABLE_RATE_LIMIT_KEY_NAMESPACE,
+  )
     .update(clientAddress)
     .digest("hex");
 }
@@ -197,6 +210,60 @@ function consumeRateLimit(key: string, now = Date.now()) {
   return true;
 }
 
+async function consumeDurableRateLimit(key: string) {
+  const endpoint = process.env.CONTACT_RATE_LIMIT_ENDPOINT;
+  if (!endpoint) {
+    return null;
+  }
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  const token = process.env.CONTACT_RATE_LIMIT_ENDPOINT_TOKEN;
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      key,
+      maxRequests: RATE_LIMIT_MAX_REQUESTS,
+      windowMs: RATE_LIMIT_WINDOW_MS,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Durable rate limit endpoint returned ${response.status}`);
+  }
+
+  const result = (await response.json()) as { allowed?: unknown };
+  if (typeof result.allowed !== "boolean") {
+    throw new Error("Durable rate limit endpoint returned an invalid response.");
+  }
+
+  return result.allowed;
+}
+
+async function consumeContactRateLimit(req: NextApiRequest) {
+  const clientAddress = getClientAddress(req);
+
+  try {
+    const durableAllowed = await consumeDurableRateLimit(
+      getDurableRateLimitKey(clientAddress),
+    );
+    if (durableAllowed !== null) {
+      return durableAllowed;
+    }
+  } catch (error) {
+    console.error("Contact durable rate limit failed", error);
+    return false;
+  }
+
+  return consumeRateLimit(getEphemeralRateLimitKey(clientAddress));
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -215,7 +282,7 @@ export default async function handler(
     return res.status(400).json({ error: message });
   }
 
-  if (!consumeRateLimit(getRateLimitKey(req))) {
+  if (!(await consumeContactRateLimit(req))) {
     return res
       .status(429)
       .json({ error: "Too many contact requests. Please try again later." });
