@@ -66,7 +66,7 @@ const AboutSection = () => {
             ))}
             
             {/* Stats */}
-            <div className={`grid grid-cols-1 sm:grid-cols-${stats.length} gap-8 mt-10`}>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-10">
               {stats.map((stat, index) => (
                 <div 
                   key={stat.key} 

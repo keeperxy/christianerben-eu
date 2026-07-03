@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Moon, Sun, Menu } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useSettings } from "@/contexts/settings-hook";
 import { siteContent } from "@/content/content";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ const Header = () => {
   const router = useRouter();
   const isHomePage = router.pathname === "/";
   const [activeSection, setActiveSection] = useState<string>("hero");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Toggle for handling theme changes
   const toggleTheme = () => {
@@ -25,36 +26,47 @@ const Header = () => {
     setLanguage(language === "en" ? "de" : "en");
   };
 
-  // Detect scroll for header styling
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 10);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    let frame: number | null = null;
 
-  useEffect(() => {
-    if (!isHomePage) return;
-    const handleScroll = () => {
-      const sectionIds = siteContent.navigation.map(item => item.href.replace('#', ''));
-      let current = sectionIds[0];
-      for (const id of sectionIds) {
-        const section = document.getElementById(id);
-        if (section) {
-          const rect = section.getBoundingClientRect();
-          if (rect.top <= 80 && rect.bottom > 80) {
-            current = id;
-            break;
+    const updateHeaderState = () => {
+      frame = null;
+      setIsScrolled(window.scrollY > 10);
+
+      if (isHomePage) {
+        const sectionIds = siteContent.navigation.map(item => item.href.replace('#', ''));
+        let current = sectionIds[0];
+        for (const id of sectionIds) {
+          const section = document.getElementById(id);
+          if (section) {
+            const rect = section.getBoundingClientRect();
+            if (rect.top <= 80 && rect.bottom > 80) {
+              current = id;
+              break;
+            }
           }
         }
+        setActiveSection(current);
       }
-      setActiveSection(current);
     };
+
+    const handleScroll = () => {
+      if (frame !== null) {
+        return;
+      }
+
+      frame = window.requestAnimationFrame(updateHeaderState);
+    };
+
     window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    updateHeaderState();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (frame !== null) {
+        window.cancelAnimationFrame(frame);
+      }
+    };
   }, [isHomePage]);
 
   return (
@@ -121,7 +133,7 @@ const Header = () => {
         </div>
 
         {/* Mobile Menu */}
-        <Sheet>
+        <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
           <SheetTrigger asChild>
             <Button
               variant="ghost"
@@ -136,9 +148,10 @@ const Header = () => {
             side="left"
             className="w-full bg-background dark:bg-gray-900 p-0"
           >
+            <SheetTitle className="sr-only">Navigation</SheetTitle>
             <div className="flex flex-col h-full">
               <div className="border-b border-gray-200 dark:border-gray-800 py-4 px-6">
-                <Link href="/" className="text-2xl font-display font-bold">
+                <Link href="/" className="text-2xl font-display font-bold" onClick={() => setIsMenuOpen(false)}>
                   <span className="text-gradient">{siteContent.hero.name}</span>
                 </Link>
               </div>
@@ -149,6 +162,7 @@ const Header = () => {
                     <a
                       key={item.href}
                       href={item.href}
+                      onClick={() => setIsMenuOpen(false)}
                       className={`text-lg sm:text-xl font-medium text-foreground hover:text-primary transition-colors${activeSection === item.href.replace('#', '') ? ' link-underline link-underline-active' : ''}`}
                     >
                       {t(item.label)}
@@ -157,6 +171,7 @@ const Header = () => {
                     <Link
                       key={item.href}
                       href={`/${item.href}` as Route}
+                      onClick={() => setIsMenuOpen(false)}
                       className="text-lg sm:text-xl font-medium text-foreground hover:text-primary transition-colors"
                     >
                       {t(item.label)}

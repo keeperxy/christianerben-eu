@@ -150,6 +150,8 @@ describe("CV page", () => {
     expect(screen.getByText(/Curriculum Vitae/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Download PDF/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Download DOCX/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Download CV options/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Switch to dark mode/i })).toBeInTheDocument();
     expect(screen.getAllByRole("button", { name: /With certificates/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByTestId("cv-preview").length).toBeGreaterThan(0);
   });
@@ -215,5 +217,20 @@ describe("CV page", () => {
     expect(customDocxButtons.length).toBeGreaterThan(0);
     await user.click(customDocxButtons[0]);
     expect(generateCvDocx).toHaveBeenCalledTimes(1);
+  });
+
+  it("ignores URL hash data that does not match the CV content shape", () => {
+    window.location.hash = `data=${encodeHashData({
+      hero: {
+        name: "Incomplete Candidate",
+      },
+    } as SiteContent)}`;
+
+    renderCVPage();
+
+    expect(screen.getByRole("link", { name: /Download PDF/i })).toHaveAttribute(
+      "href",
+      expect.stringContaining("/cv/christian_erben_cv_en.pdf"),
+    );
   });
 });

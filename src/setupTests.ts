@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom/vitest'
+import { cleanup } from '@testing-library/react'
 import { vi } from 'vitest'
 import { afterEach } from 'vitest'
 
@@ -29,5 +30,6 @@ if (!('ResizeObserver' in window)) {
 }
 
 afterEach(() => {
+  cleanup();
   vi.clearAllTimers();
 });

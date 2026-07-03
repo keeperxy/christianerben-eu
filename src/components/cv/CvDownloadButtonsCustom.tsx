@@ -84,6 +84,7 @@ const CvDownloadButtonsCustom: React.FC<CvDownloadButtonsCustomProps> = ({ langu
           onClick={() => setOpenMenu(!openMenu)}
           className="rounded-full shadow-lg hover-scale"
           variant="secondary"
+          aria-label={language === 'en' ? 'Download CV options' : 'CV-Downloadoptionen'}
         >
           <Download className="h-4 w-4" />
         </Button>
@@ -121,4 +122,3 @@ const CvDownloadButtonsCustom: React.FC<CvDownloadButtonsCustomProps> = ({ langu
 };
 
 export default CvDownloadButtonsCustom;
-

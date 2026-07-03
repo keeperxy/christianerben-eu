@@ -167,8 +167,9 @@ const HeroSection = () => {
                   >
                     <code
                       className="text-xs sm:text-sm text-gradient whitespace-nowrap"
-                      dangerouslySetInnerHTML={{ __html: element.code }}
-                    />
+                    >
+                      {element.code}
+                    </code>
                   </div>
                 );
               })}

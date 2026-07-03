@@ -89,8 +89,6 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
 
     document.documentElement.setAttribute('lang', language);
     window.localStorage.setItem('language', language);
-    const secure = window.location.protocol === 'https:' ? '; Secure' : '';
-    window.document.cookie = `language=${language}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`;
   }, [language]);
 
   // Translation helper

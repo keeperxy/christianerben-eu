@@ -76,6 +76,7 @@ const CvDownloadButtons: React.FC<{
             onClick={() => setOpenMenu(!openMenu)}
             className="rounded-full shadow-lg hover-scale"
             variant="secondary"
+            aria-label={language === 'en' ? 'Download CV options' : 'CV-Downloadoptionen'}
           >
             <Download className="h-4 w-4" />
           </Button>
@@ -145,6 +146,40 @@ const CV = () => {
     return decompressFromUint8Array(bytes) || '';
   };
 
+  const isLocalizedString = (value: unknown): value is { en: string; de: string } =>
+    typeof value === 'object' &&
+    value !== null &&
+    typeof (value as { en?: unknown }).en === 'string' &&
+    typeof (value as { de?: unknown }).de === 'string';
+
+  const isSiteContentShape = (value: unknown): value is SiteContent => {
+    if (typeof value !== 'object' || value === null) {
+      return false;
+    }
+
+    const candidate = value as Partial<SiteContent>;
+
+    return (
+      typeof candidate.hero?.name === 'string' &&
+      Array.isArray(candidate.hero.titleElements) &&
+      candidate.hero.titleElements.every(isLocalizedString) &&
+      Array.isArray(candidate.about?.paragraphs) &&
+      Array.isArray(candidate.experiences) &&
+      Array.isArray(candidate.skills) &&
+      typeof candidate.contact?.email === 'string' &&
+      typeof candidate.contact?.socialLinks === 'object' &&
+      candidate.contact.socialLinks !== null &&
+      typeof candidate.imprint?.address === 'object' &&
+      candidate.imprint.address !== null &&
+      typeof candidate.skillsSection?.categories === 'object' &&
+      candidate.skillsSection.categories !== null &&
+      isLocalizedString(candidate.backToHome) &&
+      isLocalizedString(candidate.experienceSectionTitle) &&
+      isLocalizedString(candidate.experienceAchievementPrefix) &&
+      isLocalizedString(candidate.downloadResume)
+    );
+  };
+
   const getInitialCvData = (): SiteContent => {
     if (typeof window === 'undefined') {
       return siteContent;
@@ -160,6 +195,10 @@ const CV = () => {
     try {
       const decodedJson = decodeData(savedData);
       const decodedData = JSON.parse(decodedJson);
+      if (!isSiteContentShape(decodedData)) {
+        console.warn('Ignoring invalid CV data from URL hash');
+        return siteContent;
+      }
       return decodedData;
     } catch (e) {
       console.error('Failed to parse saved data', e);
@@ -237,6 +276,7 @@ const CV = () => {
               size="sm"
               onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
               className="rounded-full shadow-lg hover-scale"
+              aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
             >
               {theme === 'light' ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
             </Button>
