@@ -197,6 +197,58 @@ function consumeRateLimit(key: string, now = Date.now()) {
   return true;
 }
 
+async function consumeDurableRateLimit(key: string) {
+  const endpoint = process.env.CONTACT_RATE_LIMIT_ENDPOINT;
+  if (!endpoint) {
+    return null;
+  }
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  const token = process.env.CONTACT_RATE_LIMIT_ENDPOINT_TOKEN;
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      key,
+      maxRequests: RATE_LIMIT_MAX_REQUESTS,
+      windowMs: RATE_LIMIT_WINDOW_MS,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Durable rate limit endpoint returned ${response.status}`);
+  }
+
+  const result = (await response.json()) as { allowed?: unknown };
+  if (typeof result.allowed !== "boolean") {
+    throw new Error("Durable rate limit endpoint returned an invalid response.");
+  }
+
+  return result.allowed;
+}
+
+async function consumeContactRateLimit(req: NextApiRequest) {
+  const key = getRateLimitKey(req);
+
+  try {
+    const durableAllowed = await consumeDurableRateLimit(key);
+    if (durableAllowed !== null) {
+      return durableAllowed;
+    }
+  } catch (error) {
+    console.error("Contact durable rate limit failed", error);
+    return false;
+  }
+
+  return consumeRateLimit(key);
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -215,7 +267,7 @@ export default async function handler(
     return res.status(400).json({ error: message });
   }
 
-  if (!consumeRateLimit(getRateLimitKey(req))) {
+  if (!(await consumeContactRateLimit(req))) {
     return res
       .status(429)
       .json({ error: "Too many contact requests. Please try again later." });

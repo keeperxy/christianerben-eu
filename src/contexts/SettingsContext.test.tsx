@@ -119,10 +119,10 @@ describe("SettingsProvider", () => {
 
     await waitFor(() => expect(screen.getByTestId("language")).toHaveTextContent("de"));
     expect(window.localStorage.getItem("language")).toBe("de");
-    expect(window.document.cookie).toContain("language=de");
+    expect(window.document.cookie).not.toContain("language=");
   });
 
-  it("persists language changes to the document, localStorage, and cookie", async () => {
+  it("persists language changes to the document and localStorage without cookies", async () => {
     setNavigatorLanguages(["en-US"]);
     const user = userEvent.setup();
 
@@ -133,6 +133,6 @@ describe("SettingsProvider", () => {
       expect(window.document.documentElement).toHaveAttribute("lang", "de"),
     );
     expect(window.localStorage.getItem("language")).toBe("de");
-    expect(window.document.cookie).toContain("language=de");
+    expect(window.document.cookie).not.toContain("language=");
   });
 });

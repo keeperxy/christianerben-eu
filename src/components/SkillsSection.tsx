@@ -9,11 +9,11 @@ import { cn } from "@/lib/utils";
 const SkillsSection = () => {
   const { t } = useSettings();
   const { skills, skillsSection } = siteContent;
-  type TabValue = "management" | "languages" | "security" | "ai" | "infrastructure" | "tools"| "compliance";
+  type TabValue = "management" | "languages" | "security" | "ai" | "infrastructure" | "tools" | "compliance";
   const [activeTab, setActiveTab] = useState<TabValue>("management");
   const tabTriggerClass =
-    "w-full min-h-11 gap-2 text-sm md:text-base justify-start px-2 py-2 max-[480px]:justify-center";
-  const tabLabelClass = "leading-tight text-left max-[480px]:hidden";
+    "min-h-12 w-full min-w-0 gap-2 justify-start whitespace-normal px-3 py-2 text-xs leading-tight sm:text-sm md:text-base [&>svg]:shrink-0";
+  const tabLabelClass = "min-w-0 whitespace-normal break-words leading-tight text-left";
 
   // Filter skills by category
   const filteredSkills = skills.filter((skill) => skill.category === activeTab);
@@ -29,14 +29,14 @@ const SkillsSection = () => {
           {t(skillsSection.subtitle)}
         </p>
 
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <Tabs
             defaultValue="management"
             onValueChange={(value) => setActiveTab(value as TabValue)}
             className="w-full"
           >
             <div className="flex justify-center mb-8">
-              <TabsList className="!grid w-full !h-auto grid-cols-2 gap-2 bg-muted/70 p-2 min-[980px]:grid-cols-4 xl:grid-cols-7">
+              <TabsList className="!grid w-full !h-auto grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] gap-2 bg-muted/70 p-2">
                 <TabsTrigger value="management" className={tabTriggerClass} name={t(skillsSection.categories.management)} aria-label={t(skillsSection.categories.management)}>
                   <Briefcase className="w-5 h-5" />
                   <span className={tabLabelClass}>
@@ -130,9 +130,9 @@ const SkillsGrid = ({ skills }: SkillsGridProps) => {
               <IconComponent className="w-5 h-5" />
             </div>
 
-            <h3 className="mb-2 text-center text-sm md:text-base font-medium max-[480px]:hidden">{t(skill.name)}</h3>
+            <h3 className="mb-2 text-center text-sm md:text-base font-medium">{t(skill.name)}</h3>
 
-            <div className="flex gap-1 max-[480px]:hidden">
+            <div className="flex gap-1" aria-label={`${t(skill.name)} level ${skill.level} of 5`}>
               {[...Array(5)].map((_, i) => (
                 <div
                   key={i}

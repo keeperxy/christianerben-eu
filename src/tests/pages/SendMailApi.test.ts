@@ -100,11 +100,16 @@ const post = async (request = createRequest()) => {
 };
 
 describe("send-mail API", () => {
+  const originalFetch = globalThis.fetch;
+
   beforeEach(() => {
     sendMock.mockReset();
     sendMock.mockResolvedValue({ data: { id: "email-id" }, error: null });
     process.env.RESEND_API_KEY = "test-resend-key";
     delete process.env.VERCEL;
+    delete process.env.CONTACT_RATE_LIMIT_ENDPOINT;
+    delete process.env.CONTACT_RATE_LIMIT_ENDPOINT_TOKEN;
+    globalThis.fetch = originalFetch;
     apiWithTestHooks.__resetContactRateLimitForTests?.();
   });
 
@@ -328,5 +333,42 @@ describe("send-mail API", () => {
     } finally {
       vi.useRealTimers();
     }
+  });
+
+  it("uses the durable rate-limit endpoint when configured", async () => {
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(JSON.stringify({ allowed: false }), {
+        headers: { "Content-Type": "application/json" },
+        status: 200,
+      }),
+    );
+    globalThis.fetch = fetchMock;
+    process.env.CONTACT_RATE_LIMIT_ENDPOINT = "https://rate-limit.example.test/contact";
+    process.env.CONTACT_RATE_LIMIT_ENDPOINT_TOKEN = "test-token";
+
+    const res = await post();
+
+    expect(res.statusCode).toBe(429);
+    expect(sendMock).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://rate-limit.example.test/contact",
+      expect.objectContaining({
+        method: "POST",
+        headers: expect.objectContaining({
+          Authorization: "Bearer test-token",
+          "Content-Type": "application/json",
+        }),
+      }),
+    );
+  });
+
+  it("fails closed when the durable rate-limit endpoint is unavailable", async () => {
+    globalThis.fetch = vi.fn<typeof fetch>().mockRejectedValue(new Error("endpoint down"));
+    process.env.CONTACT_RATE_LIMIT_ENDPOINT = "https://rate-limit.example.test/contact";
+
+    const res = await post();
+
+    expect(res.statusCode).toBe(429);
+    expect(sendMock).not.toHaveBeenCalled();
   });
 });
