@@ -18,7 +18,7 @@
     "test": "vitest",
     "typecheck": "tsc --noEmit --incremental false --pretty false",
     "test:run": "vitest --run",
-    "test:leaks": "bash -o pipefail -c 'vitest --run --detect-async-leaks 2>&1 | tee /tmp/vitest-async-leaks.log; test ${PIPESTATUS[0]} -eq 0; ! grep -Eq \"(Async Leaks [1-9]|Leaks [1-9][0-9]* leaks)\" /tmp/vitest-async-leaks.log'",
+    "test:leaks": "bash -o pipefail -c 'vitest --run --detect-async-leaks 2>&1 | tee /tmp/vitest-async-leaks.log && ! grep -Eq \"(Async Leaks [1-9]|Leaks [1-9][0-9]* leaks)\" /tmp/vitest-async-leaks.log'",
     "check": "bun run lint && bun run typecheck && bun run test:run && bun run test:leaks && bun run verify:generated && bun run build",
     "generate:cv": "bun scripts/generate-cv.tsx",
     "generate:sitemap": "bun scripts/generate-sitemap.cjs",
