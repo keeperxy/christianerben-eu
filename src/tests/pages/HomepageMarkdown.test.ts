@@ -52,4 +52,15 @@ describe("homepage markdown endpoint", () => {
     expect(res.body).toContain("## About Me");
     expect(res.body).toContain("## Security & Compliance / Governance");
   });
+
+  it("allows only GET and HEAD requests", async () => {
+    const res = createMockResponse();
+
+    await handler({ method: "POST" } as never, res as never);
+
+    expect(res.statusCode).toBe(405);
+    expect(res.getHeader("allow")).toBe("GET, HEAD");
+    expect(res.ended).toBe(true);
+    expect(res.body).toBe("");
+  });
 });

@@ -32,7 +32,6 @@
     "**/*.tsx"
   ],
   "exclude": [
-    "node_modules",
-    "src/setupBunTests.ts"
+    "node_modules"
   ]
 }
