@@ -19,7 +19,7 @@ describe("Vercel deployment branch check", () => {
     (branch) => {
       const result = runDeployCheck(branch);
 
-      expect(result.status).toBe(0);
+      expect(result.status).toBe(1);
       expect(result.stdout).toContain("Deployment allowed");
     },
   );
@@ -27,7 +27,7 @@ describe("Vercel deployment branch check", () => {
   it("blocks deployments from other branches", () => {
     const result = runDeployCheck("feature/example");
 
-    expect(result.status).toBe(1);
+    expect(result.status).toBe(0);
     expect(result.stdout).toContain("Deployment blocked");
   });
 });

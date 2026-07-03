@@ -1,4 +1,4 @@
-import { createHash, randomBytes } from "node:crypto";
+import { createHash, createHmac, randomBytes } from "node:crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Resend } from "resend";
 import { siteContent } from "@/content/content";
@@ -15,6 +15,7 @@ const PREHEADER_SPACER = "&nbsp;".repeat(64);
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const RATE_LIMIT_KEY_SALT = randomBytes(16).toString("hex");
+const DURABLE_RATE_LIMIT_KEY_NAMESPACE = "contact-rate-limit-v1";
 
 interface RateLimitBucket {
   count: number;
@@ -127,14 +128,26 @@ function getVercelClientAddress(req: NextApiRequest) {
   return forwardedFor?.split(",")[0]?.trim();
 }
 
-function getRateLimitKey(req: NextApiRequest) {
-  const clientAddress =
+function getClientAddress(req: NextApiRequest) {
+  return (
     process.env.VERCEL === "1"
       ? getVercelClientAddress(req) || req.socket.remoteAddress || "unknown"
-      : req.socket.remoteAddress || "unknown";
+      : req.socket.remoteAddress || "unknown"
+  );
+}
 
+function getEphemeralRateLimitKey(clientAddress: string) {
   return createHash("sha256")
     .update(RATE_LIMIT_KEY_SALT)
+    .update(clientAddress)
+    .digest("hex");
+}
+
+function getDurableRateLimitKey(clientAddress: string) {
+  return createHmac(
+    "sha256",
+    process.env.CONTACT_RATE_LIMIT_KEY_SECRET || DURABLE_RATE_LIMIT_KEY_NAMESPACE,
+  )
     .update(clientAddress)
     .digest("hex");
 }
@@ -234,10 +247,12 @@ async function consumeDurableRateLimit(key: string) {
 }
 
 async function consumeContactRateLimit(req: NextApiRequest) {
-  const key = getRateLimitKey(req);
+  const clientAddress = getClientAddress(req);
 
   try {
-    const durableAllowed = await consumeDurableRateLimit(key);
+    const durableAllowed = await consumeDurableRateLimit(
+      getDurableRateLimitKey(clientAddress),
+    );
     if (durableAllowed !== null) {
       return durableAllowed;
     }
@@ -246,7 +261,7 @@ async function consumeContactRateLimit(req: NextApiRequest) {
     return false;
   }
 
-  return consumeRateLimit(key);
+  return consumeRateLimit(getEphemeralRateLimitKey(clientAddress));
 }
 
 export default async function handler(

@@ -1,3 +1,4 @@
+import { createHmac } from "node:crypto";
 import { describe, expect, it, beforeEach, vi } from "vitest";
 
 const { sendMock } = vi.hoisted(() => ({
@@ -109,6 +110,7 @@ describe("send-mail API", () => {
     delete process.env.VERCEL;
     delete process.env.CONTACT_RATE_LIMIT_ENDPOINT;
     delete process.env.CONTACT_RATE_LIMIT_ENDPOINT_TOKEN;
+    delete process.env.CONTACT_RATE_LIMIT_KEY_SECRET;
     globalThis.fetch = originalFetch;
     apiWithTestHooks.__resetContactRateLimitForTests?.();
   });
@@ -345,8 +347,12 @@ describe("send-mail API", () => {
     globalThis.fetch = fetchMock;
     process.env.CONTACT_RATE_LIMIT_ENDPOINT = "https://rate-limit.example.test/contact";
     process.env.CONTACT_RATE_LIMIT_ENDPOINT_TOKEN = "test-token";
+    process.env.CONTACT_RATE_LIMIT_KEY_SECRET = "stable-test-secret";
 
     const res = await post();
+    const expectedKey = createHmac("sha256", "stable-test-secret")
+      .update("198.51.100.10")
+      .digest("hex");
 
     expect(res.statusCode).toBe(429);
     expect(sendMock).not.toHaveBeenCalled();
@@ -357,6 +363,11 @@ describe("send-mail API", () => {
         headers: expect.objectContaining({
           Authorization: "Bearer test-token",
           "Content-Type": "application/json",
+        }),
+        body: JSON.stringify({
+          key: expectedKey,
+          maxRequests: 5,
+          windowMs: 60 * 60 * 1000,
         }),
       }),
     );

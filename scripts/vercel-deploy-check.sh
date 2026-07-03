@@ -10,8 +10,8 @@ echo "Aktueller Branch: ${BRANCH}"
 
 if [ "$BRANCH" = "development" ] || [ "$BRANCH" = "preproduction" ] || [ "$BRANCH" = "main" ]; then
   echo "✅ Deployment allowed for branch '${BRANCH}'."
-  exit 0
+  exit 1
 fi
 
 echo "🛑 Deployment blocked for branch '${BRANCH}'."
-exit 1
+exit 0

@@ -45,11 +45,11 @@ Body outline:
 - `src/pages/cv.tsx` and `src/components/cv/CvDownloadButtonsCustom.tsx`: added accessible control labels and runtime validation for URL-hash content before using custom CV data.
 - `src/components/SkillsSection.tsx`: kept tab labels visible, replaced fixed seven-column tabs with an auto-fit minimum-width grid to prevent label overlap, and added accessible skill level labels.
 - `src/pages/api/markdown/homepage.ts`: returns markdown only for `GET`/`HEAD`; other methods return `405` with `Allow: GET, HEAD`.
-- `src/pages/api/send-mail.ts`: added optional durable rate limiting via `CONTACT_RATE_LIMIT_ENDPOINT` and optional `CONTACT_RATE_LIMIT_ENDPOINT_TOKEN`; configured endpoint failures fail closed.
+- `src/pages/api/send-mail.ts`: added optional durable rate limiting via `CONTACT_RATE_LIMIT_ENDPOINT`, optional `CONTACT_RATE_LIMIT_ENDPOINT_TOKEN`, and optional `CONTACT_RATE_LIMIT_KEY_SECRET`; configured endpoint failures fail closed.
 - `scripts/verify-generated.ts`: added a generated-file freshness gate for tracked text artifacts.
 - `src/tests/verifyGeneratedScript.test.ts`: verifies the generated-file gate restores tracked files even when a generator command fails.
 - `scripts/generate-llms.ts` and `scripts/generate-sitemap.cjs`: made clean-tree freshness dates derive from git history and dirty source trees derive from the current date.
-- `scripts/vercel-deploy-check.sh`: fixed branch allow/block exit semantics.
+- `scripts/vercel-deploy-check.sh`: preserves Vercel Ignored Build Step semantics, where non-zero allows selected branches to build and zero skips other branches.
 - `src/setupTests.ts`: added testing-library cleanup after each test.
 - Removed stale/unused local surfaces: `bunfig.toml`, `src/setupBunTests.ts`, `src/App.css`, `src/integrations/supabase/*`, `supabase/config.toml`, `src/components/ui/sonner.tsx`, and unused shadcn/Radix UI modules.
 - Removed unused dependencies including Supabase, React Query, next-themes, Sonner, lovable-tagger, and unused Radix/shadcn support packages.
@@ -79,6 +79,6 @@ Body outline:
 ## Notes For Review
 
 - The T3 preview navigation/open/status tools were not available in this session, so no screenshot-based browser QA was recorded. The local Next server smoke test above passed.
-- `CONTACT_RATE_LIMIT_ENDPOINT` must be configured in deployment for cross-instance durable rate limiting. Without it, the existing in-memory fallback remains.
+- `CONTACT_RATE_LIMIT_ENDPOINT` must be configured in deployment for cross-instance durable rate limiting. Set `CONTACT_RATE_LIMIT_KEY_SECRET` with it to keep durable client keys stable and non-guessable. Without an endpoint, the existing in-memory fallback remains.
 - CV binary generation still produces byte-level changes, so `verify:generated` intentionally checks deterministic text artifacts and `src/content/content.ts`; the pre-commit hook still regenerates CV assets.
 - The dependency and UI module cleanup is intentionally broad. Reviewers should scan imports and package removal carefully, even though lint, typecheck, test, and build pass.
