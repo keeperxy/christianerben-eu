@@ -8,6 +8,7 @@ const readJson = <T>(relativePath: string): T =>
 
 interface PackageJson {
   dependencies?: Record<string, string>;
+  engines?: Record<string, string>;
   scripts: Record<string, string>;
 }
 
@@ -21,6 +22,16 @@ describe("tooling configuration", () => {
 
     expect(pkg.scripts["verify:generated"]).toBe("bun scripts/verify-generated.ts");
     expect(pkg.scripts.check).toContain("bun run verify:generated");
+  });
+
+  it("keeps async leak detection and the Node runtime target explicit", () => {
+    const pkg = readJson<PackageJson>("package.json");
+    const appEntry = readFileSync(path.resolve(process.cwd(), "src/pages/_app.tsx"), "utf8");
+
+    expect(pkg.engines?.node).toBe("24.x");
+    expect(pkg.scripts["test:leaks"]).toContain("--detect-async-leaks");
+    expect(pkg.scripts.check).toContain("bun run test:leaks");
+    expect(appEntry).toContain("LucideProvider");
   });
 
   it("does not keep a stale Bun-native test preload beside the Vitest setup", () => {

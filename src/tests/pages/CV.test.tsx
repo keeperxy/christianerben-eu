@@ -88,7 +88,7 @@ const encodeHashData = (data: SiteContent) => {
   return window.btoa(binary);
 };
 
-const renderCVPage = (ctx?: Partial<SettingsContextType>) => {
+const renderCVPage = (ctx?: Partial<SettingsContextType>, asPath = "/cv") => {
   const context: SettingsContextType = {
     language: "en",
     theme: "light",
@@ -101,7 +101,7 @@ const renderCVPage = (ctx?: Partial<SettingsContextType>) => {
   return renderWithSettings(
     <CV />,
     context,
-    { pathname: "/cv", asPath: "/cv" }
+    { pathname: "/cv", asPath }
   );
 };
 
@@ -127,7 +127,6 @@ describe("CV page", () => {
   afterEach(() => {
     cleanup();
     vi.clearAllMocks();
-    window.location.hash = "";
   });
 
   afterAll(() => {
@@ -201,7 +200,7 @@ describe("CV page", () => {
   });
 
   it("keeps custom CV data on lazy generated DOCX downloads", async () => {
-    window.location.hash = `data=${encodeHashData({
+    const asPath = `/cv#data=${encodeHashData({
       ...siteContent,
       hero: {
         ...siteContent.hero,
@@ -209,7 +208,7 @@ describe("CV page", () => {
       },
     })}`;
 
-    renderCVPage();
+    renderCVPage(undefined, asPath);
 
     const user = userEvent.setup();
     const customDocxButtons = await screen.findAllByRole("button", { name: /Download DOCX/i });
@@ -220,13 +219,13 @@ describe("CV page", () => {
   });
 
   it("ignores URL hash data that does not match the CV content shape", () => {
-    window.location.hash = `data=${encodeHashData({
+    const asPath = `/cv#data=${encodeHashData({
       hero: {
         name: "Incomplete Candidate",
       },
     } as SiteContent)}`;
 
-    renderCVPage();
+    renderCVPage(undefined, asPath);
 
     expect(screen.getByRole("link", { name: /Download PDF/i })).toHaveAttribute(
       "href",
