@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useSettings } from "@/contexts/settings-hook";
 import { siteContent, SiteContent } from "@/content/content";
 import { Button } from "@/components/ui/button";
@@ -127,6 +128,7 @@ const CvDownloadButtons: React.FC<{
 };
 
 const CV = () => {
+  const router = useRouter();
   const { language, setLanguage, theme, setTheme, t } = useSettings();
   // Unicode-safe LZ compression + Base64 encoding/decoding using TextEncoder/TextDecoder
   const encodeData = (str: string): string => {
@@ -180,12 +182,13 @@ const CV = () => {
     );
   };
 
-  const getInitialCvData = (): SiteContent => {
+  const getInitialCvData = (asPath: string): SiteContent => {
     if (typeof window === 'undefined') {
       return siteContent;
     }
 
-    const hash = window.location.hash;
+    const hashIndex = asPath.indexOf("#");
+    const hash = hashIndex >= 0 ? asPath.slice(hashIndex) : window.location.hash;
     const savedData = hash.startsWith('#data=') ? hash.slice(6) : null;
 
     if (!savedData) {
@@ -208,7 +211,7 @@ const CV = () => {
 
   const [clickCount, setClickCount] = useState(0);
   const [editMode, setEditMode] = useState(false);
-  const [cvData, setCvData] = useState<SiteContent>(() => getInitialCvData());
+  const [cvData, setCvData] = useState<SiteContent>(() => getInitialCvData(router.asPath));
   const [includeCertificates, setIncludeCertificates] = useState(false);
   const isDefaultData = cvData === siteContent;
   const previewPdfHref = `/cv/christian_erben_cv_${language}${isDefaultData && includeCertificates ? "_with_certificates" : ""}.pdf#toolbar=0&navpanes=0`;

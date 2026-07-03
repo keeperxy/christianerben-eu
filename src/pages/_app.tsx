@@ -1,5 +1,6 @@
 import Head from "next/head";
 import type { AppProps } from "next/app";
+import { LucideProvider } from "lucide-react";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -15,10 +16,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           content="Christian Erben - Network Security & Linux Infrastructure Specialist portfolio."
         />
       </Head>
-      <SettingsProvider>
-        <Toaster />
-        <Component {...pageProps} />
-      </SettingsProvider>
+      <LucideProvider strokeWidth={2}>
+        <SettingsProvider>
+          <Toaster />
+          <Component {...pageProps} />
+        </SettingsProvider>
+      </LucideProvider>
     </>
   );
 }
