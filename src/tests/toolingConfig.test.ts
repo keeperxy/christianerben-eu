@@ -19,9 +19,11 @@ interface TsConfig {
 describe("tooling configuration", () => {
   it("includes generated artifact freshness in the composite quality gate", () => {
     const pkg = readJson<PackageJson>("package.json");
+    const ciWorkflow = readFileSync(path.resolve(process.cwd(), ".github/workflows/ci.yml"), "utf8");
 
     expect(pkg.scripts["verify:generated"]).toBe("bun scripts/verify-generated.ts");
     expect(pkg.scripts.check).toContain("bun run verify:generated");
+    expect(ciWorkflow).toContain("fetch-depth: 0");
   });
 
   it("keeps async leak detection and the Node runtime target explicit", () => {
