@@ -65,6 +65,32 @@ describe("tooling configuration", () => {
     expect(tsconfig.exclude ?? []).not.toContain("src/setupBunTests.ts");
   });
 
+  it("keeps agent-facing workflow docs aligned with the composite quality gate", () => {
+    const agentsMd = readFileSync(path.resolve(process.cwd(), "AGENTS.md"), "utf8");
+    const releaseSkill = readFileSync(
+      path.resolve(process.cwd(), ".codex/skills/christianerben-dependency-release/SKILL.md"),
+      "utf8",
+    );
+    const releaseReference = readFileSync(
+      path.resolve(
+        process.cwd(),
+        ".codex/skills/christianerben-dependency-release/references/repo-workflow.md",
+      ),
+      "utf8",
+    );
+
+    expect(agentsMd).toContain("bun run check");
+    expect(agentsMd).toContain("bun run dev:local");
+    expect(agentsMd).toContain("Tailnet");
+    expect(releaseSkill).toContain("bun run check");
+    expect(releaseReference).toContain("bun run check");
+
+    for (const workflowDoc of [releaseSkill, releaseReference]) {
+      expect(workflowDoc).not.toContain("/Users/coach007");
+      expect(workflowDoc).toContain("internal-pages-upload");
+    }
+  });
+
   it("does not ship an unused Supabase client dependency or generated client", () => {
     const pkg = readJson<PackageJson>("package.json");
 
