@@ -24,6 +24,25 @@ describe("tooling configuration", () => {
     expect(pkg.scripts["verify:generated"]).toBe("bun scripts/verify-generated.ts");
     expect(pkg.scripts.check).toContain("bun run verify:generated");
     expect(ciWorkflow).toContain("fetch-depth: 0");
+    expect(ciWorkflow).toContain("bun run check");
+  });
+
+  it("verifies all tracked CV artifacts in the generated freshness gate", () => {
+    const verifyScript = readFileSync(
+      path.resolve(process.cwd(), "scripts/verify-generated.ts"),
+      "utf8",
+    );
+
+    for (const artifact of [
+      "public/cv/christian_erben_cv_en.pdf",
+      "public/cv/christian_erben_cv_en_with_certificates.pdf",
+      "public/cv/christian_erben_cv_en.docx",
+      "public/cv/christian_erben_cv_de.pdf",
+      "public/cv/christian_erben_cv_de_with_certificates.pdf",
+      "public/cv/christian_erben_cv_de.docx",
+    ]) {
+      expect(verifyScript).toContain(artifact);
+    }
   });
 
   it("keeps async leak detection and the Node runtime target explicit", () => {
