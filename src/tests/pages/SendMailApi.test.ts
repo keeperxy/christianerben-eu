@@ -376,10 +376,54 @@ describe("send-mail API", () => {
   it("fails closed when the durable rate-limit endpoint is unavailable", async () => {
     globalThis.fetch = vi.fn<typeof fetch>().mockRejectedValue(new Error("endpoint down"));
     process.env.CONTACT_RATE_LIMIT_ENDPOINT = "https://rate-limit.example.test/contact";
+    process.env.CONTACT_RATE_LIMIT_KEY_SECRET = "stable-test-secret";
 
     const res = await post();
 
     expect(res.statusCode).toBe(429);
     expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it("fails closed without calling the durable endpoint when the key secret is missing", async () => {
+    const fetchMock = vi.fn<typeof fetch>();
+    globalThis.fetch = fetchMock;
+    process.env.CONTACT_RATE_LIMIT_ENDPOINT = "https://rate-limit.example.test/contact";
+    delete process.env.CONTACT_RATE_LIMIT_KEY_SECRET;
+
+    const res = await post();
+
+    expect(res.statusCode).toBe(429);
+    expect(sendMock).not.toHaveBeenCalled();
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("fails closed when the durable rate-limit endpoint stalls past the timeout", async () => {
+    vi.useFakeTimers();
+
+    const fetchMock = vi.fn<typeof fetch>().mockImplementation(
+      (_input, init) =>
+        new Promise((_resolve, reject) => {
+          init?.signal?.addEventListener("abort", () => {
+            reject(init.signal?.reason ?? new Error("aborted"));
+          });
+        }),
+    );
+    globalThis.fetch = fetchMock;
+    process.env.CONTACT_RATE_LIMIT_ENDPOINT = "https://rate-limit.example.test/contact";
+    process.env.CONTACT_RATE_LIMIT_KEY_SECRET = "stable-test-secret";
+
+    try {
+      const responsePromise = post();
+
+      await vi.advanceTimersByTimeAsync(2_000);
+
+      const res = await responsePromise;
+
+      expect(res.statusCode).toBe(429);
+      expect(sendMock).not.toHaveBeenCalled();
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

@@ -15,7 +15,7 @@ const PREHEADER_SPACER = "&nbsp;".repeat(64);
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
 const RATE_LIMIT_KEY_SALT = randomBytes(16).toString("hex");
-const DURABLE_RATE_LIMIT_KEY_NAMESPACE = "contact-rate-limit-v1";
+const DURABLE_RATE_LIMIT_TIMEOUT_MS = 2_000;
 
 interface RateLimitBucket {
   count: number;
@@ -143,13 +143,14 @@ function getEphemeralRateLimitKey(clientAddress: string) {
     .digest("hex");
 }
 
-function getDurableRateLimitKey(clientAddress: string) {
-  return createHmac(
-    "sha256",
-    process.env.CONTACT_RATE_LIMIT_KEY_SECRET || DURABLE_RATE_LIMIT_KEY_NAMESPACE,
-  )
-    .update(clientAddress)
-    .digest("hex");
+function getDurableRateLimitSecret() {
+  const secret = process.env.CONTACT_RATE_LIMIT_KEY_SECRET;
+
+  return typeof secret === "string" && secret.length > 0 ? secret : null;
+}
+
+function getDurableRateLimitKey(clientAddress: string, secret: string) {
+  return createHmac("sha256", secret).update(clientAddress).digest("hex");
 }
 
 function unrefTimer(timer: ReturnType<typeof setTimeout>) {
@@ -210,10 +211,15 @@ function consumeRateLimit(key: string, now = Date.now()) {
   return true;
 }
 
-async function consumeDurableRateLimit(key: string) {
+async function consumeDurableRateLimit(clientAddress: string) {
   const endpoint = process.env.CONTACT_RATE_LIMIT_ENDPOINT;
   if (!endpoint) {
     return null;
+  }
+
+  const secret = getDurableRateLimitSecret();
+  if (!secret) {
+    throw new Error("Durable rate limit secret is not configured.");
   }
 
   const headers: Record<string, string> = {
@@ -224,15 +230,27 @@ async function consumeDurableRateLimit(key: string) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(endpoint, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({
-      key,
-      maxRequests: RATE_LIMIT_MAX_REQUESTS,
-      windowMs: RATE_LIMIT_WINDOW_MS,
-    }),
-  });
+  const abortController = new AbortController();
+  const timeoutTimer = setTimeout(() => {
+    abortController.abort(new Error("Durable rate limit request timed out."));
+  }, DURABLE_RATE_LIMIT_TIMEOUT_MS);
+  unrefTimer(timeoutTimer);
+
+  let response: Response;
+  try {
+    response = await fetch(endpoint, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        key: getDurableRateLimitKey(clientAddress, secret),
+        maxRequests: RATE_LIMIT_MAX_REQUESTS,
+        windowMs: RATE_LIMIT_WINDOW_MS,
+      }),
+      signal: abortController.signal,
+    });
+  } finally {
+    clearTimeout(timeoutTimer);
+  }
 
   if (!response.ok) {
     throw new Error(`Durable rate limit endpoint returned ${response.status}`);
@@ -250,9 +268,7 @@ async function consumeContactRateLimit(req: NextApiRequest) {
   const clientAddress = getClientAddress(req);
 
   try {
-    const durableAllowed = await consumeDurableRateLimit(
-      getDurableRateLimitKey(clientAddress),
-    );
+    const durableAllowed = await consumeDurableRateLimit(clientAddress);
     if (durableAllowed !== null) {
       return durableAllowed;
     }
