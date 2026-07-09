@@ -24,6 +24,25 @@ describe("tooling configuration", () => {
     expect(pkg.scripts["verify:generated"]).toBe("bun scripts/verify-generated.ts");
     expect(pkg.scripts.check).toContain("bun run verify:generated");
     expect(ciWorkflow).toContain("fetch-depth: 0");
+    expect(ciWorkflow).toContain("bun run check");
+  });
+
+  it("verifies all tracked CV artifacts in the generated freshness gate", () => {
+    const verifyScript = readFileSync(
+      path.resolve(process.cwd(), "scripts/verify-generated.ts"),
+      "utf8",
+    );
+
+    for (const artifact of [
+      "public/cv/christian_erben_cv_en.pdf",
+      "public/cv/christian_erben_cv_en_with_certificates.pdf",
+      "public/cv/christian_erben_cv_en.docx",
+      "public/cv/christian_erben_cv_de.pdf",
+      "public/cv/christian_erben_cv_de_with_certificates.pdf",
+      "public/cv/christian_erben_cv_de.docx",
+    ]) {
+      expect(verifyScript).toContain(artifact);
+    }
   });
 
   it("keeps async leak detection and the Node runtime target explicit", () => {
@@ -44,6 +63,32 @@ describe("tooling configuration", () => {
     expect(existsSync(path.resolve(process.cwd(), "bunfig.toml"))).toBe(false);
     expect(existsSync(path.resolve(process.cwd(), "src/setupBunTests.ts"))).toBe(false);
     expect(tsconfig.exclude ?? []).not.toContain("src/setupBunTests.ts");
+  });
+
+  it("keeps agent-facing workflow docs aligned with the composite quality gate", () => {
+    const agentsMd = readFileSync(path.resolve(process.cwd(), "AGENTS.md"), "utf8");
+    const releaseSkill = readFileSync(
+      path.resolve(process.cwd(), ".codex/skills/christianerben-dependency-release/SKILL.md"),
+      "utf8",
+    );
+    const releaseReference = readFileSync(
+      path.resolve(
+        process.cwd(),
+        ".codex/skills/christianerben-dependency-release/references/repo-workflow.md",
+      ),
+      "utf8",
+    );
+
+    expect(agentsMd).toContain("bun run check");
+    expect(agentsMd).toContain("bun run dev:local");
+    expect(agentsMd).toContain("Tailnet");
+    expect(releaseSkill).toContain("bun run check");
+    expect(releaseReference).toContain("bun run check");
+
+    for (const workflowDoc of [releaseSkill, releaseReference]) {
+      expect(workflowDoc).not.toContain("/Users/coach007");
+      expect(workflowDoc).toContain("internal-pages-upload");
+    }
   });
 
   it("does not ship an unused Supabase client dependency or generated client", () => {

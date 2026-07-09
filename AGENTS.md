@@ -8,11 +8,17 @@ This repository contains a personal portfolio built with Next.js, React, TypeScr
 - `scripts/` – utility scripts executed by the build or git hooks.
 
 ## Useful commands
-- `bun run dev` – start a development server on port 3000.
+- `bun run dev` – start the Tailnet-backed dev flow via `scripts/dev-tailnet.ts` (serves over Tailscale).
+- `bun run dev:local` – start a plain local `next dev` server on port 3000.
 - `bun run build` – create a production build.
 - `bun run lint` – run Oxlint over the codebase.
-- `bun run test` – execute all unit tests via Vitest.
+- `bun run typecheck` – run TypeScript without emitting output.
+- `bun run test` – execute all unit tests via Vitest (watch mode).
+- `bun run test:run` – run the unit test suite once.
 - `bun run test -- <file>` – run a single test file (e.g., `bun run test -- src/components/HeroSection.test.tsx`).
+- `bun run test:leaks` – run the suite with async leak detection.
+- `bun run verify:generated` – verify generated artifacts (`public/llms.txt`, `public/sitemap.xml`, `src/content/content.ts`, tracked `public/cv` files) are current and valid.
+- `bun run check` – the full quality gate: lint, typecheck, tests, async leak detection, generated artifact verification, and a production build.
 
 ## Git hooks
 A pre-commit hook is configured in `.githooks/pre-commit`. When committing on the `development` branch it runs:
@@ -33,6 +39,6 @@ A pre-commit hook is configured in `.githooks/pre-commit`. When committing on th
 
 ## Agent workflow
 When modifying files in this repository:
-1. Run `bun run lint` and `bun run test` before committing to confirm everything passes.
+1. Run `bun run check` before committing or opening a PR unless the operator asks for a narrower check.
 2. Include a clear commit message summarising the change.
 3. Reference any modified files in PR summaries when applicable.

@@ -39,4 +39,5 @@ bun run dev   # starts Next.js and exposes it at https://lyra.tailb44a3.ts.net/
 - Build command: `bun run build`
 - Output directory: `.next`
 - Required env: `RESEND_API_KEY` (and optional `CONTACT_TO_EMAIL` / `CONTACT_FROM_EMAIL` for contact form delivery)
-- Optional env: `CONTACT_RATE_LIMIT_ENDPOINT`, `CONTACT_RATE_LIMIT_ENDPOINT_TOKEN`, and `CONTACT_RATE_LIMIT_KEY_SECRET` to delegate contact-form rate limiting to a durable service. The endpoint receives `{ key, maxRequests, windowMs }` and must return `{ allowed: boolean }`.
+- Optional env: `CONTACT_RATE_LIMIT_ENDPOINT` and `CONTACT_RATE_LIMIT_ENDPOINT_TOKEN` to delegate contact-form rate limiting to a durable service. The endpoint receives `{ key, maxRequests, windowMs }`, must return `{ allowed: boolean }`, and must answer within 2 seconds or the request fails closed.
+- `CONTACT_RATE_LIMIT_KEY_SECRET` is required whenever `CONTACT_RATE_LIMIT_ENDPOINT` is set; without it the contact API fails closed instead of sending client-address hashes derived from a public fallback. See `.env.example` for the full variable list.

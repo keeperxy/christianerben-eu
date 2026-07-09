@@ -8,7 +8,7 @@
 - Vercel team: `Christian's projects` / `christians-projects-693c521b`
 - Vercel project: `christianerben-eu` / `prj_0P9YPvnH3AoHjgps5Sady3gnc3IW`
 - Screenshot pages: `/`, `/cv`, `/imprint`, `/privacy`, `/sitemap`, `/404`
-- Commands: `bun run dev`, `bun run lint`, `bun run test`, `bun run build`
+- Commands: `bun run dev` (Tailnet dev flow), `bun run dev:local` (plain local `next dev`), `bun run check` (full quality gate: lint, typecheck, tests, async leak detection, generated artifact verification, production build)
 
 ## Hook And Generated Files
 
@@ -43,7 +43,7 @@ If no relevant optional improvement exists, do not create a placeholder issue. N
 
 ## Vercel Checks
 
-After each push to `development`, `preproduction`, and `main`, poll the matching Vercel deployment for up to 5 minutes until it reaches `READY`. If deployment becomes `ERROR` or `CANCELED`, fetch build logs, fix the issue locally, re-run lint/test/build/screenshots, and resume from the failed branch.
+After each push to `development`, `preproduction`, and `main`, poll the matching Vercel deployment for up to 5 minutes until it reaches `READY`. If deployment becomes `ERROR` or `CANCELED`, fetch build logs, fix the issue locally, re-run `bun run check` plus screenshot comparison, and resume from the failed branch.
 
 Known risk: `scripts/vercel-deploy-check.sh` may be inverted because allowed branches can exit with status `1`. If Vercel fails on this script, treat it as a repairable repository bug.
 
@@ -79,6 +79,6 @@ Include the most useful operational facts:
 - Vercel deployment results for `development`, `preproduction`, and `main`
 - GitHub review/check watch outcome and any residual notes
 
-Publish the HTML status page by using the `internal-pages-upload` skill with `.artifacts/dependency-update-release/<run-id>/status.html`. Read and follow `/Users/coach007/.agents/skills/internal-pages-upload/SKILL.md` at publish time; do not copy its upload commands into this workflow.
+Publish the HTML status page by using the `internal-pages-upload` skill with `.artifacts/dependency-update-release/<run-id>/status.html`. Read and follow the installed `internal-pages-upload` skill at publish time; do not copy its upload commands into this workflow.
 
 Return the uploaded internal status page URL in the final user response so the report can be checked externally. If publishing fails, report the exact upload failure and still provide the local `.artifacts/.../status.html` path.
