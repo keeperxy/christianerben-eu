@@ -63,6 +63,14 @@ describe("cv-data", () => {
     expect(isCustomCvData(malformed)).toBe(false);
   });
 
+  it("rejects missing footer copyright data used by the editor", () => {
+    const data = serializableSiteContent();
+    delete (data as Partial<SiteContent>).footer;
+
+    expect(isCustomCvData(data)).toBe(false);
+    expect(decodeCvData(encodeCvData(data))).toBeNull();
+  });
+
   it("rejects a skill with an unknown category", () => {
     const data = serializableSiteContent();
     data.skills[0].category =

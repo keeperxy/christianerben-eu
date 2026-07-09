@@ -117,6 +117,9 @@ const customCvDataSchema = z.looseObject({
       country: localizedString,
     }),
   }),
+  footer: z.looseObject({
+    copyright: localizedString,
+  }),
   backToHome: localizedString,
   experienceSectionTitle: localizedString,
   experienceAchievementPrefix: localizedString,
