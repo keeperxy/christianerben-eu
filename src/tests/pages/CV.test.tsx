@@ -232,4 +232,46 @@ describe("CV page", () => {
       expect.stringContaining("/cv/christian_erben_cv_en.pdf"),
     );
   });
+
+  it("ignores shallow-valid hash data whose nested fields would crash rendering", () => {
+    const asPath = `/cv#data=${encodeHashData({
+      ...siteContent,
+      about: {
+        ...siteContent.about,
+        paragraphs: [],
+      },
+    })}`;
+
+    renderCVPage(undefined, asPath);
+
+    expect(screen.getByRole("link", { name: /Download PDF/i })).toHaveAttribute(
+      "href",
+      expect.stringContaining("/cv/christian_erben_cv_en.pdf"),
+    );
+    expect(screen.getByRole("link", { name: /Download DOCX/i })).toHaveAttribute(
+      "href",
+      expect.stringContaining("/cv/christian_erben_cv_en.docx"),
+    );
+    expect(generateCvDocx).not.toHaveBeenCalled();
+  });
+
+  it("ignores hash data containing an unknown skill category", () => {
+    const asPath = `/cv#data=${encodeHashData({
+      ...siteContent,
+      skills: [
+        {
+          ...siteContent.skills[0],
+          category: "quantum",
+        },
+      ],
+    } as unknown as SiteContent)}`;
+
+    renderCVPage(undefined, asPath);
+
+    expect(screen.getByRole("link", { name: /Download PDF/i })).toHaveAttribute(
+      "href",
+      expect.stringContaining("/cv/christian_erben_cv_en.pdf"),
+    );
+    expect(generateCvDocx).not.toHaveBeenCalled();
+  });
 });
