@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import CVPreviewFrame from "@/components/cv/CVPreviewFrame";
 import { useScrollToTop } from "@/hooks/use-scroll-to-top";
 import { Download, Globe, ArrowLeft, Edit, Moon, Sun } from "lucide-react";
-import { compressToUint8Array, decompressFromUint8Array } from "lz-string";
+import { decodeCvData, encodeCvData } from "@/lib/cv-data";
 
 // Lazy load heavy dependencies only when needed (custom data or edit mode)
 const CvDownloadButtonsCustom = React.lazy(() => import("@/components/cv/CvDownloadButtonsCustom"));
@@ -130,57 +130,6 @@ const CvDownloadButtons: React.FC<{
 const CV = () => {
   const router = useRouter();
   const { language, setLanguage, theme, setTheme, t } = useSettings();
-  // Unicode-safe LZ compression + Base64 encoding/decoding using TextEncoder/TextDecoder
-  const encodeData = (str: string): string => {
-    const compressed = compressToUint8Array(str);
-    let binary = '';
-    for (let i = 0; i < compressed.length; i++) {
-      binary += String.fromCharCode(compressed[i]);
-    }
-    return window.btoa(binary);
-  };
-  const decodeData = (b64: string): string => {
-    const binary = window.atob(b64);
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) {
-      bytes[i] = binary.charCodeAt(i);
-    }
-    return decompressFromUint8Array(bytes) || '';
-  };
-
-  const isLocalizedString = (value: unknown): value is { en: string; de: string } =>
-    typeof value === 'object' &&
-    value !== null &&
-    typeof (value as { en?: unknown }).en === 'string' &&
-    typeof (value as { de?: unknown }).de === 'string';
-
-  const isSiteContentShape = (value: unknown): value is SiteContent => {
-    if (typeof value !== 'object' || value === null) {
-      return false;
-    }
-
-    const candidate = value as Partial<SiteContent>;
-
-    return (
-      typeof candidate.hero?.name === 'string' &&
-      Array.isArray(candidate.hero.titleElements) &&
-      candidate.hero.titleElements.every(isLocalizedString) &&
-      Array.isArray(candidate.about?.paragraphs) &&
-      Array.isArray(candidate.experiences) &&
-      Array.isArray(candidate.skills) &&
-      typeof candidate.contact?.email === 'string' &&
-      typeof candidate.contact?.socialLinks === 'object' &&
-      candidate.contact.socialLinks !== null &&
-      typeof candidate.imprint?.address === 'object' &&
-      candidate.imprint.address !== null &&
-      typeof candidate.skillsSection?.categories === 'object' &&
-      candidate.skillsSection.categories !== null &&
-      isLocalizedString(candidate.backToHome) &&
-      isLocalizedString(candidate.experienceSectionTitle) &&
-      isLocalizedString(candidate.experienceAchievementPrefix) &&
-      isLocalizedString(candidate.downloadResume)
-    );
-  };
 
   const getInitialCvData = (asPath: string): SiteContent => {
     if (typeof window === 'undefined') {
@@ -195,18 +144,12 @@ const CV = () => {
       return siteContent;
     }
 
-    try {
-      const decodedJson = decodeData(savedData);
-      const decodedData = JSON.parse(decodedJson);
-      if (!isSiteContentShape(decodedData)) {
-        console.warn('Ignoring invalid CV data from URL hash');
-        return siteContent;
-      }
-      return decodedData;
-    } catch (e) {
-      console.error('Failed to parse saved data', e);
+    const decodedData = decodeCvData(savedData);
+    if (!decodedData) {
+      console.warn('Ignoring invalid CV data from URL hash');
       return siteContent;
     }
+    return decodedData;
   };
 
   const [clickCount, setClickCount] = useState(0);
@@ -236,11 +179,8 @@ const CV = () => {
 
   const handleDataChange = (newData: SiteContent) => {
     setCvData(newData);
-    // Save to URL hash (Unicode-safe Base64)
-    const json = JSON.stringify(newData);
-    const encodedData = encodeData(json);
-    // Update URL hash without reloading
-    window.location.hash = `data=${encodedData}`;
+    // Update URL hash without reloading (Unicode-safe Base64)
+    window.location.hash = `data=${encodeCvData(newData)}`;
   };
 
   const handleExitEditMode = () => {
