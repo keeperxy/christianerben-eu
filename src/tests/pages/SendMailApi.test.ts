@@ -426,4 +426,38 @@ describe("send-mail API", () => {
       vi.useRealTimers();
     }
   });
+
+  it("keeps the durable rate-limit timeout active while response JSON is parsed", async () => {
+    vi.useFakeTimers();
+
+    const fetchMock = vi.fn<typeof fetch>().mockImplementation(
+      (_input, init) =>
+        Promise.resolve({
+          ok: true,
+          json: () =>
+            new Promise((_resolve, reject) => {
+              init?.signal?.addEventListener("abort", () => {
+                reject(init.signal?.reason ?? new Error("aborted"));
+              });
+            }),
+        } as Response),
+    );
+    globalThis.fetch = fetchMock;
+    process.env.CONTACT_RATE_LIMIT_ENDPOINT = "https://rate-limit.example.test/contact";
+    process.env.CONTACT_RATE_LIMIT_KEY_SECRET = "stable-test-secret";
+
+    try {
+      const responsePromise = post();
+
+      await vi.advanceTimersByTimeAsync(2_000);
+
+      const res = await responsePromise;
+
+      expect(res.statusCode).toBe(429);
+      expect(sendMock).not.toHaveBeenCalled();
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });

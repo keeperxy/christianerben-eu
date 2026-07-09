@@ -236,9 +236,8 @@ async function consumeDurableRateLimit(clientAddress: string) {
   }, DURABLE_RATE_LIMIT_TIMEOUT_MS);
   unrefTimer(timeoutTimer);
 
-  let response: Response;
   try {
-    response = await fetch(endpoint, {
+    const response = await fetch(endpoint, {
       method: "POST",
       headers,
       body: JSON.stringify({
@@ -248,20 +247,20 @@ async function consumeDurableRateLimit(clientAddress: string) {
       }),
       signal: abortController.signal,
     });
+
+    if (!response.ok) {
+      throw new Error(`Durable rate limit endpoint returned ${response.status}`);
+    }
+
+    const result = (await response.json()) as { allowed?: unknown };
+    if (typeof result.allowed !== "boolean") {
+      throw new Error("Durable rate limit endpoint returned an invalid response.");
+    }
+
+    return result.allowed;
   } finally {
     clearTimeout(timeoutTimer);
   }
-
-  if (!response.ok) {
-    throw new Error(`Durable rate limit endpoint returned ${response.status}`);
-  }
-
-  const result = (await response.json()) as { allowed?: unknown };
-  if (typeof result.allowed !== "boolean") {
-    throw new Error("Durable rate limit endpoint returned an invalid response.");
-  }
-
-  return result.allowed;
 }
 
 async function consumeContactRateLimit(req: NextApiRequest) {
