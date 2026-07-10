@@ -5,13 +5,13 @@ description: End-to-end dependency update and release workflow for the christian
 
 # Christianerben Dependency Release
 
-Use this skill to perform a full dependency release for `/home/coach007/dev/sites/christianerben-eu`. Keep the workflow conservative: update everything only when updates exist, verify locally and visually, then promote through the configured branch chain with Vercel checks at each stage.
+Use this skill to perform a full dependency release for `/dev/sites/christianerben-eu`. Keep the workflow conservative: update everything only when updates exist, verify locally and visually, then promote through the configured branch chain with Vercel checks at each stage.
 
 Read `references/repo-workflow.md` before starting. Use the bundled scripts from this skill for page discovery, screenshot capture, and tolerant visual comparison.
 
 ## Preflight
 
-1. Work from `/home/coach007/dev/sites/christianerben-eu`.
+1. Work from `~/dev/sites/christianerben-eu`.
 2. Require a clean worktree except for files explicitly related to this release. If unrelated changes exist, stop and ask before continuing.
 3. Start from `development`, update it from `origin/development`, and verify GitHub and Vercel auth before making changes.
 4. Check for available updates with Bun. If no package updates are available, stop early without creating a branch, screenshots, or PR.
@@ -78,29 +78,18 @@ bun run update:last-updated
 
 2. When generated files change, re-run `bun run check` and the screenshot comparison.
 3. Push the branch and open a PR against `development`.
-4. Self-review the PR diff, fix issues, and wait for required checks.
-5. Watch the Codex GitHub review status before merging:
-   - Use `github:github` for initial PR metadata and broad PR comment triage.
-   - Use `github:gh-address-comments` when review threads, requested changes, unresolved inline comments, or resolution state matter. Prefer its bundled GraphQL workflow through `gh` for thread-aware reads.
-   - Use `github:gh-fix-ci` only when GitHub Actions checks fail and logs are needed.
-   - Use PR reaction emojis as the authoritative Codex review lifecycle signal: the eyes emoji means review has started; the thumbs-up emoji means review has finished.
-   - After opening the PR, wait up to 10 minutes for the initial Codex review lifecycle to start. The initial eyes emoji can appear with a delay, so do not merge just because no emoji is present immediately after PR creation.
-   - If no eyes emoji, thumbs-up emoji, review comment, or other Codex activity appears after that 10-minute startup window, comment exactly `@codex review` on the PR to trigger the remote Codex review, then continue watching for the eyes emoji followed by the thumbs-up emoji.
-   - Do not merge while the eyes emoji is present without a later thumbs-up completion signal for the current head commit.
-   - After the thumbs-up emoji appears, inspect review threads and PR comments. If actionable unresolved review feedback appears, address it locally, re-run the relevant verification (`bun run check`, plus screenshot comparison when UI output or dependencies changed), push again, and repeat the emoji-based review watch from the beginning.
-   - After every new push, assume the Codex review lifecycle restarts automatically. Wait again for the delayed initial eyes emoji for the new head commit, apply the same 10-minute `@codex review` fallback only if no Codex activity starts, and then wait for the matching thumbs-up completion signal before continuing.
-   - Do not reply on GitHub, resolve threads, submit reviews, or write PR comments unless the user explicitly asks for those write actions, except for the required `@codex review` fallback after the 10-minute startup window.
-6. Merge locally into updated `development`, then run `.githooks/pre-commit` on the real `development` branch. Include any generated files in the merge commit.
-7. Push `development`, wait for Vercel deployment `READY`, and fetch logs/fix/retry on `ERROR` or `CANCELED`.
-8. Merge and push `development -> preproduction`, wait for Vercel `READY`.
-9. Merge and push `preproduction -> main`, wait for Vercel `READY`.
-10. After the final `main` deployment is `READY`, clean up the local repository:
-    - switch back to `development`
-    - update `development` from `origin/development`
-    - delete the local `codex/update-dependencies-<timestamp>` branch after it has been merged
-    - remove any temporary local worktree or checkout created only for the update run
-    - keep `.artifacts/` uncommitted and leave the worktree clean unless the user explicitly asks to keep artifacts or branches
-11. Write a final self-contained HTML status page under `.artifacts/dependency-update-release/<run-id>/status.html`. Keep this report and every supporting artifact uncommitted. Include:
+4. Use the skill `git-code-review-autopilot` to check on the pr
+5. Merge locally into updated `development`, then run `.githooks/pre-commit` on the real `development` branch. Include any generated files in the merge commit.
+6. Push `development`, wait for Vercel deployment `READY`, and fetch logs/fix/retry on `ERROR` or `CANCELED`.
+7. Merge and push `development -> preproduction`, wait for Vercel `READY`.
+8. Merge and push `preproduction -> main`, wait for Vercel `READY`.
+9. After the final `main` deployment is `READY`, clean up the local repository:
+   - switch back to `development`
+   - update `development` from `origin/development`
+   - delete the local and remote `codex/update-dependencies-<timestamp>` branch after it has been merged
+   - remove any temporary local worktree or checkout created only for the update run
+   - keep `.artifacts/` uncommitted and leave the worktree clean unless the user explicitly asks to keep artifacts or branches
+10. Write a final self-contained HTML status page under `.artifacts/dependency-update-release/<run-id>/status.html`. Keep this report and every supporting artifact uncommitted. Include:
     - run id, job/status/session/cwd/finished timestamp when available
     - one-sentence completion outcome
     - what was changed and what steps were performed
@@ -114,8 +103,8 @@ bun run update:last-updated
     - GitHub review/check watch outcome and any residual notes
     - local artifact paths as text, not embedded local images
     - escaped dynamic text before inserting it into HTML
-12. Publish the final HTML status page by using the `internal-pages-upload` skill with `.artifacts/dependency-update-release/<run-id>/status.html`. Do not duplicate upload implementation details here; read and follow the installed `internal-pages-upload` skill at publish time so changes to that skill remain authoritative.
-13. Finish with a concise final response that includes the uploaded internal status page URL first, then the local `.artifacts/.../status.html` path and any upload failure note if publishing did not complete.
+11. Publish the final HTML status page by using the `internal-pages-upload` skill with `.artifacts/dependency-update-release/<run-id>/status.html`. Do not duplicate upload implementation details here; read and follow the installed `internal-pages-upload` skill at publish time so changes to that skill remain authoritative.
+12. Finish with a concise final response that includes the uploaded internal status page URL first, then the local `.artifacts/.../status.html` path and any upload failure note if publishing did not complete.
 
 ## Useful Scripts
 
