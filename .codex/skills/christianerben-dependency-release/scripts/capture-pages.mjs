@@ -83,7 +83,10 @@ try {
     const failedRequests = [];
 
     page.on("console", (msg) => {
-      if (msg.type() === "error") consoleErrors.push(msg.text());
+      if (msg.type() === "error") {
+        const location = msg.location();
+        consoleErrors.push(location.url ? `${msg.text()} (${location.url})` : msg.text());
+      }
     });
     page.on("requestfailed", (request) => {
       failedRequests.push(`${request.method()} ${request.url()} ${request.failure()?.errorText ?? ""}`.trim());
