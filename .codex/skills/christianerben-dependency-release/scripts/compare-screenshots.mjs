@@ -40,13 +40,24 @@ function reportPageProblems(capture) {
   const problems = [];
   for (const page of capture.pages) {
     const label = `${page.route} ${page.viewport}`;
-    if (page.status < 200 || page.status >= 400) problems.push(`${label}: HTTP ${page.status}`);
+    const isExpectedNotFoundPage = page.route === "/404" && page.status === 404;
+    const expectedNotFoundDocumentError = `Failed to load resource: the server responded with a status of 404 (Not Found) (${new URL(page.route, capture.baseUrl).toString()})`;
+    if ((page.status < 200 || page.status >= 400) && !isExpectedNotFoundPage) problems.push(`${label}: HTTP ${page.status}`);
     if (page.bodyLength < 40) problems.push(`${label}: page appears blank`);
     if (/404|500|application error|internal server error/i.test(page.title)) {
       if (page.route !== "/404") problems.push(`${label}: error-like title "${page.title}"`);
     }
-    for (const message of page.consoleErrors) problems.push(`${label}: console error: ${message}`);
-    for (const failure of page.failedRequests) problems.push(`${label}: request failed: ${failure}`);
+    for (const message of page.consoleErrors) {
+      const isExpectedNotFoundConsoleError = page.route === "/404" &&
+        (message === expectedNotFoundDocumentError ||
+          /404 Error: User attempted to access non-existent route: \/404/.test(message));
+      if (!isExpectedNotFoundConsoleError) problems.push(`${label}: console error: ${message}`);
+    }
+    for (const failure of page.failedRequests) {
+      const isExpectedCvPdfAbort = page.route === "/cv" &&
+        /^GET .*\/cv\/christian_erben_cv_(en|de)(?:_with_certificates)?\.pdf net::ERR_ABORTED$/.test(failure);
+      if (!isExpectedCvPdfAbort) problems.push(`${label}: request failed: ${failure}`);
+    }
   }
   return problems;
 }
