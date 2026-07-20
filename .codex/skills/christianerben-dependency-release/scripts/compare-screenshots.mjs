@@ -41,6 +41,7 @@ function reportPageProblems(capture) {
   for (const page of capture.pages) {
     const label = `${page.route} ${page.viewport}`;
     const isExpectedNotFoundPage = page.route === "/404" && page.status === 404;
+    const expectedNotFoundDocumentError = `Failed to load resource: the server responded with a status of 404 (Not Found) (${new URL(page.route, capture.baseUrl).toString()})`;
     if ((page.status < 200 || page.status >= 400) && !isExpectedNotFoundPage) problems.push(`${label}: HTTP ${page.status}`);
     if (page.bodyLength < 40) problems.push(`${label}: page appears blank`);
     if (/404|500|application error|internal server error/i.test(page.title)) {
@@ -48,7 +49,7 @@ function reportPageProblems(capture) {
     }
     for (const message of page.consoleErrors) {
       const isExpectedNotFoundConsoleError = page.route === "/404" &&
-        (/Failed to load resource: the server responded with a status of 404 \(Not Found\)/.test(message) ||
+        (message === expectedNotFoundDocumentError ||
           /404 Error: User attempted to access non-existent route: \/404/.test(message));
       if (!isExpectedNotFoundConsoleError) problems.push(`${label}: console error: ${message}`);
     }
