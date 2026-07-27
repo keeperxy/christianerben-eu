@@ -5,9 +5,9 @@ description: End-to-end dependency update and release workflow for the christian
 
 # Christianerben Dependency Release
 
-Use this skill to perform a full dependency release for `/dev/sites/christianerben-eu`. Keep the workflow conservative: update everything only when updates exist, verify locally and visually, then promote through the configured branch chain with Vercel checks at each stage.
+Use this skill to perform a full dependency release for `/dev/sites/christianerben-eu`. Keep the workflow conservative: update everything only when updates exist, verify locally and visually, then promote through the configured branch chain with Vercel checks at each stage. A request to execute this skill fully authorizes the complete repository workflow described here; do not stop after the package update or PR creation.
 
-Read `references/repo-workflow.md` before starting. Use the bundled scripts from this skill for page discovery, screenshot capture, and tolerant visual comparison.
+Read `references/repo-workflow.md` before starting. Use the bundled Playwright Test workflow for page discovery, stable baseline snapshots, and tolerant visual comparison. When the invocation names `$git-code-review-autopilot` or `$internal-pages-upload`, read and follow those installed skills at their handoff points; their current instructions remain authoritative.
 
 ## Preflight
 
@@ -19,11 +19,17 @@ Read `references/repo-workflow.md` before starting. Use the bundled scripts from
 
 ## Local Update Flow
 
-1. Start the app with `bun run dev:local` on port 3000 (`bun run dev` would additionally expose the server over the Tailnet, which a release run does not need).
-2. Capture baseline screenshots:
+1. Ensure the exact local Playwright dependency and Chromium are available:
 
 ```bash
-bun .codex/skills/christianerben-dependency-release/scripts/capture-pages.mjs --base-url http://localhost:3000 --phase before
+bun install --frozen-lockfile
+bunx --no-install playwright install chromium
+```
+
+2. Store stable baseline snapshots. Playwright starts and stops a fresh local Next.js server for this phase:
+
+```bash
+bun run visual:baseline --artifact-dir .artifacts/dependency-update-release/<run-id>
 ```
 
 3. Update all dependencies and devDependencies to `latest` with Bun, including major versions. Update both `package.json` and `bun.lock`.
@@ -36,20 +42,20 @@ bun run check
 This is the full quality gate (lint, typecheck, tests, async leak detection, generated artifact verification, production build). Screenshot capture and comparison remain a separate, additional visual gate; `bun run check` does not replace them.
 
 5. Fix failures autonomously when they are caused by the update. Keep fixes scoped.
-6. Restart the local dev server after build-affecting fixes.
-7. Capture after screenshots:
+6. Install Chromium again after the dependency update so its browser revision matches the updated Playwright package:
 
 ```bash
-bun .codex/skills/christianerben-dependency-release/scripts/capture-pages.mjs --base-url http://localhost:3000 --phase after --run-id <run-id>
+bunx --no-install playwright install chromium
 ```
 
-8. Compare screenshots tolerantly:
+7. Compare the updated site with the stored baseline. Playwright starts another fresh local Next.js server:
 
 ```bash
-bun .codex/skills/christianerben-dependency-release/scripts/compare-screenshots.mjs --run-id <run-id>
+bun run visual:compare --artifact-dir .artifacts/dependency-update-release/<run-id>
 ```
 
-Treat blank pages, Next error pages, severe layout collapse, unexpected browser console errors, and HTTP failures as blockers. Do not require pixel-perfect equality.
+8. The visual commands use the exact pinned `@playwright/test` version, four workers, desktop/mobile projects, full-page screenshots, font and lazy-image waits, reduced motion, disabled animations, fixed locale/timezone/device scale, and two consecutive stable screenshots. They reject missing baselines and route-set drift before starting Playwright.
+9. Treat blank pages, Next error pages, severe layout collapse, unexpected browser console errors, request failures, HTTP failures, or a visual delta above the configured tolerance as blockers. Do not require pixel-perfect equality. Playwright retains its JSON report, traces, actual images, and diffs under the run artifact directory when applicable.
 
 ## Relevant Update Follow-Up
 
@@ -78,7 +84,7 @@ bun run update:last-updated
 
 2. When generated files change, re-run `bun run check` and the screenshot comparison.
 3. Push the branch and open a PR against `development`.
-4. Use the skill `git-code-review-autopilot` to check on the pr
+4. Hand the PR to `$git-code-review-autopilot`. That skill owns the complete current-head GitHub check, Codex review, thread-response, repeat-after-push, and merge gate. Do not merge before it returns a successful review outcome.
 5. Merge locally into updated `development`, then run `.githooks/pre-commit` on the real `development` branch. Include any generated files in the merge commit.
 6. Push `development`, wait for Vercel deployment `READY`, and fetch logs/fix/retry on `ERROR` or `CANCELED`.
 7. Merge and push `development -> preproduction`, wait for Vercel `READY`.
@@ -89,7 +95,7 @@ bun run update:last-updated
    - delete the local and remote `codex/update-dependencies-<timestamp>` branch after it has been merged
    - remove any temporary local worktree or checkout created only for the update run
    - keep `.artifacts/` uncommitted and leave the worktree clean unless the user explicitly asks to keep artifacts or branches
-10. Write a final self-contained HTML status page under `.artifacts/dependency-update-release/<run-id>/status.html`. Keep this report and every supporting artifact uncommitted. Include:
+10. Write the structured Git update status JSON required by `$internal-pages-upload`, then use that skill's canonical dark Gantt renderer to create `.artifacts/dependency-update-release/<run-id>/status.html`. Keep the report and every supporting artifact uncommitted. Include:
     - run id, job/status/session/cwd/finished timestamp when available
     - one-sentence completion outcome
     - what was changed and what steps were performed
@@ -103,13 +109,14 @@ bun run update:last-updated
     - GitHub review/check watch outcome and any residual notes
     - local artifact paths as text, not embedded local images
     - escaped dynamic text before inserting it into HTML
-11. Publish the final HTML status page by using the `internal-pages-upload` skill with `.artifacts/dependency-update-release/<run-id>/status.html`. Do not duplicate upload implementation details here; read and follow the installed `internal-pages-upload` skill at publish time so changes to that skill remain authoritative.
-12. Finish with a concise final response that includes the uploaded internal status page URL first, then the local `.artifacts/.../status.html` path and any upload failure note if publishing did not complete.
+11. Publish and verify the final HTML status page by handing it to `$internal-pages-upload` with the required 14-day TTL. Do not duplicate upload implementation details here; the installed upload skill remains authoritative.
+12. Finish with the returned internal report URL first. Then list every available tracking or follow-up issue URL, PR URL, and deployment URL for `development`, `preproduction`, and `main`, followed by the local `.artifacts/.../status.html` path. Explicitly say when a link category has no available link. Include any upload failure note if publishing did not complete.
 
 ## Useful Scripts
 
-- `scripts/discover-pages.mjs`: lists real Pages Router routes, excluding API routes and special Next files.
-- `scripts/capture-pages.mjs`: captures desktop and mobile screenshots under `.artifacts/dependency-update-release/<run-id>/<phase>/`.
-- `scripts/compare-screenshots.mjs`: compares `before` and `after` screenshots with tolerant thresholds and writes `comparison-report.json`.
+- `scripts/run-visual-check.mjs`: validates inputs and route coverage, then runs the pinned local Playwright Test workflow.
+- `scripts/playwright.visual.config.ts`: configures managed Next.js servers, deterministic desktop/mobile projects, stable comparison thresholds, and failure artifacts.
+- `scripts/visual-snapshots.pw.ts`: verifies page health and full-page snapshots for every release route.
+- `scripts/discover-pages.mjs`: lists real Pages Router routes or the explicit release route set.
 
 All generated artifacts must remain under `.artifacts/` and must not be committed.

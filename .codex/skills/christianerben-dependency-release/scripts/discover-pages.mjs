@@ -2,8 +2,6 @@
 import { readdirSync, statSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 
-const repoRoot = process.cwd();
-const pagesDir = join(repoRoot, "src", "pages");
 const explicitRoutes = ["/", "/cv", "/imprint", "/privacy", "/sitemap", "/404"];
 const excludedNames = new Set(["_app", "_document", "_error"]);
 const pageExtensions = new Set([".js", ".jsx", ".ts", ".tsx", ".md", ".mdx"]);
@@ -23,7 +21,7 @@ function extensionOf(filePath) {
   return "";
 }
 
-function routeFromFile(filePath) {
+function routeFromFile(filePath, pagesDir) {
   const ext = extensionOf(filePath);
   if (!ext) return null;
 
@@ -39,16 +37,16 @@ function routeFromFile(filePath) {
   return route === "" ? "/" : route;
 }
 
-function walk(dir) {
+function walk(dir, pagesDir) {
   const routes = [];
   for (const entry of readdirSync(dir)) {
     const filePath = join(dir, entry);
     const stats = statSync(filePath);
     if (stats.isDirectory()) {
-      if (entry !== "api") routes.push(...walk(filePath));
+      if (entry !== "api") routes.push(...walk(filePath, pagesDir));
       continue;
     }
-    const route = routeFromFile(filePath);
+    const route = routeFromFile(filePath, pagesDir);
     if (route) routes.push(route);
   }
   return routes;
@@ -62,11 +60,18 @@ function uniqueSorted(routes) {
   });
 }
 
-const options = parseArgs();
-const routes = options.explicit ? explicitRoutes : uniqueSorted(walk(pagesDir));
+export function discoverPages(repoRoot = process.cwd(), explicit = false) {
+  if (explicit) return [...explicitRoutes];
+  const pagesDir = join(repoRoot, "src", "pages");
+  return uniqueSorted(walk(pagesDir, pagesDir));
+}
 
-if (options.json) {
-  console.log(JSON.stringify(routes, null, 2));
-} else {
-  console.log(routes.join("\n"));
+if (import.meta.main) {
+  const options = parseArgs();
+  const routes = discoverPages(process.cwd(), options.explicit);
+  if (options.json) {
+    console.log(JSON.stringify(routes, null, 2));
+  } else {
+    console.log(routes.join("\n"));
+  }
 }
