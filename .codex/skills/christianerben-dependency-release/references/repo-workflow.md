@@ -8,7 +8,7 @@
 - Vercel team: `Christian's projects` / `christians-projects-693c521b`
 - Vercel project: `christianerben-eu` / `prj_0P9YPvnH3AoHjgps5Sady3gnc3IW`
 - Screenshot pages: `/`, `/cv`, `/imprint`, `/privacy`, `/sitemap`, `/404`
-- Commands: `bun run dev` (Tailnet dev flow), `bun run dev:local` (plain local `next dev`), `bun run check` (full quality gate: lint, typecheck, tests, async leak detection, generated artifact verification, production build)
+- Commands: `bun run visual:baseline --artifact-dir <run-dir>`, `bun run visual:compare --artifact-dir <run-dir>`, `bun run check` (full quality gate: lint, typecheck, tests, async leak detection, generated artifact verification, production build)
 
 ## Hook And Generated Files
 
@@ -25,7 +25,7 @@ Run these generator commands explicitly on the PR branch before final verificati
 
 ## Visual Verification
 
-Capture desktop and mobile screenshots for `/`, `/cv`, `/imprint`, `/privacy`, `/sitemap`, and `/404`. The comparison is tolerant: expect small rendering differences after dependency upgrades, but fail for blank pages, error pages, severe layout breaks, missing routes, failed network responses, or unexpected console errors.
+Use the pinned local Playwright Test workflow to capture stable full-page desktop and mobile snapshots for `/`, `/cv`, `/imprint`, `/privacy`, `/sitemap`, and `/404`. Each phase owns a fresh local Next.js server. The workflow waits for fonts and visible images, fixes locale/timezone/device scale, reduces motion, disables animations, and runs four workers in parallel. Its route manifest must match between phases. The comparison is tolerant: expect small rendering differences after dependency upgrades, but fail for blank pages, error pages, severe layout breaks, missing routes, failed network responses, unexpected console errors, or excessive visual deltas.
 
 ## Relevant Update Follow-Up
 
@@ -63,7 +63,7 @@ After `development`, `preproduction`, and `main` have been pushed and the final 
 
 ## Final Status Report
 
-Generate a self-contained HTML status page at `.artifacts/dependency-update-release/<run-id>/status.html`. Keep the report and every supporting artifact under `.artifacts/`, and do not commit them.
+Generate the structured Git update status JSON required by `internal-pages-upload`, then render its canonical dark Gantt page at `.artifacts/dependency-update-release/<run-id>/status.html`. Keep the report and every supporting artifact under `.artifacts/`, and do not commit them.
 
 Include the most useful operational facts:
 
@@ -79,6 +79,6 @@ Include the most useful operational facts:
 - Vercel deployment results for `development`, `preproduction`, and `main`
 - GitHub review/check watch outcome and any residual notes
 
-Publish the HTML status page by using the `internal-pages-upload` skill with `.artifacts/dependency-update-release/<run-id>/status.html`. Read and follow the installed `internal-pages-upload` skill at publish time; do not copy its upload commands into this workflow.
+Publish and verify the HTML status page with a 14-day TTL by using `$internal-pages-upload` with `.artifacts/dependency-update-release/<run-id>/status.html`. Read and follow the installed skill at publish time; do not copy its upload commands into this workflow. Return the exact upload response URL first, then every available issue, PR, and branch deployment URL.
 
 Return the uploaded internal status page URL in the final user response so the report can be checked externally. If publishing fails, report the exact upload failure and still provide the local `.artifacts/.../status.html` path.
