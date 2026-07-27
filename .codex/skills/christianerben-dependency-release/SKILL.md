@@ -42,14 +42,20 @@ bun run check
 This is the full quality gate (lint, typecheck, tests, async leak detection, generated artifact verification, production build). Screenshot capture and comparison remain a separate, additional visual gate; `bun run check` does not replace them.
 
 5. Fix failures autonomously when they are caused by the update. Keep fixes scoped.
-6. Compare the updated site with the stored baseline. Playwright starts another fresh local Next.js server:
+6. Install Chromium again after the dependency update so its browser revision matches the updated Playwright package:
+
+```bash
+bunx --no-install playwright install chromium
+```
+
+7. Compare the updated site with the stored baseline. Playwright starts another fresh local Next.js server:
 
 ```bash
 bun run visual:compare --artifact-dir .artifacts/dependency-update-release/<run-id>
 ```
 
-7. The visual commands use the exact pinned `@playwright/test` version, four workers, desktop/mobile projects, full-page screenshots, font and visible-image waits, reduced motion, disabled animations, fixed locale/timezone/device scale, and two consecutive stable screenshots. They reject missing baselines and route-set drift before starting Playwright.
-8. Treat blank pages, Next error pages, severe layout collapse, unexpected browser console errors, request failures, HTTP failures, or a visual delta above the configured tolerance as blockers. Do not require pixel-perfect equality. Playwright retains its JSON report, traces, actual images, and diffs under the run artifact directory when applicable.
+8. The visual commands use the exact pinned `@playwright/test` version, four workers, desktop/mobile projects, full-page screenshots, font and lazy-image waits, reduced motion, disabled animations, fixed locale/timezone/device scale, and two consecutive stable screenshots. They reject missing baselines and route-set drift before starting Playwright.
+9. Treat blank pages, Next error pages, severe layout collapse, unexpected browser console errors, request failures, HTTP failures, or a visual delta above the configured tolerance as blockers. Do not require pixel-perfect equality. Playwright retains its JSON report, traces, actual images, and diffs under the run artifact directory when applicable.
 
 ## Relevant Update Follow-Up
 

@@ -25,7 +25,7 @@ Run these generator commands explicitly on the PR branch before final verificati
 
 ## Visual Verification
 
-Use the pinned local Playwright Test workflow to capture stable full-page desktop and mobile snapshots for `/`, `/cv`, `/imprint`, `/privacy`, `/sitemap`, and `/404`. Each phase owns a fresh local Next.js server. The workflow waits for fonts and visible images, fixes locale/timezone/device scale, reduces motion, disables animations, and runs four workers in parallel. Its route manifest must match between phases. The comparison is tolerant: expect small rendering differences after dependency upgrades, but fail for blank pages, error pages, severe layout breaks, missing routes, failed network responses, unexpected console errors, or excessive visual deltas.
+Use the pinned local Playwright Test workflow to capture stable full-page desktop and mobile snapshots for `/`, `/cv`, `/imprint`, `/privacy`, `/sitemap`, and `/404`. Each phase owns a fresh local Next.js server. Install Chromium both before the baseline and again after dependency updates so its revision matches the active Playwright package. The workflow waits for fonts, scrolls through each page to trigger every lazy image, awaits image decoding, fixes locale/timezone/device scale, reduces motion, disables animations, and runs four workers in parallel. Its route manifest must match between phases. The comparison is tolerant: expect small rendering differences after dependency upgrades, but fail for blank pages, error pages, severe layout breaks, missing routes, failed network responses, unexpected console errors, or excessive visual deltas.
 
 ## Relevant Update Follow-Up
 

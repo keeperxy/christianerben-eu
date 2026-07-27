@@ -16,6 +16,9 @@ for (const route of routes) {
   test(`visual ${route}`, async ({ page }) => {
     const consoleErrors: string[] = [];
     const failedRequests: string[] = [];
+    await page.addInitScript(() => {
+      window.setInterval = (() => 0) as typeof window.setInterval;
+    });
     page.on("console", (message) => {
       if (message.type() === "error") consoleErrors.push(message.text());
     });
@@ -32,16 +35,21 @@ for (const route of routes) {
 
     await page.evaluate(async () => {
       await document.fonts?.ready;
-      const visibleImages = [...document.images].filter((image) => {
-        const rect = image.getBoundingClientRect();
-        return (
-          rect.bottom > 0 &&
-          rect.right > 0 &&
-          rect.top < window.innerHeight &&
-          rect.left < window.innerWidth
-        );
-      });
-      await Promise.all(visibleImages.map((image) => image.decode().catch(() => undefined)));
+      const viewportStep = Math.max(window.innerHeight, 1);
+      for (
+        let offset = 0;
+        offset < document.documentElement.scrollHeight;
+        offset += viewportStep
+      ) {
+        window.scrollTo(0, offset);
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      }
+      window.scrollTo(0, document.documentElement.scrollHeight);
+      await Promise.all(
+        [...document.images].map((image) => image.decode().catch(() => undefined)),
+      );
+      window.scrollTo(0, 0);
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
     });
 
     const expectedNotFound = route === "/404" && status === 404;
