@@ -1,4 +1,4 @@
 interface:
   display_name: "Christian Erben Dependency Release"
   short_description: "Upgrade dependencies and release safely"
-  default_prompt: "Use $christianerben-dependency-release to update all dependencies, verify screenshots, open the PR, merge, and check Vercel deployments."
+  default_prompt: "Führe $christianerben-dependency-release vollständig aus. Nutze für den darin vorgesehenen GitHub-Handoff $git-code-review-autopilot und veröffentliche den abschließenden HTML-Bericht mit $internal-pages-upload. Gib am Ende die zurückgegebene Report-URL und alle verfügbaren Issue-, PR- und Deployment-Links aus."
