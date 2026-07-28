@@ -17,6 +17,12 @@ describe("next config", () => {
     expect(nextConfig.allowedDevOrigins).toContain("codex.tailnet.example.ts.net");
   });
 
+  it("uses the TypeScript CLI required by TypeScript 7", async () => {
+    const { default: nextConfig } = await import("../../next.config.mjs");
+
+    expect(nextConfig.experimental?.useTypeScriptCli).toBe(true);
+  });
+
   it("adds an RFC 8288 Link header on the homepage for agent discovery", async () => {
     const { default: nextConfig } = await import("../../next.config.mjs");
 

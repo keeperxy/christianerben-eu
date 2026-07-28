@@ -28,6 +28,7 @@ export function buildEnvironment(artifactDir, workers, root = repoRoot) {
   const resolvedArtifacts = resolve(artifactDir);
   return {
     ...process.env,
+    NODE_ENV: "development",
     VISUAL_REPO_ROOT: resolve(root),
     VISUAL_BASELINE_DIR: join(resolvedArtifacts, "before"),
     VISUAL_RESULTS_DIR: join(resolvedArtifacts, "results"),
