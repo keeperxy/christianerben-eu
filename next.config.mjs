@@ -8,6 +8,9 @@ const tailnetHost = process.env.DEV_TAILNET_HOST ?? "lyra.tailb44a3.ts.net";
 const nextConfig = {
   reactStrictMode: true,
   typedRoutes: true,
+  experimental: {
+    useTypeScriptCli: true,
+  },
   allowedDevOrigins: [tailnetHost],
   async headers() {
     return [
