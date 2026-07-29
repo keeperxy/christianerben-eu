@@ -33,6 +33,8 @@ for (const route of routes) {
     const title = await page.title();
     const bodyText = await page.locator("body").innerText();
 
+    // Allow hydrated components to register their viewport observers before scrolling.
+    await page.waitForTimeout(1_000);
     await page.evaluate(async () => {
       await document.fonts?.ready;
       const viewportStep = Math.max(window.innerHeight, 1);
@@ -45,6 +47,8 @@ for (const route of routes) {
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
       }
       window.scrollTo(0, document.documentElement.scrollHeight);
+      // Let intersection-triggered transitions finish before the full-page capture.
+      await new Promise<void>((resolve) => window.setTimeout(resolve, 1_000));
       await Promise.all(
         [...document.images].map((image) => image.decode().catch(() => undefined)),
       );
