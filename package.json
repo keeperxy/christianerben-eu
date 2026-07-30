@@ -76,7 +76,7 @@
     "@types/react-dom": "19.2.3",
     "happy-dom": "20.11.1",
     "oxlint": "1.76.0",
-    "postcss": "8.5.24",
+    "postcss": "8.5.25",
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2",
     "vitest": "4.1.10"
