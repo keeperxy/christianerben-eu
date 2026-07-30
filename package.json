@@ -61,7 +61,8 @@
   },
   "overrides": {
     "caniuse-lite": "1.0.30001806",
-    "postcss": "8.5.24"
+    "postcss": "8.5.25",
+    "sharp": "0.35.3"
   },
   "devDependencies": {
     "@playwright/test": "1.62.0",
