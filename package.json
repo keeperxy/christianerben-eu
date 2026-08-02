@@ -13,7 +13,6 @@
     "dev:tailnet:off": "tailscale serve --https=443 off",
     "dev:tailnet:status": "tailscale serve status",
     "build": "next build --webpack",
-    "postbuild": "bun scripts/ensure-vercel-404.ts",
     "start": "next start",
     "lint": "oxlint --react-plugin --nextjs-plugin --vitest-plugin --import-plugin --deny-warnings .",
     "test": "NODE_ENV=test vitest",
