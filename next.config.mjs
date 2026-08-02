@@ -8,6 +8,7 @@ const tailnetHost = process.env.DEV_TAILNET_HOST ?? "lyra.tailb44a3.ts.net";
 const nextConfig = {
   reactStrictMode: true,
   typedRoutes: true,
+  adapterPath: path.join(projectRoot, "scripts/vercel-static-404-adapter.mjs"),
   experimental: {
     useTypeScriptCli: true,
   },
