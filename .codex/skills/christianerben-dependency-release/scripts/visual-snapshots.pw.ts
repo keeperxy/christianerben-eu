@@ -37,14 +37,18 @@ for (const route of routes) {
     await page.waitForTimeout(1_000);
     await page.evaluate(async () => {
       await document.fonts?.ready;
-      const viewportStep = Math.max(window.innerHeight, 1);
+      // Use overlapping scroll steps so every IntersectionObserver-driven
+      // timeline card gets a chance to enter the viewport before capture.
+      const viewportStep = Math.max(Math.floor(window.innerHeight / 3), 1);
       for (
         let offset = 0;
         offset < document.documentElement.scrollHeight;
         offset += viewportStep
       ) {
         window.scrollTo(0, offset);
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await new Promise<void>((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+        );
       }
       window.scrollTo(0, document.documentElement.scrollHeight);
       // Let intersection-triggered transitions finish before the full-page capture.
@@ -52,6 +56,36 @@ for (const route of routes) {
       await Promise.all(
         [...document.images].map((image) => image.decode().catch(() => undefined)),
       );
+      // Exercise every observer-driven timeline card explicitly, then assert
+      // that the page settled naturally instead of masking hidden cards.
+      const timelineItems = [...document.querySelectorAll<HTMLElement>(".timeline-item")];
+      for (const item of timelineItems) {
+        const targetOffset = item.getBoundingClientRect().top + window.scrollY - window.innerHeight / 2;
+        window.scrollTo(0, Math.max(0, targetOffset));
+        await new Promise<void>((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+        );
+        await new Promise<void>((resolve) => window.setTimeout(resolve, 50));
+      }
+      for (let pass = 0; pass < 3; pass += 1) {
+        const hiddenItems = [...document.querySelectorAll<HTMLElement>(".timeline-item.opacity-0")];
+        if (hiddenItems.length === 0) break;
+        for (const item of hiddenItems) {
+          item.scrollIntoView({ block: "center", inline: "nearest" });
+          await new Promise<void>((resolve) =>
+            requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+          );
+          await new Promise<void>((resolve) => window.setTimeout(resolve, 50));
+        }
+      }
+      const hiddenTimelineItems = [...document.querySelectorAll<HTMLElement>(".timeline-item.opacity-0")];
+      if (hiddenTimelineItems.length > 0) {
+        const details = hiddenTimelineItems.map((item) => ({
+          text: item.innerText.slice(0, 120),
+          rect: item.getBoundingClientRect().toJSON(),
+        }));
+        throw new Error(`IntersectionObserver left ${hiddenTimelineItems.length} timeline card(s) hidden: ${JSON.stringify(details)}`);
+      }
       window.scrollTo(0, 0);
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
     });
