@@ -56,11 +56,36 @@ for (const route of routes) {
       await Promise.all(
         [...document.images].map((image) => image.decode().catch(() => undefined)),
       );
-      // Capture the settled post-scroll state even when an observer callback
-      // was coalesced while the page was being advanced through long cards.
-      document.querySelectorAll(".timeline-item").forEach((item) => {
-        item.classList.remove("opacity-0");
-      });
+      // Exercise every observer-driven timeline card explicitly, then assert
+      // that the page settled naturally instead of masking hidden cards.
+      const timelineItems = [...document.querySelectorAll<HTMLElement>(".timeline-item")];
+      for (const item of timelineItems) {
+        const targetOffset = item.getBoundingClientRect().top + window.scrollY - window.innerHeight / 2;
+        window.scrollTo(0, Math.max(0, targetOffset));
+        await new Promise<void>((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+        );
+        await new Promise<void>((resolve) => window.setTimeout(resolve, 50));
+      }
+      for (let pass = 0; pass < 3; pass += 1) {
+        const hiddenItems = [...document.querySelectorAll<HTMLElement>(".timeline-item.opacity-0")];
+        if (hiddenItems.length === 0) break;
+        for (const item of hiddenItems) {
+          item.scrollIntoView({ block: "center", inline: "nearest" });
+          await new Promise<void>((resolve) =>
+            requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+          );
+          await new Promise<void>((resolve) => window.setTimeout(resolve, 50));
+        }
+      }
+      const hiddenTimelineItems = [...document.querySelectorAll<HTMLElement>(".timeline-item.opacity-0")];
+      if (hiddenTimelineItems.length > 0) {
+        const details = hiddenTimelineItems.map((item) => ({
+          text: item.innerText.slice(0, 120),
+          rect: item.getBoundingClientRect().toJSON(),
+        }));
+        throw new Error(`IntersectionObserver left ${hiddenTimelineItems.length} timeline card(s) hidden: ${JSON.stringify(details)}`);
+      }
       window.scrollTo(0, 0);
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
     });
