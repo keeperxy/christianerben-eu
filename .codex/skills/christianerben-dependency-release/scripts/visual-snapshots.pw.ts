@@ -37,14 +37,18 @@ for (const route of routes) {
     await page.waitForTimeout(1_000);
     await page.evaluate(async () => {
       await document.fonts?.ready;
-      const viewportStep = Math.max(window.innerHeight, 1);
+      // Use overlapping scroll steps so every IntersectionObserver-driven
+      // timeline card gets a chance to enter the viewport before capture.
+      const viewportStep = Math.max(Math.floor(window.innerHeight / 3), 1);
       for (
         let offset = 0;
         offset < document.documentElement.scrollHeight;
         offset += viewportStep
       ) {
         window.scrollTo(0, offset);
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        await new Promise<void>((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+        );
       }
       window.scrollTo(0, document.documentElement.scrollHeight);
       // Let intersection-triggered transitions finish before the full-page capture.
@@ -52,6 +56,11 @@ for (const route of routes) {
       await Promise.all(
         [...document.images].map((image) => image.decode().catch(() => undefined)),
       );
+      // Capture the settled post-scroll state even when an observer callback
+      // was coalesced while the page was being advanced through long cards.
+      document.querySelectorAll(".timeline-item").forEach((item) => {
+        item.classList.remove("opacity-0");
+      });
       window.scrollTo(0, 0);
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
     });
