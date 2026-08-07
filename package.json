@@ -41,12 +41,12 @@
     "@radix-ui/react-toast": "1.2.23",
     "@react-pdf/renderer": "4.5.1",
     "buffer": "6.0.3",
-    "caniuse-lite": "1.0.30001806",
+    "caniuse-lite": "1.0.30001807",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "docx": "9.7.1",
     "embla-carousel-react": "8.6.0",
-    "lucide-react": "1.28.0",
+    "lucide-react": "1.29.0",
     "lz-string": "1.5.0",
     "next": "16.3.0",
     "pdf-lib": "1.17.1",
@@ -60,8 +60,8 @@
     "zod": "4.4.3"
   },
   "overrides": {
-    "caniuse-lite": "1.0.30001806",
-    "postcss": "8.5.25",
+    "caniuse-lite": "1.0.30001807",
+    "postcss": "8.5.26",
     "sharp": "0.35.3"
   },
   "devDependencies": {
@@ -77,7 +77,7 @@
     "@types/react-dom": "19.2.4",
     "happy-dom": "20.11.1",
     "oxlint": "1.77.0",
-    "postcss": "8.5.25",
+    "postcss": "8.5.26",
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2",
     "vitest": "4.1.10"
