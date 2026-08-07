@@ -32,4 +32,18 @@ describe("SkillsSection", () => {
     expect(source).toContain("grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]");
     expect(source).toContain("whitespace-normal");
   });
+
+  it("exposes skill levels as accessible meters", () => {
+    renderWithSettings(<SkillsSection />);
+
+    const firstManagementSkill = siteContent.skills.find((skill) => skill.category === "management");
+    expect(firstManagementSkill).toBeDefined();
+
+    const meter = screen.getByRole("meter", {
+      name: `${firstManagementSkill?.name.en} level ${firstManagementSkill?.level} of 5`,
+    });
+    expect(meter).toHaveAttribute("aria-valuemin", "0");
+    expect(meter).toHaveAttribute("aria-valuemax", "5");
+    expect(meter).toHaveAttribute("aria-valuenow", String(firstManagementSkill?.level));
+  });
 });
