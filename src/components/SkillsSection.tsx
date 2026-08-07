@@ -126,13 +126,23 @@ const SkillsGrid = ({ skills }: SkillsGridProps) => {
             key={index}
             className="rounded-lg border border-border bg-card p-3 md:p-4 flex flex-col items-center hover-scale transition-all"
           >
-            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center mb-2 md:mb-3 text-primary">
+            <div
+              className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center mb-2 md:mb-3 text-primary"
+              aria-hidden="true"
+            >
               <IconComponent className="w-5 h-5" />
             </div>
 
             <h3 className="mb-2 text-center text-sm md:text-base font-medium">{t(skill.name)}</h3>
 
-            <div className="flex gap-1" aria-label={`${t(skill.name)} level ${skill.level} of 5`}>
+            <div
+              className="flex gap-1"
+              role="meter"
+              aria-label={`${t(skill.name)} level ${skill.level} of 5`}
+              aria-valuemin={0}
+              aria-valuemax={5}
+              aria-valuenow={skill.level}
+            >
               {[...Array(5)].map((_, i) => (
                 <div
                   key={i}

@@ -63,4 +63,13 @@ describe("ContactSection", () => {
       }),
     );
   });
+
+  it("keeps decorative social icons out of the accessibility tree", () => {
+    renderWithSettings(<ContactSection />);
+
+    for (const name of ["LinkedIn", "Xing", "Freelancermap"]) {
+      const link = screen.getByRole("link", { name });
+      expect(link.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
+    }
+  });
 });
