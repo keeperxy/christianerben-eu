@@ -1,7 +1,7 @@
 # llms.txt for christianerben.eu
 # This file provides structured information for AI language models.
 # For more information, see https://llmstxt.org/
-# Version 1.0, Generated on 2026-08-01
+# Version 1.0, Generated on 2026-08-07
 
 # --- PERMISSIONS ---
 User-Agent: *
@@ -21,8 +21,8 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [de] Christian Erben
 
 [Published]:
-[en] 2026-08-01
-[de] 01.08.2026
+[en] 2026-08-07
+[de] 07.08.2026
 
 [Languages]:
 [en] English, German
@@ -75,6 +75,14 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [Contact]:
 [en] Contact information is available via the contact form on the main page or via email to christian.erben@degit.de.
 [de] Kontaktinformationen sind über das Kontaktformular auf der Startseite oder per E-Mail an christian.erben@degit.de verfügbar.
+
+
+## Key Links / Wichtige Links
+- [Homepage](https://christianerben.eu/): Main sections including About, Experience, Projects, Skills, and Contact / Hauptbereiche einschließlich Über Mich, Erfahrung, Projekte, Fähigkeiten und Kontakt.
+- [CV](https://christianerben.eu/cv): Interactive CV and downloads / Interaktiver Lebenslauf und Downloads.
+- [Imprint](https://christianerben.eu/imprint): Legal notice / Impressum.
+- [Privacy](https://christianerben.eu/privacy): Privacy policy / Datenschutzerklärung.
+- [Sitemap](https://christianerben.eu/sitemap): Human-readable sitemap / Für Menschen lesbare Sitemap.
 
 # --- SECURITY & COMPLIANCE / GOVERNANCE ---
 
