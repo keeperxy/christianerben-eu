@@ -57,26 +57,35 @@ for (const route of routes) {
         [...document.images].map((image) => image.decode().catch(() => undefined)),
       );
       // Exercise every observer-driven timeline card explicitly, then assert
-      // that the page settled naturally instead of masking hidden cards.
+      // that the page settled naturally instead of masking hidden cards.  A
+      // card can otherwise miss its observer callback when four browser
+      // workers scroll long pages concurrently, so keep it centered until the
+      // callback has removed the initial opacity class.
+      const waitForFrames = (count = 2) =>
+        new Promise<void>((resolve) => {
+          const next = () => {
+            if (count <= 1) {
+              resolve();
+              return;
+            }
+            count -= 1;
+            requestAnimationFrame(next);
+          };
+          requestAnimationFrame(next);
+        });
+      const settleTimelineItem = async (item: HTMLElement) => {
+        for (let attempt = 0; attempt < 12 && item.classList.contains("opacity-0"); attempt += 1) {
+          item.scrollIntoView({ block: "center", inline: "nearest" });
+          await waitForFrames();
+          await new Promise<void>((resolve) => window.setTimeout(resolve, 125));
+        }
+      };
       const timelineItems = [...document.querySelectorAll<HTMLElement>(".timeline-item")];
-      for (const item of timelineItems) {
-        const targetOffset = item.getBoundingClientRect().top + window.scrollY - window.innerHeight / 2;
-        window.scrollTo(0, Math.max(0, targetOffset));
-        await new Promise<void>((resolve) =>
-          requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
-        );
-        await new Promise<void>((resolve) => window.setTimeout(resolve, 50));
-      }
-      for (let pass = 0; pass < 3; pass += 1) {
+      for (const item of timelineItems) await settleTimelineItem(item);
+      for (let pass = 0; pass < 4; pass += 1) {
         const hiddenItems = [...document.querySelectorAll<HTMLElement>(".timeline-item.opacity-0")];
         if (hiddenItems.length === 0) break;
-        for (const item of hiddenItems) {
-          item.scrollIntoView({ block: "center", inline: "nearest" });
-          await new Promise<void>((resolve) =>
-            requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
-          );
-          await new Promise<void>((resolve) => window.setTimeout(resolve, 50));
-        }
+        for (const item of hiddenItems) await settleTimelineItem(item);
       }
       const hiddenTimelineItems = [...document.querySelectorAll<HTMLElement>(".timeline-item.opacity-0")];
       if (hiddenTimelineItems.length > 0) {
