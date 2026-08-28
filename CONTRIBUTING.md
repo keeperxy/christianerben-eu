@@ -16,4 +16,6 @@ This repository hosts a React + TypeScript portfolio site. To contribute changes
 
 CV binaries are not byte-deterministic (embedded timestamps), so content freshness for `public/cv` is not enforced by CI. After changing CV-relevant content, run `bun run generate:cv` and commit the results.
 
+All four tracked PDFs conform to PDF/A-2b. CI validates the final files, including the certificate variants, with a digest-pinned veraPDF container. New PDF text must use embedded fonts, and certificate or image changes must preserve valid color profiles and PDF/A-2-compatible transparency. Regenerate all CV assets and run the full gate whenever these inputs change.
+
 The pre-commit hook in `.githooks/pre-commit` runs only when committing on `development` and updates/stages generated assets (`public/cv`, `public/llms.txt`, `public/sitemap.xml`) plus `src/content/content.ts`. It is a convenience, not a safety net — it only runs if `core.hooksPath` points at `.githooks`.

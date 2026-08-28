@@ -27,3 +27,24 @@ jobs:
 
       - name: Run quality gate
         run: bun run check
+
+      - name: Validate CV PDFs as PDF/A-2b
+        run: |
+          validation_output="$(
+            docker run --rm --user root \
+              -v "$PWD/public/cv:/data:ro" \
+              ghcr.io/verapdf/cli@sha256:b334d330037bba9b641ff3f8b1acb29beadee9060b3028aa297d0b0f9393e17a \
+              -f 2b --format text \
+              /data/christian_erben_cv_en.pdf \
+              /data/christian_erben_cv_en_with_certificates.pdf \
+              /data/christian_erben_cv_de.pdf \
+              /data/christian_erben_cv_de_with_certificates.pdf 2>&1
+          )"
+          printf '%s\n' "$validation_output"
+
+          pass_count="$(printf '%s\n' "$validation_output" | grep -c '^PASS ' || true)"
+          fail_count="$(printf '%s\n' "$validation_output" | grep -c '^FAIL ' || true)"
+          if [[ "$pass_count" -ne 4 || "$fail_count" -ne 0 ]]; then
+            echo "::error::Expected four passing PDF/A-2b validation results and no failures."
+            exit 1
+          fi
