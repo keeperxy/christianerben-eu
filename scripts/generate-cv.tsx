@@ -2,9 +2,10 @@ import React from "react";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import fontkit from "@pdf-lib/fontkit";
 import { renderToFile } from "@react-pdf/renderer";
 import type { PDFEmbeddedPage, PDFFont, PDFPage } from "pdf-lib";
-import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import { PDFDocument, rgb } from "pdf-lib";
 
 import CVDocument from "../src/components/cv/CVDocument";
 import { siteContent } from "../src/content/content";
@@ -18,6 +19,8 @@ const ROOT_DIR = path.resolve(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT_DIR, "public");
 const CV_OUTPUT_DIR = path.join(PUBLIC_DIR, "cv");
 const PROFILE_IMAGE_PATH = path.join(PUBLIC_DIR, "profile.jpg");
+const INTER_REGULAR_PATH = path.join(ROOT_DIR, "src/assets/fonts/Inter-Regular.ttf");
+const INTER_BOLD_PATH = path.join(ROOT_DIR, "src/assets/fonts/Inter-Bold.ttf");
 // Sidebar width in PDF points for certificate page layout.
 const SIDEBAR_WIDTH = 160;
 const A4_PAGE_SIZE = { width: 595.28, height: 841.89 };
@@ -202,25 +205,26 @@ async function readCertificatePdfOrThrow(certificatePath: string, certificateTit
 }
 
 async function appendCertificatesAsStyledPages(targetPdfPath: string, language: "en" | "de") {
-  const mergedPdf = await PDFDocument.create();
   const targetPdfBytes = await readFile(targetPdfPath);
-  const targetPdf = await PDFDocument.load(targetPdfBytes);
-  const targetPages = await mergedPdf.copyPages(targetPdf, targetPdf.getPageIndices());
-  const boldFont = await mergedPdf.embedFont(StandardFonts.HelveticaBold);
-  const regularFont = await mergedPdf.embedFont(StandardFonts.Helvetica);
+  const targetPdf = await PDFDocument.load(targetPdfBytes, { updateMetadata: false });
+  targetPdf.registerFontkit(fontkit);
+  const [boldFontBytes, regularFontBytes] = await Promise.all([
+    readFile(INTER_BOLD_PATH),
+    readFile(INTER_REGULAR_PATH),
+  ]);
+  const boldFont = await targetPdf.embedFont(boldFontBytes, { subset: true });
+  const regularFont = await targetPdf.embedFont(regularFontBytes, { subset: true });
   const baseSize = targetPdf.getPage(0)?.getSize() ?? A4_PAGE_SIZE;
-
-  targetPages.forEach((page) => mergedPdf.addPage(page));
 
   for (const certificate of siteContent.certificates.documents) {
     const certificatePath = path.join(PUBLIC_DIR, certificate.filePath.replace(/^\//, ""));
     const certificateBytes = await readCertificatePdfOrThrow(certificatePath, certificate.title[language]);
-    const certificatePdf = await PDFDocument.load(certificateBytes);
+    const certificatePdf = await PDFDocument.load(certificateBytes, { updateMetadata: false });
     const certificatePages = certificatePdf.getPages();
 
     for (const [certificatePageIndex, certificatePage] of certificatePages.entries()) {
-      const page = mergedPdf.addPage([baseSize.width, baseSize.height]);
-      const embeddedCertificatePage = await mergedPdf.embedPage(certificatePage);
+      const page = targetPdf.addPage([baseSize.width, baseSize.height]);
+      const embeddedCertificatePage = await targetPdf.embedPage(certificatePage);
       const pageTitle =
         certificatePages.length > 1
           ? `${certificate.title[language]} (${certificatePageIndex + 1}/${certificatePages.length})`
@@ -241,10 +245,10 @@ async function appendCertificatesAsStyledPages(targetPdfPath: string, language: 
     }
   }
 
-  addFooterToAllPages(mergedPdf, language, regularFont);
+  addFooterToAllPages(targetPdf, language, regularFont);
 
-  const mergedBytes = await mergedPdf.save();
-  await writeFile(targetPdfPath, mergedBytes);
+  const finalBytes = await targetPdf.save();
+  await writeFile(targetPdfPath, finalBytes);
 }
 
 async function generatePdf(language: "en" | "de", includeCertificates = false) {

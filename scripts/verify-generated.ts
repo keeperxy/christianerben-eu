@@ -1,5 +1,14 @@
 import { readFile, rm, writeFile } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
+import {
+  decodePDFRawStream,
+  PDFArray,
+  PDFDict,
+  PDFDocument,
+  PDFName,
+  PDFRawStream,
+  PDFStream,
+} from "pdf-lib";
 
 const generatedPaths = [
   "public/llms.txt",
@@ -22,6 +31,8 @@ const expectedCvArtifacts = [
 
 const PDF_SIGNATURE = Buffer.from("%PDF");
 const ZIP_SIGNATURE = Buffer.from([0x50, 0x4b, 0x03, 0x04]);
+const PDFA_PART_2_PATTERN = /<pdfaid:part>\s*2\s*<\/pdfaid:part>/;
+const PDFA_CONFORMANCE_B_PATTERN = /<pdfaid:conformance>\s*B\s*<\/pdfaid:conformance>/;
 
 class CommandFailedError extends Error {
   constructor(
@@ -59,6 +70,39 @@ function listTrackedFiles(paths: string[]) {
   return result.stdout.split("\n").filter(Boolean);
 }
 
+async function verifyPdfA2b(content: Buffer) {
+  try {
+    const pdf = await PDFDocument.load(content, { updateMetadata: false });
+    const metadata = pdf.catalog.lookupMaybe(PDFName.of("Metadata"), PDFStream);
+    if (
+      !(metadata instanceof PDFRawStream) ||
+      metadata.dict.get(PDFName.of("Type"))?.toString() !== "/Metadata" ||
+      metadata.dict.get(PDFName.of("Subtype"))?.toString() !== "/XML"
+    ) {
+      return "missing PDF/A XMP metadata";
+    }
+
+    const xmp = new TextDecoder().decode(decodePDFRawStream(metadata).decode());
+    if (!PDFA_PART_2_PATTERN.test(xmp) || !PDFA_CONFORMANCE_B_PATTERN.test(xmp)) {
+      return "XMP does not declare PDF/A-2b";
+    }
+
+    const outputIntents = pdf.catalog.lookupMaybe(PDFName.of("OutputIntents"), PDFArray);
+    const outputIntent = outputIntents?.lookupMaybe(0, PDFDict);
+    if (
+      !outputIntent ||
+      outputIntent.get(PDFName.of("S"))?.toString() !== "/GTS_PDFA1" ||
+      !outputIntent.has(PDFName.of("DestOutputProfile"))
+    ) {
+      return "missing PDF/A output intent";
+    }
+  } catch {
+    return "invalid PDF structure";
+  }
+
+  return null;
+}
+
 async function captureTrackedFiles() {
   return await Promise.all(
     listTrackedFiles(generatedPaths).map(async (file) => ({
@@ -89,6 +133,14 @@ async function verifyCvArtifacts() {
     const signature = file.endsWith(".pdf") ? PDF_SIGNATURE : ZIP_SIGNATURE;
     if (!content.subarray(0, signature.length).equals(signature)) {
       problems.push(`${file} (empty or invalid file signature)`);
+      continue;
+    }
+
+    if (file.endsWith(".pdf")) {
+      const pdfAProblem = await verifyPdfA2b(content);
+      if (pdfAProblem) {
+        problems.push(`${file} (${pdfAProblem})`);
+      }
     }
   }
 
