@@ -62,6 +62,10 @@ const theme = {
   icon: "#fff",
 };
 
+// Wrap CV body copy only at word boundaries. Short labels, links, and identifiers
+// retain their existing renderer behavior.
+const BODY_HYPHENATION_PENALTY = Infinity;
+
 // Icon components for PDF (simple SVGs)
 const PhoneIcon = () => (
   <Svg width={12} height={12} viewBox="0 0 24 24"><Path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 3.09 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.68 2.34a2 2 0 0 1-.45 2.11l-1.27 1.27a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45c.74.32 1.53.55 2.34.68A2 2 0 0 1 22 16.92z" fill={theme.icon}/></Svg>
@@ -398,11 +402,19 @@ const CVDocument: React.FC<CVDocumentProps> = ({
       <View style={styles.descriptionList}>
         {exp.description.map((item, idx) =>
           item.type === "text" ? (
-            <Text key={idx} style={styles.descriptionItem}>
+            <Text
+              key={idx}
+              style={styles.descriptionItem}
+              hyphenationPenalty={BODY_HYPHENATION_PENALTY}
+            >
               • {t(item.text)}
             </Text>
           ) : (
-            <Text key={idx} style={styles.achievementItem}>
+            <Text
+              key={idx}
+              style={styles.achievementItem}
+              hyphenationPenalty={BODY_HYPHENATION_PENALTY}
+            >
               • {t(content.experienceAchievementPrefix)} {t(item.text)}
             </Text>
           ),
@@ -429,7 +441,12 @@ const CVDocument: React.FC<CVDocumentProps> = ({
   }, {} as Record<string, typeof skills>);
 
   return (
-    <Document>
+    <Document
+      author={hero.name}
+      conformance="PDF/A-2b"
+      language={language === "en" ? "en-US" : "de-DE"}
+      title={`${hero.name} - ${language === "en" ? "CV" : "Lebenslauf"}`}
+    >
       <Page size="A4" style={styles.page}>
         {/* Sidebar */}
         <View style={styles.sidebar} fixed />
@@ -471,12 +488,21 @@ const CVDocument: React.FC<CVDocumentProps> = ({
         <View style={styles.main}>
           {/* Name & Title */}
           <Text style={styles.name}>{hero.name}</Text>
-          <Text style={styles.heroDescription}>{t(hero.description)}</Text>
+          <Text
+            style={styles.heroDescription}
+            hyphenationPenalty={BODY_HYPHENATION_PENALTY}
+          >
+            {t(hero.description)}
+          </Text>
           {/* Profile Summary */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>{t({ en: "Profile", de: "Profil" })}</Text>
-            <Text style={styles.description}>{t(about.paragraphs[0])}</Text>
-            <Text style={styles.description}>{t(about.paragraphs[1])}</Text>
+            <Text style={styles.description} hyphenationPenalty={BODY_HYPHENATION_PENALTY}>
+              {t(about.paragraphs[0])}
+            </Text>
+            <Text style={styles.description} hyphenationPenalty={BODY_HYPHENATION_PENALTY}>
+              {t(about.paragraphs[1])}
+            </Text>
           </View>
           {/* Security & Compliance / Governance */}
           <View style={styles.section}>
@@ -486,7 +512,13 @@ const CVDocument: React.FC<CVDocumentProps> = ({
                 <Text style={styles.jobTitle}>{t(item.title)}</Text>
                 <View style={styles.descriptionList}>
                   {item.items.map((listItem, idx) => (
-                    <Text key={idx} style={styles.descriptionItem}>• {t(listItem)}</Text>
+                    <Text
+                      key={idx}
+                      style={styles.descriptionItem}
+                      hyphenationPenalty={BODY_HYPHENATION_PENALTY}
+                    >
+                      • {t(listItem)}
+                    </Text>
                   ))}
                 </View>
               </View>
@@ -499,7 +531,12 @@ const CVDocument: React.FC<CVDocumentProps> = ({
               {experienceCategories && (
                 <View>
                   <Text style={styles.experienceCategoryTitle}>{t(experienceCategories.key.title)}</Text>
-                  <Text style={styles.experienceCategorySubtitle}>{t(experienceCategories.key.subtitle)}</Text>
+                  <Text
+                    style={styles.experienceCategorySubtitle}
+                    hyphenationPenalty={BODY_HYPHENATION_PENALTY}
+                  >
+                    {t(experienceCategories.key.subtitle)}
+                  </Text>
                 </View>
               )}
               {firstKeyExperience && renderExperienceItem(firstKeyExperience, "key-0")}
@@ -509,7 +546,12 @@ const CVDocument: React.FC<CVDocumentProps> = ({
             {experienceCategories && groupedExperiences.additional.length > 0 && (
               <View wrap={false}>
                 <Text style={styles.experienceCategoryTitle}>{t(experienceCategories.additional.title)}</Text>
-                <Text style={styles.experienceCategorySubtitle}>{t(experienceCategories.additional.subtitle)}</Text>
+                <Text
+                  style={styles.experienceCategorySubtitle}
+                  hyphenationPenalty={BODY_HYPHENATION_PENALTY}
+                >
+                  {t(experienceCategories.additional.subtitle)}
+                </Text>
               </View>
             )}
             {groupedExperiences.additional.map((exp, index) =>
@@ -543,7 +585,12 @@ const CVDocument: React.FC<CVDocumentProps> = ({
             {content.projects.map((project, index) => (
               <View key={index} style={styles.experienceItem} wrap={false}>
                 <Text style={styles.jobTitle}>{t(project.title)}</Text>
-                <Text style={styles.description}>{t(project.description)}</Text>
+                <Text
+                  style={styles.description}
+                  hyphenationPenalty={BODY_HYPHENATION_PENALTY}
+                >
+                  {t(project.description)}
+                </Text>
                 <View style={styles.tagContainer}>
                   {project.tags.slice(0, 5).map((tag, tagIndex) => (
                     <Text key={tagIndex} style={styles.tag}>{t(tag)}</Text>

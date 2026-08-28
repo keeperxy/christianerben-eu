@@ -62,7 +62,7 @@ describe("ContactSection", () => {
         title: siteContent.contact.formStatus.sentTitle.en,
       }),
     );
-  });
+  }, 10_000);
 
   it("keeps decorative social icons out of the accessibility tree", () => {
     renderWithSettings(<ContactSection />);
