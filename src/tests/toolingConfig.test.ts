@@ -30,6 +30,10 @@ describe("tooling configuration", () => {
       "ghcr.io/verapdf/cli@sha256:b334d330037bba9b641ff3f8b1acb29beadee9060b3028aa297d0b0f9393e17a",
     );
     expect(ciWorkflow).toContain("-f 2b --format text");
+    expect(ciWorkflow).toContain("grep -c '^PASS '");
+    expect(ciWorkflow).toContain("grep -c '^FAIL '");
+    expect(ciWorkflow).toContain('"$pass_count" -ne 4');
+    expect(ciWorkflow).toContain('"$fail_count" -ne 0');
   });
 
   it("verifies all tracked CV artifacts in the generated freshness gate", () => {
