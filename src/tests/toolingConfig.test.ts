@@ -23,8 +23,17 @@ describe("tooling configuration", () => {
 
     expect(pkg.scripts["verify:generated"]).toBe("bun scripts/verify-generated.ts");
     expect(pkg.scripts.check).toContain("bun run verify:generated");
+    expect(pkg.dependencies?.["@pdf-lib/fontkit"]).toBe("1.1.1");
     expect(ciWorkflow).toContain("fetch-depth: 0");
     expect(ciWorkflow).toContain("bun run check");
+    expect(ciWorkflow).toContain(
+      "ghcr.io/verapdf/cli@sha256:b334d330037bba9b641ff3f8b1acb29beadee9060b3028aa297d0b0f9393e17a",
+    );
+    expect(ciWorkflow).toContain("-f 2b --format text");
+    expect(ciWorkflow).toContain("grep -c '^PASS '");
+    expect(ciWorkflow).toContain("grep -c '^FAIL '");
+    expect(ciWorkflow).toContain('"$pass_count" -ne 4');
+    expect(ciWorkflow).toContain('"$fail_count" -ne 0');
   });
 
   it("verifies all tracked CV artifacts in the generated freshness gate", () => {
@@ -43,6 +52,11 @@ describe("tooling configuration", () => {
     ]) {
       expect(verifyScript).toContain(artifact);
     }
+
+    expect(verifyScript).toContain('PDFName.of("Metadata")');
+    expect(verifyScript).toContain('PDFName.of("OutputIntents")');
+    expect(verifyScript).toContain("<pdfaid:part>");
+    expect(verifyScript).toContain("<pdfaid:conformance>");
   });
 
   it("keeps async leak detection and the Node runtime target explicit", () => {
