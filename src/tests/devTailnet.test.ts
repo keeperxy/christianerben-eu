@@ -37,22 +37,22 @@ describe("dev tailnet startup", () => {
   it("parses the current Tailscale DNS name into an HTTPS URL", () => {
     const status = JSON.stringify({
       Self: {
-        DNSName: "lyra.tailb44a3.ts.net.",
+        DNSName: "lyra.tail81f562.ts.net.",
       },
     });
 
-    expect(parseTailnetUrl(status)).toBe("https://lyra.tailb44a3.ts.net/");
+    expect(parseTailnetUrl(status)).toBe("https://lyra.tail81f562.ts.net/");
   });
 
   it("prints both clickable local and Tailnet URLs", () => {
     expect(
       formatStartupUrls({
         localTarget: "http://127.0.0.1:3000",
-        tailnetUrl: "https://lyra.tailb44a3.ts.net/",
+        tailnetUrl: "https://lyra.tail81f562.ts.net/",
       }),
     ).toEqual([
       "Local: http://127.0.0.1:3000",
-      "Tailnet HTTPS: https://lyra.tailb44a3.ts.net/ -> http://127.0.0.1:3000",
+      "Tailnet HTTPS: https://lyra.tail81f562.ts.net/ -> http://127.0.0.1:3000",
     ]);
   });
 });

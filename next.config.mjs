@@ -2,7 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
-const tailnetHost = process.env.DEV_TAILNET_HOST ?? "lyra.tailb44a3.ts.net";
+const tailnetHost = process.env.DEV_TAILNET_HOST ?? "lyra.tail81f562.ts.net";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

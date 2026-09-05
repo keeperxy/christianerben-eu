@@ -5,7 +5,7 @@ const port = process.env.PORT ?? "3000";
 const tailnetHttpsPort = "443";
 const host = "127.0.0.1";
 const localTarget = `http://${host}:${port}`;
-const fallbackTailnetUrl = "https://lyra.tailb44a3.ts.net/";
+const fallbackTailnetUrl = "https://lyra.tail81f562.ts.net/";
 
 export function commandExists(command: string) {
   const result = spawnSync("sh", ["-lc", `command -v ${command}`], {
