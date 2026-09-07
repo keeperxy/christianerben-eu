@@ -15,7 +15,7 @@ import {
 } from "docx";
 import type { SiteContent, Skill } from "@/content/content";
 import { siteContent as defaultSiteContent } from "@/content/content";
-import { groupAndSortExperiences } from "@/lib/experience-utils";
+import { getExperienceCompany, groupAndSortExperiences } from "@/lib/experience-utils";
 
 type LocalizedString = { en: string; de: string };
   
@@ -78,7 +78,7 @@ export async function generateCvDocx({
       new Paragraph({ children: [new TextRun({ text: t(exp.title), bold: true, size: 20 })] }),
       new Paragraph({
         children: [
-          new TextRun({ text: exp.company, italics: true, size: 18, color: theme.primary }),
+          new TextRun({ text: getExperienceCompany(exp.company, language), italics: true, size: 18, color: theme.primary }),
           new TextRun({ text: ` — ${t(exp.period)}`, size: 18, color: theme.accent }),
         ],
       }),

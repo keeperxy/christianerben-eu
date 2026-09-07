@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Save, Plus, Minus } from "lucide-react";
+import { getExperienceCompany } from "@/lib/experience-utils";
 import { useSettings } from "@/contexts/settings-hook";
 import { SiteContent, Experience, ExperienceDescriptionItem, Project, Skill } from "@/content/content";
 type LocalizedString = { en: string; de: string };
@@ -347,8 +348,9 @@ const CVEditor: React.FC<CVEditorProps> = ({ data, onChange, language }) => {
                       })}
                     </label>
                     <Input 
-                      value={exp.company != null ? String(exp.company) : '' as string} 
-                      onChange={(e) => handleChange(['experiences', expIndex, 'company'], String(e.target.value))}
+                      value={getExperienceCompany(exp.company, language)}
+                      onChange={(e) => handleChange(['experiences', expIndex, 'company'],
+                        typeof exp.company === 'string' ? e.target.value : { ...exp.company, [language]: e.target.value })}
                     />
                   </div>
 

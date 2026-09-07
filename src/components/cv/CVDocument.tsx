@@ -25,7 +25,7 @@ const interBoldSrc = resolveAssetPath(new URL("../../assets/fonts/Inter-Bold.ttf
 const spaceGroteskBoldSrc = resolveAssetPath(new URL("../../assets/fonts/SpaceGrotesk-Bold.ttf", import.meta.url));
 import type { SVGProps } from "react";
 import { siteContent as defaultSiteContent, type Experience, type SiteContent } from "@/content/content";
-import { groupAndSortExperiences } from "@/lib/experience-utils";
+import { getExperienceCompany, groupAndSortExperiences } from "@/lib/experience-utils";
 
 // Register fonts - adjust with actual fonts if needed
 Font.register({
@@ -394,7 +394,7 @@ const CVDocument: React.FC<CVDocumentProps> = ({
     <View key={key} style={styles.experienceItem} wrap={false}>
       <Text style={styles.jobTitle}>{t(exp.title)}</Text>
       <View style={styles.experienceHeader}>
-        <Text style={styles.companyName}>{exp.company}</Text>
+        <Text style={styles.companyName}>{getExperienceCompany(exp.company, language)}</Text>
         <Text style={styles.period}>{t(exp.period)}</Text>
       </View>
       <Text style={styles.location}>{t(exp.location)}</Text>

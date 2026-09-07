@@ -22,6 +22,14 @@ describe("ExperienceSection", () => {
     globalThis.IntersectionObserver = originalIntersectionObserver;
   });
 
+  it.each(["en", "de"] as const)("renders only the selected company translation in %s", (language) => {
+    renderWithSettings(<ExperienceSection />, { language, t: (text) => text[language] });
+    const expected = language === "en" ? "Public-sector client" : "öffentlicher Auftraggeber";
+    const other = language === "en" ? "öffentlicher Auftraggeber" : "Public-sector client";
+    expect(screen.getByText(expected)).toBeInTheDocument();
+    expect(screen.queryByText(other)).not.toBeInTheDocument();
+  });
+
   it("renders key and additional category sections", async () => {
     renderWithSettings(<ExperienceSection />);
     const categories = siteContent.experienceCategories;

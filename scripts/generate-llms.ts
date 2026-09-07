@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { spawnSync } from 'node:child_process';
 import { siteContent } from '../src/content/content';
+import { getExperienceCompany } from '../src/lib/experience-utils';
 
 type LocalizedValue = { en?: string; de?: string } | string | null | undefined;
 
@@ -72,7 +73,7 @@ async function generateLlmsTxt() {
     content.experiences.forEach(exp => {
         llmsTxtContent += `\n[Experience]:\n`;
         llmsTxtContent += formatBilingual(exp.title, '  ');
-        llmsTxtContent += `  [en] Company: ${exp.company}\n  [de] Firma: ${exp.company}\n`;
+        llmsTxtContent += `  [en] Company: ${getExperienceCompany(exp.company, "en")}\n  [de] Firma: ${getExperienceCompany(exp.company, "de")}\n`;
         llmsTxtContent += formatBilingual(exp.period, '  ');
         exp.description.forEach(desc => {
             llmsTxtContent += formatBilingual(desc.text, `  - `);
