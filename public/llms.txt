@@ -145,8 +145,8 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [Experience]:
   [en] IT Consultant specializing in IPv6
   [de] IT-Berater mit Schwerpunkt IPv6
-  [en] Company: öffentlicher Auftraggeber / Public-sector client
-  [de] Firma: öffentlicher Auftraggeber / Public-sector client
+  [en] Company: Public-sector client
+  [de] Firma: öffentlicher Auftraggeber
   [en] May 2026 - Present
   [de] Mai 2026 - Heute
   - [en] Technical consulting on IPv6 readiness of IT systems and applications.

@@ -52,7 +52,7 @@ const customCvDataSchema = z.looseObject({
   experiences: z.array(
     z.looseObject({
       title: localizedString,
-      company: z.string(),
+      company: z.union([z.string(), localizedString]),
       period: localizedString,
       location: localizedString,
       experienceCategory: z.enum(["key", "additional"]).optional(),
