@@ -25,6 +25,12 @@ const pathExistsWithExactCase = (relativePath: string) => {
 };
 
 describe("generate-sitemap", () => {
+  it.each(["/", "/cv"])("tracks shared experience content for %s lastmod", (route) => {
+    const entry = urls.find(({ url }) => url === route);
+
+    expect(entry?.files).toContain("src/content/content.ts");
+  });
+
   it("uses the generated llms.txt artifact to derive the llms sitemap lastmod", () => {
     const llmsUrl = urls.find(({ url }) => url === "/llms.txt");
 

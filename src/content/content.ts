@@ -590,10 +590,10 @@ export const siteContent: SiteContent = {
   experiences: [
     {
       title: {
-        en: "Middleware & IPv6 Migration Expert",
-        de: "Middleware- & IPv6-Migrationsexperte",
+        en: "IT Consultant specializing in IPv6",
+        de: "IT-Berater mit Schwerpunkt IPv6",
       },
-      company: "Confidential Client",
+      company: "öffentlicher Auftraggeber / Public-sector client",
       period: { en: "May 2026 - Present", de: "Mai 2026 - Heute" },
       location: { en: "Remote / Germany", de: "Remote / Deutschland" },
       experienceCategory: "key",
@@ -601,48 +601,37 @@ export const siteContent: SiteContent = {
         {
           type: "text",
           text: {
-            en: "Provides technical guidance for the migration of specialist applications from IPv4 environments to IPv6-ready dual-stack operation.",
-            de: "Technische Begleitung der Migration von Fachverfahren aus IPv4-Umgebungen in einen IPv6-fähigen Dual-Stack-Betrieb.",
+            en: "Technical consulting on IPv6 readiness of IT systems and applications.",
+            de: "Technische Beratung zur IPv6-Fähigkeit von IT-Systemen und Anwendungen.",
           },
         },
         {
           type: "text",
           text: {
-            en: "Analyzes application dependencies, middleware components, database connections, and operational constraints to assess migration readiness.",
-            de: "Analyse von Anwendungsabhängigkeiten, Middleware-Komponenten, Datenbankanbindungen und betrieblichen Rahmenbedingungen zur Bewertung der Migrationsbereitschaft.",
+            en: "Assessment of technical prerequisites and support in planning adjustments.",
+            de: "Bewertung technischer Voraussetzungen und Unterstützung bei der Planung von Anpassungen.",
           },
         },
         {
           type: "text",
           text: {
-            en: "Develops migration plans for individual and clustered applications, coordinating closely with application owners, IT operations, and quality assurance teams.",
-            de: "Entwicklung von Migrationsplänen für einzelne und geclusterte Fachverfahren in enger Abstimmung mit Fachverfahrensverantwortlichen, IT-Betrieb und Qualitätssicherung.",
+            en: "Support for technical testing and documentation of results.",
+            de: "Begleitung technischer Tests und Dokumentation der Ergebnisse.",
           },
         },
         {
           type: "text",
           text: {
-            en: "Validates dual-stack capability, IPv6 functionality, security requirements, and documentation quality for reliable migration execution.",
-            de: "Validierung von Dual-Stack-Fähigkeit, IPv6-Funktionalität, Sicherheitsanforderungen und Dokumentationsqualität für eine verlässliche Migrationsdurchführung.",
-          },
-        },
-        {
-          type: "achievement",
-          text: {
-            en: "Supports a large-scale, multi-application IPv6 transition with structured readiness assessments, migration documentation, and stakeholder communication.",
-            de: "Unterstützung einer groß angelegten IPv6-Transition über mehrere Fachverfahren hinweg mit strukturierten Readiness-Assessments, Migrationsdokumentation und Stakeholder-Kommunikation.",
+            en: "Coordination of technical matters with the teams involved.",
+            de: "Abstimmung technischer Fragestellungen mit beteiligten Teams.",
           },
         },
       ],
       tags: [
         { en: "IPv6", de: "IPv6" },
-        { en: "Dual Stack", de: "Dual Stack" },
-        { en: "Middleware Migration", de: "Middleware-Migration" },
-        { en: "Database Migration", de: "Datenbankmigration" },
-        { en: "Application Migration", de: "Fachverfahrensmigration" },
-        { en: "Migration Planning", de: "Migrationsplanung" },
+        { en: "Technical Analysis", de: "Technische Analyse" },
+        { en: "Quality Assurance", de: "Qualitätssicherung" },
         { en: "Documentation", de: "Dokumentation" },
-        { en: "Stakeholder Communication", de: "Stakeholder-Kommunikation" },
       ],
     },
     {

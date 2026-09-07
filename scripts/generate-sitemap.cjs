@@ -7,12 +7,12 @@ const baseUrl = 'https://christianerben.eu'; // Change to your domain
 const urls = [
   {
     url: '/',
-    files: ['src/pages/index.tsx', 'src/components/Header.tsx', 'src/components/HeroSection.tsx', 'src/components/AboutSection.tsx', 'src/components/ExperienceSection.tsx', 'src/components/ProjectsSection.tsx', 'src/components/SkillsSection.tsx', 'src/components/ContactSection.tsx', 'src/components/Footer.tsx'],
+    files: ['src/content/content.ts', 'src/pages/index.tsx', 'src/components/Header.tsx', 'src/components/HeroSection.tsx', 'src/components/AboutSection.tsx', 'src/components/ExperienceSection.tsx', 'src/components/ProjectsSection.tsx', 'src/components/SkillsSection.tsx', 'src/components/ContactSection.tsx', 'src/components/Footer.tsx'],
     priority: 1.0
   },
   {
     url: '/cv',
-    files: ['src/pages/cv.tsx', 'src/components/cv/CVDocument.tsx', 'src/components/cv/CVDocumentDocx.tsx'],
+    files: ['src/content/content.ts', 'src/pages/cv.tsx', 'src/components/cv/CVDocument.tsx', 'src/components/cv/CVDocumentDocx.tsx'],
     priority: 0.8
   },
   {

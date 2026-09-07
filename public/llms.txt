@@ -1,7 +1,7 @@
 # llms.txt for christianerben.eu
 # This file provides structured information for AI language models.
 # For more information, see https://llmstxt.org/
-# Version 1.0, Generated on 2026-09-01
+# Version 1.0, Generated on 2026-09-07
 
 # --- PERMISSIONS ---
 User-Agent: *
@@ -21,8 +21,8 @@ Sitemap: https://christianerben.eu/sitemap.xml
 [de] Christian Erben
 
 [Published]:
-[en] 2026-09-01
-[de] 01.09.2026
+[en] 2026-09-07
+[de] 07.09.2026
 
 [Languages]:
 [en] English, German
@@ -143,22 +143,20 @@ Sitemap: https://christianerben.eu/sitemap.xml
 # --- EXPERIENCE ---
 
 [Experience]:
-  [en] Middleware & IPv6 Migration Expert
-  [de] Middleware- & IPv6-Migrationsexperte
-  [en] Company: Confidential Client
-  [de] Firma: Confidential Client
+  [en] IT Consultant specializing in IPv6
+  [de] IT-Berater mit Schwerpunkt IPv6
+  [en] Company: öffentlicher Auftraggeber / Public-sector client
+  [de] Firma: öffentlicher Auftraggeber / Public-sector client
   [en] May 2026 - Present
   [de] Mai 2026 - Heute
-  - [en] Provides technical guidance for the migration of specialist applications from IPv4 environments to IPv6-ready dual-stack operation.
-  - [de] Technische Begleitung der Migration von Fachverfahren aus IPv4-Umgebungen in einen IPv6-fähigen Dual-Stack-Betrieb.
-  - [en] Analyzes application dependencies, middleware components, database connections, and operational constraints to assess migration readiness.
-  - [de] Analyse von Anwendungsabhängigkeiten, Middleware-Komponenten, Datenbankanbindungen und betrieblichen Rahmenbedingungen zur Bewertung der Migrationsbereitschaft.
-  - [en] Develops migration plans for individual and clustered applications, coordinating closely with application owners, IT operations, and quality assurance teams.
-  - [de] Entwicklung von Migrationsplänen für einzelne und geclusterte Fachverfahren in enger Abstimmung mit Fachverfahrensverantwortlichen, IT-Betrieb und Qualitätssicherung.
-  - [en] Validates dual-stack capability, IPv6 functionality, security requirements, and documentation quality for reliable migration execution.
-  - [de] Validierung von Dual-Stack-Fähigkeit, IPv6-Funktionalität, Sicherheitsanforderungen und Dokumentationsqualität für eine verlässliche Migrationsdurchführung.
-  - [en] Supports a large-scale, multi-application IPv6 transition with structured readiness assessments, migration documentation, and stakeholder communication.
-  - [de] Unterstützung einer groß angelegten IPv6-Transition über mehrere Fachverfahren hinweg mit strukturierten Readiness-Assessments, Migrationsdokumentation und Stakeholder-Kommunikation.
+  - [en] Technical consulting on IPv6 readiness of IT systems and applications.
+  - [de] Technische Beratung zur IPv6-Fähigkeit von IT-Systemen und Anwendungen.
+  - [en] Assessment of technical prerequisites and support in planning adjustments.
+  - [de] Bewertung technischer Voraussetzungen und Unterstützung bei der Planung von Anpassungen.
+  - [en] Support for technical testing and documentation of results.
+  - [de] Begleitung technischer Tests und Dokumentation der Ergebnisse.
+  - [en] Coordination of technical matters with the teams involved.
+  - [de] Abstimmung technischer Fragestellungen mit beteiligten Teams.
 
 [Experience]:
   [en] Network Administrator (Palo Alto / Fortinet)
