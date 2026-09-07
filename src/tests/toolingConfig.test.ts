@@ -27,7 +27,7 @@ describe("tooling configuration", () => {
     expect(ciWorkflow).toContain("fetch-depth: 0");
     expect(ciWorkflow).toContain("bun run check");
     expect(ciWorkflow).toContain(
-      "ghcr.io/verapdf/cli@sha256:b334d330037bba9b641ff3f8b1acb29beadee9060b3028aa297d0b0f9393e17a",
+      "verapdf/cli@sha256:d5ee329657cf9bc4b2400392dd54c7d0a0ce9980ff6fa2da5590eebeec007cdb",
     );
     expect(ciWorkflow).toContain("-f 2b --format text");
     expect(ciWorkflow).toContain("grep -c '^PASS '");
