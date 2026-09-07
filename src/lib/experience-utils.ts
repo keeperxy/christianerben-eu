@@ -224,3 +224,7 @@ export function groupAndSortExperiences(experiences: Experience[]): {
     additional: grouped.additional.sort(compareAdditionalExperiences).map((item) => item.experience),
   };
 }
+
+export function getExperienceCompany(company: Experience["company"], language: "en" | "de"): string {
+  return typeof company === "string" ? company : company[language];
+}
