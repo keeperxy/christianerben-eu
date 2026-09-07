@@ -6,11 +6,11 @@ import { FileText, MapPin, Calendar, MessageSquareMore } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { groupAndSortExperiences } from "@/lib/experience-utils";
+import { getExperienceCompany, groupAndSortExperiences } from "@/lib/experience-utils";
 import Link from "next/link";
 
 const ExperienceSection = () => {
-  const { t } = useSettings();
+  const { t, language } = useSettings();
   const { experiences } = siteContent;
   const timelineRef = useRef<HTMLDivElement>(null);
 
@@ -50,7 +50,7 @@ const ExperienceSection = () => {
   const renderTimelineItems = (items: Experience[], groupKey: string) =>
     items.map((exp, index) => (
       <div
-        key={`${groupKey}-${exp.company}-${exp.title.en}-${index}`}
+        key={`${groupKey}-${getExperienceCompany(exp.company, language)}-${exp.title.en}-${index}`}
         className={cn(
           "timeline-item grid grid-cols-1 md:grid-cols-12 gap-8 relative",
           index !== 0 ? "-mt-20 md:mt-10" : "",
@@ -83,7 +83,7 @@ const ExperienceSection = () => {
             {exp.logoUrl && (
               <Image
                 src={exp.logoUrl}
-                alt={`${exp.company} logo`}
+                alt={`${getExperienceCompany(exp.company, language)} logo`}
                 width={200}
                 height={48}
                 className={cn(
@@ -96,7 +96,7 @@ const ExperienceSection = () => {
             <CardContent className="p-6">
               <div className="mb-4">
                 <h3 className="text-2xl font-bold">{t(exp.title)}</h3>
-                <p className="text-lg font-medium">{exp.company}</p>
+                <p className="text-lg font-medium">{getExperienceCompany(exp.company, language)}</p>
               </div>
 
               <div

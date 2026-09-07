@@ -13,6 +13,24 @@ const serializableSiteContent = (): SiteContent =>
   JSON.parse(JSON.stringify(siteContent)) as SiteContent;
 
 describe("cv-data", () => {
+  it("preserves localized company labels through shared CV data", () => {
+    const data = serializableSiteContent();
+    data.experiences[0].company = { en: "Public-sector client", de: "öffentlicher Auftraggeber" };
+    expect(decodeCvData(encodeCvData(data))?.experiences[0].company).toEqual(data.experiences[0].company);
+  });
+
+  it("keeps legacy plain company names valid", () => {
+    const data = serializableSiteContent();
+    data.experiences[0].company = "Example Co";
+    expect(isCustomCvData(data)).toBe(true);
+  });
+
+  it("rejects incomplete company translations", () => {
+    const data = serializableSiteContent();
+    data.experiences[0].company = { en: "Client" } as SiteContent["experiences"][number]["company"];
+    expect(isCustomCvData(data)).toBe(false);
+  });
+
   it("round-trips the current site content through encode and decode", () => {
     const encoded = encodeCvData(serializableSiteContent());
     const decoded = decodeCvData(encoded);

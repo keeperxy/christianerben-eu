@@ -74,6 +74,14 @@ vi.mock("@react-pdf/renderer", () => {
 });
 
 describe("CVDocument hyphenation policy", () => {
+  it.each(["en", "de"] as const)("renders the company label in PDF language %s", (language) => {
+    render(<CVDocument language={language} profileImageSrc="/profile.jpg" />);
+    const expected = language === "en" ? "Public-sector client" : "öffentlicher Auftraggeber";
+    const other = language === "en" ? "öffentlicher Auftraggeber" : "Public-sector client";
+    expect(screen.getByText(expected)).toBeInTheDocument();
+    expect(screen.queryByText(other)).not.toBeInTheDocument();
+  });
+
   it("disables automatic hyphenation for body copy but not short labels", () => {
     render(
       <CVDocument

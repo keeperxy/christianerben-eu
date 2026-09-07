@@ -117,7 +117,7 @@ export type ExperienceCategory = "key" | "additional";
 
 export interface Experience {
   title: LocalizedString;
-  company: string;
+  company: string | LocalizedString;
   period: LocalizedString;
   location: LocalizedString;
   experienceCategory?: ExperienceCategory;
@@ -593,7 +593,7 @@ export const siteContent: SiteContent = {
         en: "IT Consultant specializing in IPv6",
         de: "IT-Berater mit Schwerpunkt IPv6",
       },
-      company: "öffentlicher Auftraggeber / Public-sector client",
+      company: { en: "Public-sector client", de: "öffentlicher Auftraggeber" },
       period: { en: "May 2026 - Present", de: "Mai 2026 - Heute" },
       location: { en: "Remote / Germany", de: "Remote / Deutschland" },
       experienceCategory: "key",
