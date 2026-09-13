@@ -56,9 +56,9 @@
     "react-hook-form": "7.88.0",
     "react-icons": "5.7.0",
     "resend": "6.28.0",
-    "tailwind-merge": "3.6.0",
+    "tailwind-merge": "3.7.0",
     "tailwindcss-animate": "1.0.7",
-    "zod": "4.6.2"
+    "zod": "4.6.4"
   },
   "overrides": {
     "caniuse-lite": "1.0.30001810",
