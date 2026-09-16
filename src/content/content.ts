@@ -590,6 +590,67 @@ export const siteContent: SiteContent = {
   experiences: [
     {
       title: {
+        en: "Network & Security Engineer (Cisco / Palo Alto)",
+        de: "Netzwerk- und Security-Engineer (Cisco / Palo Alto)",
+      },
+      company: "St. Dominikus Krankenhaus und Jugendhilfe gGmbH",
+      logoUrl: "/logos/st-marienkrankenhaus.svg",
+      logoClassName: "h-20 w-auto md:h-24",
+      period: { en: "Sep 2026 - Sep 2026", de: "Sep 2026 - Sep 2026" },
+      location: {
+        en: "Remote / Ludwigshafen, Germany",
+        de: "Remote / Ludwigshafen, Deutschland",
+      },
+      experienceCategory: "key",
+      description: [
+        {
+          type: "text",
+          text: {
+            en: "Migration of the hospital network from Cisco to Palo Alto, with internal firewalls and segmentation of clinical and administrative areas.",
+            de: "Migration des Krankenhausnetzwerks von Cisco zu Palo Alto mit internen Firewalls und Segmentierung medizinischer und administrativer Bereiche.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Implementation of redundant network components and automated failover, with support for IT contingency planning.",
+            de: "Aufbau redundanter Netzwerkkomponenten und automatisierter Failover-Verfahren sowie Mitarbeit an IT-Notfallplänen.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Implementation of security controls based on ISO 27001 and BSI IT-Grundschutz, including IDS/IPS and protection of patient data.",
+            de: "Umsetzung von Sicherheitskontrollen nach ISO 27001 und BSI-Grundschutz, einschließlich IDS/IPS und Schutz von Patientendaten.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Configuration and maintenance of LAN, WLAN, VLANs and secure VPN access for clinical staff and external specialists.",
+            de: "Konfiguration und Pflege von LAN, WLAN, VLANs und sicheren VPN-Zugängen für medizinisches Personal und externe Fachkräfte.",
+          },
+        },
+        {
+          type: "text",
+          text: {
+            en: "Monitoring of network performance and availability, troubleshooting, and integration of medical devices with hospital information systems.",
+            de: "Überwachung von Netzwerkperformance und Verfügbarkeit, Störungsbehebung sowie Anbindung medizinischer Geräte an Krankenhausinformationssysteme.",
+          },
+        },
+      ],
+      tags: [
+        { en: "Cisco", de: "Cisco" },
+        { en: "Palo Alto", de: "Palo Alto" },
+        { en: "Network Segmentation", de: "Netzwerksegmentierung" },
+        { en: "High Availability", de: "Hochverfügbarkeit" },
+        { en: "LAN/WLAN/VPN", de: "LAN/WLAN/VPN" },
+        { en: "IDS/IPS", de: "IDS/IPS" },
+        { en: "Healthcare IT", de: "Krankenhaus-IT" },
+      ],
+    },
+    {
+      title: {
         en: "IT Consultant specializing in IPv6",
         de: "IT-Berater mit Schwerpunkt IPv6",
       },
