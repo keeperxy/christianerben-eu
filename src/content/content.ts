@@ -590,8 +590,8 @@ export const siteContent: SiteContent = {
   experiences: [
     {
       title: {
-        en: "Network & Security Engineer (Cisco / Palo Alto)",
-        de: "Netzwerk- und Security-Engineer (Cisco / Palo Alto)",
+        en: "Network & Security Engineer - Migration to Fortinet",
+        de: "Netzwerk- und Security-Engineer - Migration auf Fortinet",
       },
       company: "St. Dominikus Krankenhaus und Jugendhilfe gGmbH",
       logoUrl: "/logos/st-marienkrankenhaus.svg",
@@ -606,47 +606,47 @@ export const siteContent: SiteContent = {
         {
           type: "text",
           text: {
-            en: "Migration of the hospital network from Cisco to Palo Alto, with internal firewalls and segmentation of clinical and administrative areas.",
-            de: "Migration des Krankenhausnetzwerks von Cisco zu Palo Alto mit internen Firewalls und Segmentierung medizinischer und administrativer Bereiche.",
+            en: "Migration of the existing Cisco and Palo Alto environment to Fortinet.",
+            de: "Migration der bestehenden Cisco- und Palo-Alto-Umgebung auf Fortinet.",
           },
         },
         {
           type: "text",
           text: {
-            en: "Implementation of redundant network components and automated failover, with support for IT contingency planning.",
-            de: "Aufbau redundanter Netzwerkkomponenten und automatisierter Failover-Verfahren sowie Mitarbeit an IT-Notfallplänen.",
+            en: "Transfer of firewall rules, network objects, NAT and routing configurations, and existing VPN connections.",
+            de: "Übernahme der Firewall-Regeln, Netzwerkobjekte, NAT- und Routing-Konfigurationen sowie bestehender VPN-Verbindungen.",
           },
         },
         {
           type: "text",
           text: {
-            en: "Implementation of security controls based on ISO 27001 and BSI IT-Grundschutz, including IDS/IPS and protection of patient data.",
-            de: "Umsetzung von Sicherheitskontrollen nach ISO 27001 und BSI-Grundschutz, einschließlich IDS/IPS und Schutz von Patientendaten.",
+            en: "Review of existing configurations and migration of current functionality and security policies to the Fortinet platform.",
+            de: "Abgleich der bisherigen Konfigurationen und Übertragung der vorhandenen Funktionen und Sicherheitsrichtlinien auf die Fortinet-Plattform.",
           },
         },
         {
           type: "text",
           text: {
-            en: "Configuration and maintenance of LAN, WLAN, VLANs and secure VPN access for clinical staff and external specialists.",
-            de: "Konfiguration und Pflege von LAN, WLAN, VLANs und sicheren VPN-Zugängen für medizinisches Personal und externe Fachkräfte.",
+            en: "Cutover planning and execution, with functional testing of network connections, VPN access, and connected systems.",
+            de: "Planung und Durchführung der Umschaltung sowie Funktionstests für Netzwerkverbindungen, VPN-Zugänge und angebundene Systeme.",
           },
         },
         {
           type: "text",
           text: {
-            en: "Monitoring of network performance and availability, troubleshooting, and integration of medical devices with hospital information systems.",
-            de: "Überwachung von Netzwerkperformance und Verfügbarkeit, Störungsbehebung sowie Anbindung medizinischer Geräte an Krankenhausinformationssysteme.",
+            en: "Troubleshooting during the migration and documentation of the migrated configurations.",
+            de: "Fehleranalyse während der Migration und Dokumentation der übernommenen Konfigurationen.",
           },
         },
       ],
       tags: [
+        { en: "Fortinet", de: "Fortinet" },
         { en: "Cisco", de: "Cisco" },
         { en: "Palo Alto", de: "Palo Alto" },
-        { en: "Network Segmentation", de: "Netzwerksegmentierung" },
-        { en: "High Availability", de: "Hochverfügbarkeit" },
-        { en: "LAN/WLAN/VPN", de: "LAN/WLAN/VPN" },
-        { en: "IDS/IPS", de: "IDS/IPS" },
-        { en: "Healthcare IT", de: "Krankenhaus-IT" },
+        { en: "Firewall Migration", de: "Firewall-Migration" },
+        { en: "VPN", de: "VPN" },
+        { en: "NAT", de: "NAT" },
+        { en: "Routing", de: "Routing" },
       ],
     },
     {
