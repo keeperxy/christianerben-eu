@@ -8,6 +8,8 @@ import CVPreviewFrame from "@/components/cv/CVPreviewFrame";
 import { useScrollToTop } from "@/hooks/use-scroll-to-top";
 import { Download, Globe, ArrowLeft, Edit, Moon, Sun } from "lucide-react";
 import { decodeCvData, encodeCvData } from "@/lib/cv-data";
+import { downloadCvFile } from "@/lib/cv-download";
+import { useToast } from "@/hooks/use-toast";
 
 // Lazy load heavy dependencies only when needed (custom data or edit mode)
 const CvDownloadButtonsCustom = React.lazy(() => import("@/components/cv/CvDownloadButtonsCustom"));
@@ -21,6 +23,7 @@ const CvDownloadButtons: React.FC<{
   includeCertificates: boolean;
 }> = ({ language, cvData, includeCertificates }) => {
   const [openMenu, setOpenMenu] = useState(false);
+  const { toast } = useToast();
 
   const isDefaultData = cvData === siteContent;
   const staticPdfHref = includeCertificates
@@ -28,22 +31,20 @@ const CvDownloadButtons: React.FC<{
     : `/cv/christian_erben_cv_${language}.pdf`;
   const staticDocxHref = `/cv/christian_erben_cv_${language}.docx`;
 
-  const buildStaticFilename = (ext: "pdf" | "docx") => {
-    const suffix = ext === "pdf" && includeCertificates ? "_with_certificates" : "";
-    return `christian_erben_cv_${language}${suffix}.${ext}`;
-  };
-
-  const buildDatedStaticFilename = (ext: "pdf" | "docx") => {
-    const downloadDate = new Date().toISOString().split('T')[0];
-    const suffix = ext === "pdf" && includeCertificates ? "_with_certificates" : "";
-    return `christian_erben_cv_${language}_${downloadDate}${suffix}.${ext}`;
-  };
-
-  const handleStaticDownloadClick = (
+  const handleStaticDownloadClick = async (
     event: React.MouseEvent<HTMLAnchorElement>,
     ext: "pdf" | "docx",
   ) => {
-    event.currentTarget.download = buildDatedStaticFilename(ext);
+    event.preventDefault();
+    try {
+      await downloadCvFile(event.currentTarget.href, language, ext, includeCertificates);
+    } catch {
+      toast({
+        variant: "destructive",
+        title: language === "en" ? "Download failed" : "Download fehlgeschlagen",
+        description: language === "en" ? "Please try again." : "Bitte versuche es erneut.",
+      });
+    }
   };
 
   // For default data, use static files (no heavy dependencies needed)
@@ -54,7 +55,7 @@ const CvDownloadButtons: React.FC<{
           <Button asChild className="rounded-full shadow-lg hover-scale" variant="secondary">
             <a
               href={staticPdfHref}
-              download={buildStaticFilename("pdf")}
+              download
               onClick={(event) => handleStaticDownloadClick(event, "pdf")}
             >
               <Download className="mr-2 h-4 w-4" />
@@ -64,7 +65,7 @@ const CvDownloadButtons: React.FC<{
           <Button asChild className="rounded-full shadow-lg hover-scale" variant="secondary">
             <a
               href={staticDocxHref}
-              download={buildStaticFilename("docx")}
+              download
               onClick={(event) => handleStaticDownloadClick(event, "docx")}
             >
               <Download className="mr-2 h-4 w-4" />
@@ -85,7 +86,7 @@ const CvDownloadButtons: React.FC<{
             <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-lg z-10">
               <a
                 href={staticPdfHref}
-                download={buildStaticFilename("pdf")}
+                download
                 onClick={(event) => {
                   handleStaticDownloadClick(event, "pdf");
                   setOpenMenu(false);
@@ -97,7 +98,7 @@ const CvDownloadButtons: React.FC<{
               </a>
               <a
                 href={staticDocxHref}
-                download={buildStaticFilename("docx")}
+                download
                 onClick={(event) => {
                   handleStaticDownloadClick(event, "docx");
                   setOpenMenu(false);

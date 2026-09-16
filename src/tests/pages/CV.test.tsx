@@ -7,7 +7,13 @@ import CV from "@/pages/cv";
 import { siteContent, type SiteContent } from "@/content/content";
 import type { SettingsContextType } from "@/contexts/settings-hook";
 import { generateCvDocx } from "@/components/cv/CVDocumentDocx";
+import { downloadCvFile } from "@/lib/cv-download";
 import { renderWithSettings } from "@/test-utils";
+
+const toast = vi.hoisted(() => vi.fn<(options: unknown) => void>());
+
+vi.mock("@/hooks/use-toast", () => ({ useToast: () => ({ toast }) }));
+vi.mock("@/lib/cv-download", () => ({ downloadCvFile: vi.fn<typeof downloadCvFile>(() => Promise.resolve()) }));
 
 vi.mock("@react-pdf/renderer", () => {
   const Container = ({ children }: { children?: React.ReactNode }) => <>{children}</>;
@@ -166,18 +172,18 @@ describe("CV page", () => {
 
     expect(preview).toHaveAttribute("data-src", expect.stringContaining("/cv/christian_erben_cv_en.pdf"));
     expect(pdfLink).toHaveAttribute("href", expect.stringContaining("/cv/christian_erben_cv_en.pdf"));
-    expect(pdfLink).toHaveAttribute("download", "christian_erben_cv_en.pdf");
+    expect(pdfLink).toHaveAttribute("download");
     expect(docxLink).toHaveAttribute("href", expect.stringContaining("/cv/christian_erben_cv_en.docx"));
-    expect(docxLink).toHaveAttribute("download", "christian_erben_cv_en.docx");
+    expect(docxLink).toHaveAttribute("download");
 
     await user.click(pdfLink);
     await user.click(docxLink);
 
-    expect(pdfLink.getAttribute("download")).toMatch(
-      /^christian_erben_cv_en_\d{4}-\d{2}-\d{2}\.pdf$/,
+    expect(downloadCvFile).toHaveBeenCalledWith(
+      expect.stringContaining("/cv/christian_erben_cv_en.pdf"), "en", "pdf", false,
     );
-    expect(docxLink.getAttribute("download")).toMatch(
-      /^christian_erben_cv_en_\d{4}-\d{2}-\d{2}\.docx$/,
+    expect(downloadCvFile).toHaveBeenCalledWith(
+      expect.stringContaining("/cv/christian_erben_cv_en.docx"), "en", "docx", false,
     );
 
     await user.click(toggle);
@@ -190,13 +196,35 @@ describe("CV page", () => {
       "href",
       expect.stringContaining("/cv/christian_erben_cv_en_with_certificates.pdf"),
     );
-    expect(pdfLink).toHaveAttribute("download", "christian_erben_cv_en_with_certificates.pdf");
+    expect(pdfLink).toHaveAttribute("download");
     expect(docxLink).toHaveAttribute("href", expect.stringContaining("/cv/christian_erben_cv_en.docx"));
 
     await user.click(pdfLink);
-    expect(pdfLink.getAttribute("download")).toMatch(
-      /^christian_erben_cv_en_\d{4}-\d{2}-\d{2}_with_certificates\.pdf$/,
+    expect(downloadCvFile).toHaveBeenLastCalledWith(
+      expect.stringContaining("/cv/christian_erben_cv_en_with_certificates.pdf"), "en", "pdf", true,
     );
+  });
+
+  it("downloads the selected German certificate variant from the mobile menu", async () => {
+    renderCVPage({ language: "de", t: (text) => text.de });
+    const user = userEvent.setup();
+    await user.click(screen.getByRole("button", { name: siteContent.cv.certificateToggleOn.de }));
+    await user.click(screen.getByRole("button", { name: "CV-Downloadoptionen" }));
+    const links = screen.getAllByRole("link", { name: "PDF herunterladen" });
+    await user.click(links[links.length - 1]);
+    expect(downloadCvFile).toHaveBeenLastCalledWith(
+      expect.stringContaining("/cv/christian_erben_cv_de_with_certificates.pdf"), "de", "pdf", true,
+    );
+    expect(screen.getAllByRole("link", { name: "PDF herunterladen" })).toHaveLength(1);
+  });
+
+  it("reports download failures without navigating to the static file", async () => {
+    vi.mocked(downloadCvFile).mockRejectedValueOnce(new Error("Network error"));
+    renderCVPage();
+    await userEvent.setup().click(screen.getByRole("link", { name: "Download PDF" }));
+    expect(toast).toHaveBeenCalledWith(expect.objectContaining({
+      variant: "destructive", title: "Download failed",
+    }));
   });
 
   it("keeps custom CV data on lazy generated DOCX downloads", async () => {
