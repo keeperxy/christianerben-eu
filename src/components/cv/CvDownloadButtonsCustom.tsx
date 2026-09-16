@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 // Buffer shim for react-pdf (only loaded when this component is used)
 import { Buffer } from 'buffer';
 (globalThis as typeof globalThis & { Buffer?: unknown }).Buffer = Buffer;
@@ -8,6 +8,7 @@ import { Download } from "lucide-react";
 import CVDocument from "@/components/cv/CVDocument";
 import { generateCvDocx } from "@/components/cv/CVDocumentDocx";
 import type { SiteContent } from "@/content/content";
+import { getCvDownloadFilename } from "@/lib/cv-download";
 
 interface CvDownloadButtonsCustomProps {
   language: 'en' | 'de';
@@ -18,8 +19,6 @@ const CvDownloadButtonsCustom: React.FC<CvDownloadButtonsCustomProps> = ({ langu
   const [docxUrl, setDocxUrl] = useState<string | null>(null);
   const [loadingDocx, setLoadingDocx] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
-
-  const downloadDate = useMemo(() => new Date().toISOString().split('T')[0], []);
 
   const createDocx = async () => {
     setLoadingDocx(true);
@@ -41,21 +40,24 @@ const CvDownloadButtonsCustom: React.FC<CvDownloadButtonsCustomProps> = ({ langu
 
     const link = document.createElement('a');
     link.href = docxUrl;
-    link.download = `christian_erben_cv_${language}_${downloadDate}.docx`;
+    link.download = getCvDownloadFilename(language, "docx");
     link.click();
 
     setTimeout(() => {
       URL.revokeObjectURL(docxUrl);
       setDocxUrl(null);
     }, 1000);
-  }, [docxUrl, language, downloadDate]);
+  }, [docxUrl, language]);
 
   return (
     <>
       <div className="hidden md:flex space-x-4">
         <PDFDownloadLink
           document={<CVDocument language={language} data={cvData} />}
-          fileName={`christian_erben_cv_${language}_${downloadDate}.pdf`}
+          fileName={getCvDownloadFilename(language, "pdf")}
+          onClick={(event) => {
+            event.currentTarget.download = getCvDownloadFilename(language, "pdf");
+          }}
           className="no-underline"
         >
           {({ loading }: { loading: boolean }) => (
@@ -92,7 +94,10 @@ const CvDownloadButtonsCustom: React.FC<CvDownloadButtonsCustomProps> = ({ langu
           <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-lg z-10">
             <PDFDownloadLink
               document={<CVDocument language={language} data={cvData} />}
-              fileName={`christian_erben_cv_${language}_${downloadDate}.pdf`}
+              fileName={getCvDownloadFilename(language, "pdf")}
+              onClick={(event) => {
+                event.currentTarget.download = getCvDownloadFilename(language, "pdf");
+              }}
               className="no-underline block px-4 py-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               {({ loading }: { loading: boolean }) => (
