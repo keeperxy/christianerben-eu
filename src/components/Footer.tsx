@@ -5,10 +5,11 @@ import { useSettings } from "@/contexts/settings-hook";
 import type { Route } from "next";
 import Link from "next/link";
 
+const currentYear = new Date().getFullYear();
+
 const Footer = () => {
   const { t } = useSettings();
   const { footer } = siteContent;
-  const year = new Date().getFullYear();
 
   return (
     <footer className="bg-muted py-12">
@@ -23,7 +24,7 @@ const Footer = () => {
               <span className="text-gradient">{siteContent.hero.name}</span>
             </a>
             <p className="text-sm text-muted-foreground">
-              {t(footer.copyright).replace("year", year.toString())}
+              {t(footer.copyright).replace("year", currentYear.toString())}
             </p>
           </div>
 
