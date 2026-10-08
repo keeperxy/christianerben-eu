@@ -42,7 +42,7 @@
     "@radix-ui/react-toast": "1.2.24",
     "@react-pdf/renderer": "4.9.0",
     "buffer": "6.0.3",
-    "caniuse-lite": "1.0.30001814",
+    "caniuse-lite": "1.0.30001815",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "docx": "9.9.0",
@@ -61,14 +61,14 @@
     "zod": "4.6.5"
   },
   "overrides": {
-    "caniuse-lite": "1.0.30001814",
+    "caniuse-lite": "1.0.30001815",
     "postcss": "8.5.29",
     "postcss-selector-parser": "7.1.6",
     "sharp": "0.35.5",
     "source-map-js": "1.2.2"
   },
   "devDependencies": {
-    "@playwright/test": "1.63.0",
+    "@playwright/test": "1.64.0",
     "@tailwindcss/postcss": "4.3.3",
     "@tailwindcss/typography": "0.5.20",
     "@testing-library/dom": "10.4.2",
