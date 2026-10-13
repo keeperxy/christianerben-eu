@@ -44,7 +44,7 @@
     "lz-string": "1.5.0",
     "next": "16.4.0",
     "pdf-lib": "1.17.1",
-    "radix-ui": "1.8.0",
+    "radix-ui": "1.8.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-hook-form": "7.90.0",
@@ -52,11 +52,11 @@
     "resend": "6.32.1",
     "tailwind-merge": "3.7.0",
     "tailwindcss-animate": "1.0.7",
-    "zod": "4.6.6"
+    "zod": "4.6.7"
   },
   "overrides": {
     "caniuse-lite": "1.0.30001815",
-    "postcss": "8.5.29",
+    "postcss": "8.5.30",
     "postcss-selector-parser": "7.1.6",
     "sharp": "0.35.5",
     "source-map-js": "1.2.2"
@@ -74,9 +74,9 @@
     "@types/react-dom": "19.3.0",
     "happy-dom": "21.0.1",
     "oxlint": "1.87.0",
-    "postcss": "8.5.29",
+    "postcss": "8.5.30",
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2",
-    "vitest": "5.0.3"
+    "vitest": "5.0.4"
   }
 }
