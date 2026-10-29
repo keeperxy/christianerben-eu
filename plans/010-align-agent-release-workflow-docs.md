@@ -1,5 +1,7 @@
 # Plan 010: Align agent and dependency-release workflow docs
 
+> Historical plan: the repository-local dependency-release skill and its visual-check scripts were intentionally removed on 2026-10-29. References to those files below describe the completed work at that time and are not instructions to restore them. Current agent instructions live in `AGENTS.md`; the repository quality gate is `bun run check`.
+
 > **Executor instructions**: Follow this plan step by step. Run every verification command and confirm the expected result before moving to the next step. If anything in the "STOP conditions" section occurs, stop and report - do not improvise. When done, update the status row for this plan in `plans/README.md`.
 >
 > **Drift check (run first)**: `git diff --stat ae69f03..HEAD -- AGENTS.md .codex/skills/christianerben-dependency-release/SKILL.md .codex/skills/christianerben-dependency-release/references/repo-workflow.md src/tests/toolingConfig.test.ts package.json README.md CONTRIBUTING.md`

@@ -1,5 +1,7 @@
 # Repo-Lokaler Skill: christianerben-dependency-release
 
+> Archived on 2026-10-29: the repository-local dependency-release skill and its visual-check scripts were intentionally removed. This document records the original plan, not current instructions. Do not recreate the skill or run its commands from this plan. Use `bun run check` for the repository quality gate.
+
 ## Summary
 
 - Einen repo-lokalen Codex-Skill unter `.codex/skills/christianerben-dependency-release/` erstellen.
