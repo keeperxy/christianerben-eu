@@ -42,12 +42,30 @@ const createLocalStorage = (): Storage => {
   };
 };
 
+const createThrowingStorage = (): Storage => {
+  const fail = () => {
+    throw new DOMException("The operation is insecure.", "SecurityError");
+  };
+
+  return {
+    get length() {
+      return 0;
+    },
+    clear: fail,
+    getItem: fail,
+    key: fail,
+    removeItem: fail,
+    setItem: fail,
+  };
+};
+
 const LanguageProbe = () => {
-  const { language, setLanguage } = useSettings();
+  const { language, theme, setLanguage } = useSettings();
 
   return (
     <>
       <p data-testid="language">{language}</p>
+      <p data-testid="theme">{theme}</p>
       <button type="button" onClick={() => setLanguage("de")}>
         Switch to German
       </button>
@@ -73,7 +91,10 @@ describe("SettingsProvider", () => {
 
   afterEach(() => {
     cleanup();
-    window.localStorage.clear();
+    Object.defineProperty(window, "localStorage", {
+      configurable: true,
+      value: createLocalStorage(),
+    });
     window.document.documentElement.removeAttribute("lang");
     window.document.cookie = "language=; Path=/; Max-Age=0";
     setNavigatorLanguages(["en-US"]);
@@ -134,5 +155,40 @@ describe("SettingsProvider", () => {
     );
     expect(window.localStorage.getItem("language")).toBe("de");
     expect(window.document.cookie).not.toContain("language=");
+  });
+
+  it("replaces an invalid stored theme with a supported value", async () => {
+    window.localStorage.setItem("theme", "sepia");
+
+    renderProvider();
+
+    await waitFor(() => expect(window.localStorage.getItem("theme")).toBe("light"));
+    expect(screen.getByTestId("theme")).toHaveTextContent("light");
+  });
+
+  it("applies a valid stored dark theme", async () => {
+    window.localStorage.setItem("theme", "dark");
+
+    renderProvider();
+
+    await waitFor(() => expect(screen.getByTestId("theme")).toHaveTextContent("dark"));
+    expect(window.document.documentElement).toHaveClass("dark");
+    window.document.documentElement.classList.remove("dark");
+  });
+
+  it("keeps rendering when browser storage access throws", async () => {
+    Object.defineProperty(window, "localStorage", {
+      configurable: true,
+      value: createThrowingStorage(),
+    });
+    setNavigatorLanguages(["de-DE"]);
+    const user = userEvent.setup();
+
+    renderProvider();
+
+    await waitFor(() => expect(screen.getByTestId("language")).toHaveTextContent("de"));
+    expect(screen.getByTestId("theme")).toHaveTextContent("light");
+    await user.click(screen.getByRole("button", { name: /Switch to German/i }));
+    expect(window.document.documentElement).toHaveAttribute("lang", "de");
   });
 });
