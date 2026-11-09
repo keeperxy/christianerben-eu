@@ -8,6 +8,36 @@ The dependency-release skill referenced by this historical audit and Plan 010 wa
 
 Audit scope: `/home/coach007/dev/sites/christianerben-eu`, a Bun-powered Next.js 16 pages-router portfolio with React 19, TypeScript, Tailwind CSS 4, Oxlint, Vitest, generated CV artifacts, a Resend contact API, and an agent-driven dependency release workflow.
 
+## 2026-11-09 Audit Run
+
+Baseline commit: `034a0f4`. Run as `/improve` + `/full-send`: the four highest-leverage findings were implemented directly in one PR instead of being handed off as plan files. The remaining vetted findings are listed as TODO candidates for future plans.
+
+Verification baseline before changes: `bun run lint`, `bun run typecheck`, `bun run test:run` and `bun audit` (no vulnerabilities) all passed.
+
+| # | Finding | Category | Effort | Evidence | Status |
+|---|---------|----------|--------|----------|--------|
+| A1 | Blocked browser storage throws inside `SettingsProvider` effects and unmounts every page; invalid stored theme values are used and written back. | correctness | S | `src/contexts/SettingsContext.tsx` (storage reads/writes, theme cast) | DONE |
+| A2 | Only the 400 font faces were loaded although the UI uses 500/600/700, so headings and labels were rendered at the wrong weight or with synthesized bold. | ui / performance | S | `src/styles/globals.css:1-2` (bare `@fontsource/*` imports declare weight 400 only) | DONE |
+| A3 | No baseline security headers (framing, nosniff, referrer, permissions) and `X-Powered-By` enabled. | security | S | `next.config.mjs` `headers()` only set `Link`/`Vary` on `/` | DONE |
+| A4 | CV editor saved free-text skill categories and `NaN` levels that the hash loader rejects (shared link silently drops all edits) and pushed one history entry per keystroke. | correctness | S | `src/components/cv/CVEditor.tsx` skill inputs, `src/pages/cv.tsx` `handleDataChange`, `src/lib/cv-data.ts` schema | DONE |
+| A5 | Shared `/cv#data=` links render downloads with arbitrary custom data on the real domain while the preview shows the official PDF; custom link fields accept any URL scheme. | security / product | S-M | `src/pages/cv.tsx` initial hash load and preview href, `src/lib/cv-data.ts` header fields | TODO (needs product decision: restrict to edit mode, banner, or scheme allowlist) |
+| A6 | Custom DOCX generation has no error path; image fetch ignores `response.ok`; auto-download timeout is not cleared on unmount. | correctness | S | `src/components/cv/CvDownloadButtonsCustom.tsx`, `src/components/cv/CVDocumentDocx.tsx` `fetchImageBuffer` | TODO |
+| A7 | Contact form validates untrimmed values client-side while the server trims first, so whitespace-padded input passes the client and fails with a generic error. | correctness | S | `src/components/ContactSection.tsx` schema, `src/pages/api/send-mail.ts` trimming | TODO |
+| A8 | Homepage has ~4px horizontal overflow at 390px width (pre-existing, unrelated to fonts). | ui | S | `document.documentElement.scrollWidth` 394 at 390px; carousel item / about-section decoration | TODO (investigate) |
+| A9 | `check` runs the full Vitest suite twice (`test:run` + `test:leaks`), the leak log uses a fixed `/tmp` path on a shared runner, and CI has no Bun or `.next/cache` caching. | dx | S | `package.json` `check`/`test:leaks`, `.github/workflows/ci.yml` | TODO |
+| A10 | `zod` + `lz-string` and the Radix toast stack load on every `/cv` visit or every page although only needed for custom data / toasts. | performance | S | `src/pages/cv.tsx` static `cv-data` import, `src/pages/_app.tsx` global `Toaster` | TODO |
+| A11 | Dead code and manifest noise: unused `src/hooks/use-mobile.tsx`, direct `caniuse-lite` dependency, build-only `pdf-lib`/`@pdf-lib/fontkit` listed as runtime dependencies. | tech debt | S | `package.json`, `src/hooks/use-mobile.tsx` | TODO |
+| A12 | Stale docs: README `check` description, `AGENTS.md` still prescribes `React.forwardRef` for React 19, `PORTLESS_FINAL.md` uses an outdated tailnet host. | docs | S | `README.md`, `AGENTS.md`, `PORTLESS_FINAL.md` | TODO |
+
+Considered and rejected in this run:
+
+- Custom DOCX object URL not revoked: already fixed (`CvDownloadButtonsCustom.tsx` revokes on replace and after download).
+- Heavy CV dependencies on the homepage: rejected, `@react-pdf/renderer`, `docx` and `CVEditor` are already lazy-loaded on `/cv` only.
+- lz-string decompression growth: real but limited to the visitor's own tab via a crafted link; lowering the encoded cap does not bound quadratic expansion, so it needs a different decoder. Deferred behind A5.
+- Strict CSP: not added; would need nonce/inline-script work for Next.js and a report-only rollout. Only `frame-ancestors` is set.
+
+## Previous Run (2026-07-09)
+
 ## Verification Baseline
 
 Commands run during this read-only audit:

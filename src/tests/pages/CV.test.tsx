@@ -8,6 +8,7 @@ import { siteContent, type SiteContent } from "@/content/content";
 import type { SettingsContextType } from "@/contexts/settings-hook";
 import { generateCvDocx } from "@/components/cv/CVDocumentDocx";
 import { downloadCvFile } from "@/lib/cv-download";
+import { decodeCvData } from "@/lib/cv-data";
 import { renderWithSettings } from "@/test-utils";
 
 const toast = vi.hoisted(() => vi.fn<(options: unknown) => void>());
@@ -301,5 +302,31 @@ describe("CV page", () => {
       expect.stringContaining("/cv/christian_erben_cv_en.pdf"),
     );
     expect(generateCvDocx).not.toHaveBeenCalled();
+  });
+
+  it("updates the shareable hash in place while editing", async () => {
+    const user = userEvent.setup();
+    window.history.replaceState(null, "", "/cv");
+    const historyLength = window.history.length;
+
+    renderCVPage();
+    const title = screen.getByRole("heading", { name: /Curriculum Vitae/i });
+    for (let click = 0; click < 7; click++) {
+      await user.click(title);
+    }
+
+    await user.click(await screen.findByRole("button", { name: "Skills" }));
+    await user.selectOptions(screen.getAllByRole("combobox", { name: "Level (1-5)" })[0], "2");
+
+    expect(window.history.length).toBe(historyLength);
+    expect(window.location.hash.startsWith("#data=")).toBe(true);
+    expect(decodeCvData(window.location.hash.slice("#data=".length))?.skills[0].level).toBe(2);
+
+    // Clearing the hash queues a hashchange event; let it settle before the test ends.
+    const hashCleared = new Promise((resolve) =>
+      window.addEventListener("hashchange", resolve, { once: true }),
+    );
+    window.history.replaceState(null, "", "/cv");
+    await hashCleared;
   });
 });

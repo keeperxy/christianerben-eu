@@ -7,6 +7,7 @@ const tailnetHost = process.env.DEV_TAILNET_HOST ?? "lyra.tail81f562.ts.net";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  poweredByHeader: false,
   typedRoutes: true,
   adapterPath: path.join(projectRoot, "scripts/vercel-static-404-adapter.mjs"),
   experimental: {
@@ -15,6 +16,20 @@ const nextConfig = {
   allowedDevOrigins: [tailnetHost],
   async headers() {
     return [
+      {
+        source: "/:path*",
+        headers: [
+          // The /cv page embeds its own PDFs, so framing stays same-origin only.
+          { key: "Content-Security-Policy", value: "frame-ancestors 'self'" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+          },
+        ],
+      },
       {
         source: "/",
         headers: [

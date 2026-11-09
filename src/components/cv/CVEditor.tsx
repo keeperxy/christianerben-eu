@@ -3,10 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Save, Plus, Minus } from "lucide-react";
+import { CV_SKILL_CATEGORIES, CV_SKILL_LEVELS } from "@/lib/cv-data";
 import { getExperienceCompany } from "@/lib/experience-utils";
 import { useSettings } from "@/contexts/settings-hook";
 import { SiteContent, Experience, ExperienceDescriptionItem, Project, Skill } from "@/content/content";
 type LocalizedString = { en: string; de: string };
+
+// Matches the shadcn Input styling so native selects blend into the form.
+const selectClassName =
+  "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:text-sm";
 
 type FieldValue = string | number | boolean | LocalizedString | ExperienceDescriptionItem[] | LocalizedString[];
 type ArrayItemTemplate = Experience | Project | Skill | LocalizedString | ExperienceDescriptionItem;
@@ -827,32 +832,45 @@ const CVEditor: React.FC<CVEditorProps> = ({ data, onChange, language }) => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium mb-1">
+                    <label htmlFor={`skill-${skillIndex}-category`} className="block text-xs font-medium mb-1">
                       {t({
                         en: 'Category',
                         de: 'Kategorie'
                       })}
                     </label>
-                    <Input 
-                      value={skill.category != null ? String(skill.category) : '' as string} 
-                      onChange={(e) => handleChange(['skills', skillIndex, 'category'], String(e.target.value))}
-                    />
+                    <select
+                      id={`skill-${skillIndex}-category`}
+                      className={selectClassName}
+                      value={skill.category}
+                      onChange={(e) => handleChange(['skills', skillIndex, 'category'], e.target.value)}
+                    >
+                      {CV_SKILL_CATEGORIES.map((category) => (
+                        <option key={category} value={category}>
+                          {t(data.skillsSection.categories[category])}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   
                   <div>
-                    <label className="block text-xs font-medium mb-1">
+                    <label htmlFor={`skill-${skillIndex}-level`} className="block text-xs font-medium mb-1">
                       {t({
                         en: 'Level (1-5)',
                         de: 'Level (1-5)'
                       })}
                     </label>
-                    <Input 
-                      type="number" 
-                      min="1" 
-                      max="5" 
-                      value={skill.level != null ? String(skill.level) : '' as string} 
-                      onChange={(e) => handleChange(['skills', skillIndex, 'level'], parseInt(e.target.value))}
-                    />
+                    <select
+                      id={`skill-${skillIndex}-level`}
+                      className={selectClassName}
+                      value={skill.level}
+                      onChange={(e) => handleChange(['skills', skillIndex, 'level'], Number(e.target.value))}
+                    >
+                      {CV_SKILL_LEVELS.map((level) => (
+                        <option key={level} value={level}>
+                          {level}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
                 

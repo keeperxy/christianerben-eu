@@ -60,4 +60,30 @@ describe("next config", () => {
       value: ".*[Tt][Ee][Xx][Tt]/[Mm][Aa][Rr][Kk][Dd][Oo][Ww][Nn].*",
     });
   });
+
+  it("disables the X-Powered-By header", async () => {
+    const { default: nextConfig } = await import("../../next.config.mjs");
+
+    expect(nextConfig.poweredByHeader).toBe(false);
+  });
+
+  it("sends baseline security headers on every route", async () => {
+    const { default: nextConfig } = await import("../../next.config.mjs");
+
+    const headerRules = await nextConfig.headers?.();
+    const globalHeaders = headerRules?.find((rule) => rule.source === "/:path*");
+
+    expect(globalHeaders?.headers).toEqual(
+      expect.arrayContaining([
+        { key: "Content-Security-Policy", value: "frame-ancestors 'self'" },
+        { key: "X-Frame-Options", value: "SAMEORIGIN" },
+        { key: "X-Content-Type-Options", value: "nosniff" },
+        { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+        {
+          key: "Permissions-Policy",
+          value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+        },
+      ]),
+    );
+  });
 });
