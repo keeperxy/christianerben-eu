@@ -180,8 +180,9 @@ const CV = () => {
 
   const handleDataChange = (newData: SiteContent) => {
     setCvData(newData);
-    // Update URL hash without reloading (Unicode-safe Base64)
-    window.location.hash = `data=${encodeCvData(newData)}`;
+    // Keep the shareable hash current without adding a history entry per keystroke.
+    // Preserve history.state because the Next.js router stores its own data there.
+    window.history.replaceState(window.history.state, '', `#data=${encodeCvData(newData)}`);
   };
 
   const handleExitEditMode = () => {
