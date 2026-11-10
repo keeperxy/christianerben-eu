@@ -6,6 +6,30 @@ import {
   type SettingsContextType,
 } from './settings-hook';
 
+// Storage access throws when the browser blocks site data (privacy modes,
+// disabled cookies, quota errors). Preferences are optional, so fail quietly.
+const readStoredValue = (key: string): string | null => {
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+};
+
+const writeStoredValue = (key: string, value: string): void => {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    // Ignore: the preference only lasts for the current page view.
+  }
+};
+
+const isTheme = (value: string | null): value is Theme =>
+  value === 'light' || value === 'dark';
+
+const isLanguage = (value: string | null): value is Language =>
+  value === 'en' || value === 'de';
+
 const getBrowserLanguage = (): Language => {
   const browserLanguages = [
     ...Array.from(window.navigator.languages ?? []),
@@ -31,8 +55,12 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
-    const savedTheme = window.localStorage.getItem('theme') as Theme;
-    const preferredTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const savedTheme = readStoredValue('theme');
+    const preferredTheme: Theme = isTheme(savedTheme)
+      ? savedTheme
+      : window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
     
     // Only set if different to avoid unnecessary re-renders
     if (preferredTheme !== theme) {
@@ -46,8 +74,8 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
 
-    const savedLanguage = window.localStorage.getItem('language') as Language | null;
-    if (savedLanguage === 'en' || savedLanguage === 'de') {
+    const savedLanguage = readStoredValue('language');
+    if (isLanguage(savedLanguage)) {
       setLanguageState((current) => (current === savedLanguage ? current : savedLanguage));
       return;
     }
@@ -69,7 +97,7 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
       root.classList.remove('dark');
     }
 
-    window.localStorage.setItem('theme', theme);
+    writeStoredValue('theme', theme);
   }, [theme]);
 
   // Language setting function
@@ -88,7 +116,7 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     document.documentElement.setAttribute('lang', language);
-    window.localStorage.setItem('language', language);
+    writeStoredValue('language', language);
   }, [language]);
 
   // Translation helper

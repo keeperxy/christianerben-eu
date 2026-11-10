@@ -21,6 +21,9 @@ const skillCategory = z.enum([
   "compliance",
 ]);
 
+export const CV_SKILL_CATEGORIES = skillCategory.options;
+export const CV_SKILL_LEVELS = [1, 2, 3, 4, 5] as const;
+
 const experienceCategoryTexts = z.looseObject({
   title: localizedString,
   subtitle: localizedString,
