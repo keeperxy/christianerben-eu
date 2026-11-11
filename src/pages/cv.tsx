@@ -194,13 +194,13 @@ const CV = () => {
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-wrap justify-between items-center gap-4">
           <Link href="/" className="flex items-center text-muted-foreground dark:text-primary hover:text-primary/80">
             <ArrowLeft className="mr-2 h-4 w-4" />
             <span>{t(siteContent.backToHome)}</span>
           </Link>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-wrap items-center gap-4">
             {editMode && (
               <Button
                 onClick={handleExitEditMode}
