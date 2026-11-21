@@ -29,7 +29,7 @@
   "dependencies": {
     "@fontsource/inter": "5.3.0",
     "@fontsource/space-grotesk": "5.3.0",
-    "@hookform/resolvers": "7.0.7",
+    "@hookform/resolvers": "7.0.8",
     "@pdf-lib/fontkit": "1.1.1",
     "@react-pdf/renderer": "4.9.0",
     "buffer": "6.0.3",
@@ -38,7 +38,7 @@
     "clsx": "2.1.1",
     "docx": "9.16.0",
     "embla-carousel-react": "8.6.0",
-    "lucide-react": "1.76.0",
+    "lucide-react": "1.77.0",
     "lz-string": "1.5.0",
     "next": "16.4.6",
     "pdf-lib": "1.17.1",
@@ -57,7 +57,7 @@
     "postcss": "8.5.33",
     "postcss-selector-parser": "7.2.1",
     "sharp": "0.35.5",
-    "source-map-js": "1.2.3"
+    "source-map-js": "1.2.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.5",
