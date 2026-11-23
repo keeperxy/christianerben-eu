@@ -11,7 +11,7 @@
         "@pdf-lib/fontkit": "1.1.1",
         "@react-pdf/renderer": "4.9.0",
         "buffer": "6.0.3",
-        "caniuse-lite": "1.0.30001826",
+        "caniuse-lite": "1.0.30001827",
         "class-variance-authority": "0.7.1",
         "clsx": "2.1.1",
         "docx": "9.16.0",
@@ -51,7 +51,7 @@
     },
   },
   "overrides": {
-    "caniuse-lite": "1.0.30001826",
+    "caniuse-lite": "1.0.30001827",
     "postcss": "8.5.33",
     "postcss-selector-parser": "7.2.1",
     "sharp": "0.35.5",
@@ -528,7 +528,7 @@
 
     "buffer-image-size": ["buffer-image-size@0.6.4", "", { "dependencies": { "@types/node": "*" } }, "sha512-nEh+kZOPY1w+gcCMobZ6ETUp9WfibndnosbpwB1iJk/8Gt5ZF2bhS6+B6bPYz424KtwsR6Rflc3tCz1/ghX2dQ=="],
 
-    "caniuse-lite": ["caniuse-lite@1.0.30001826", "", {}, "sha512-wTB+9tIbLro/BCXwLuNV1meHE4L9dS6dArMDwgYfNBPMYScqClHyGunhkCSDtHhe/69Xl0sHlKgBVZ+fNsYtWA=="],
+    "caniuse-lite": ["caniuse-lite@1.0.30001827", "", {}, "sha512-YWEDr46gSO81M8w6uPbaIy4++IXsirx2asUqvllNiD4BPf75ibxclUjWEqp8ObCenRv+UM2n5Y8xuRPT8V8FrQ=="],
 
     "chai": ["chai@6.3.0", "", {}, "sha512-XWAtwJ6OHO+tj0EKCs0Y2UamnyOxseZWltU4x2U2wh8g4AigdjwvtUjvLP2tqkA/avxHEtzxNaqGq/YGNwckKg=="],
 
