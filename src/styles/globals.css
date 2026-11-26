@@ -1,13 +1,6 @@
-/* Load every weight the UI uses (font-normal/medium/semibold/bold) so the
-   browser does not synthesize faux bold from the 400 face. */
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
-@import "@fontsource/space-grotesk/400.css";
-@import "@fontsource/space-grotesk/500.css";
-@import "@fontsource/space-grotesk/600.css";
-@import "@fontsource/space-grotesk/700.css";
+/* One variable family carries the whole site: Archivo's width axis (62-125%)
+   gives expanded display cuts and a neutral text cut without a second font. */
+@import "@fontsource-variable/archivo/wdth.css";
 
 @source "../**/*.{ts,tsx,js,jsx,mdx}";
 @import "tailwindcss/theme" layer(theme);
@@ -16,11 +9,22 @@
 @plugin "@tailwindcss/typography";
 @plugin "tailwindcss-animate";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --font-sans: "Inter", sans-serif;
-  --font-display: "Space Grotesk", sans-serif;
+  --font-sans: "Archivo Variable", "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Archivo Variable", "Archivo", ui-sans-serif, system-ui, sans-serif;
   --container-2xl: 1400px;
   --container-padding: 2rem;
+
+  /* Body type scale: three steps below the hero. */
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.5;
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.6;
+  --text-title: clamp(2.25rem, 1.1rem + 3.9vw, 4.5rem);
+  --text-title--line-height: 0.98;
+  --text-title--letter-spacing: -0.035em;
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -46,22 +50,21 @@
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
 
-  --color-theme-purple-light: #9b87f5;
-  --color-theme-purple: #7E69AB;
-  --color-theme-purple-dark: #6E59A5;
-  --color-theme-teal-light: #4FD1C5;
-  --color-theme-teal: #38B2AC;
-  --color-theme-teal-dark: #2C7A7B;
-  --color-theme-gray-light: #F7FAFC;
-  --color-theme-gray: #8E9196;
-  --color-theme-gray-dark: #1A1F2C;
+  /* Signal yellow: the single accent, used as a fill behind ink text. */
+  --color-signal: hsl(var(--signal));
+  --color-ink: hsl(var(--ink));
+  --color-ink-foreground: hsl(var(--ink-foreground));
+  --color-ink-muted: hsl(var(--ink-muted));
+  --color-ink-line: hsl(var(--ink-line));
 
-  --animate-fade-in: fade-in 0.7s ease-out forwards;
+  --ease-out-snap: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-fade-in: fade-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 
   @keyframes fade-in {
     0% {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(16px);
     }
     100% {
       opacity: 1;
@@ -93,67 +96,80 @@
 @layer base {
   :root {
     hyphens: auto;
-    --radius: 0.5rem;
-    
-    /* Light theme (L‑Werte = 100% − Dark‑L‑Werte) */
-    --background: 225 25% 88%;
-    --foreground: 210 40% 2%;
-    
-    --card: 225 25% 84%;
-    --card-foreground: 210 40% 2%;
-    
-    --popover: 225 25% 88%;
-    --popover-foreground: 210 40% 2%;
-    
-    --primary: 153 65% 25%;
-    --primary-foreground: 0 0% 90%;
-    
-    --secondary: 217.2 32.6% 82.5%;
-    --secondary-foreground: 210 40% 2%;
-    
-    --muted: 217.2 32.6% 82.5%;
-    --muted-foreground: 215 20.2% 34.9%;
-    
-    --accent: 262 61% 26%;
-    --accent-foreground: 262 0% 80%;
-    
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    
-    --border: 217.2 32.6% 82.5%;
-    --input: 217.2 32.6% 82.5%;
-    --ring: 173 58% 61%;
+    --radius: 0.375rem;
+
+    /* Light: cool stone paper, ink type, signal yellow fills. */
+    --background: 150 8% 95%;
+    --foreground: 201 37% 8%;
+
+    --card: 150 9% 90%;
+    --card-foreground: 201 37% 8%;
+
+    --popover: 150 8% 97%;
+    --popover-foreground: 201 37% 8%;
+
+    /* Deep amber keeps text-primary links readable on the light paper. */
+    --primary: 41 100% 24%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 150 9% 90%;
+    --secondary-foreground: 201 37% 8%;
+
+    --muted: 150 9% 90%;
+    --muted-foreground: 198 12% 32%;
+
+    --accent: 150 9% 88%;
+    --accent-foreground: 201 37% 8%;
+
+    --destructive: 0 70% 38%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 150 7% 82%;
+    --input: 150 7% 78%;
+    --ring: 41 100% 40%;
+
+    --signal: 44 100% 55%;
+    --ink: 204 42% 7%;
+    --ink-foreground: 198 18% 93%;
+    --ink-muted: 200 12% 66%;
+    --ink-line: 203 26% 17%;
   }
 
   .dark {
-    /* Dark theme */
-    --background: 225 25% 12%;
-    --foreground: 210 40% 98%;
+    /* Dark: the marine night of the portrait photograph. */
+    --background: 206 44% 6%;
+    --foreground: 198 18% 92%;
 
-    --card: 225 25% 16%;
-    --card-foreground: 210 40% 98%;
+    --card: 204 38% 10%;
+    --card-foreground: 198 18% 92%;
 
-    --popover: 225 25% 12%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 204 40% 8%;
+    --popover-foreground: 198 18% 92%;
 
-    --primary: 153 65% 75%;
-    --primary-foreground: 0 0% 10%;
+    --primary: 43 100% 62%;
+    --primary-foreground: 204 42% 7%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 204 34% 13%;
+    --secondary-foreground: 198 18% 92%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 204 34% 12%;
+    --muted-foreground: 200 12% 64%;
 
-    --accent: 262 61% 74%;
-    --accent-foreground: 262 0% 20%;
+    --accent: 204 32% 15%;
+    --accent-foreground: 198 18% 92%;
 
-    --destructive: 0 93.5% 81.8%;
-    --destructive-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 85% 72%;
+    --destructive-foreground: 204 42% 7%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 173 58% 39%;
+    --border: 203 28% 16%;
+    --input: 203 26% 22%;
+    --ring: 43 100% 62%;
+
+    --signal: 43 100% 60%;
+    --ink: 205 46% 4%;
+    --ink-foreground: 198 18% 93%;
+    --ink-muted: 200 12% 66%;
+    --ink-line: 203 26% 15%;
   }
 
   * {
@@ -162,10 +178,18 @@
 
   html {
     @apply scroll-smooth;
+    font-variant-numeric: tabular-nums;
   }
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    font-size: var(--text-body);
+    line-height: 1.6;
+  }
+
+  ::selection {
+    background: hsl(var(--signal));
+    color: hsl(var(--ink));
   }
 
   h1,
@@ -174,60 +198,182 @@
   h4,
   h5,
   h6 {
-    @apply font-display font-medium;
+    @apply font-display font-semibold;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 3px;
   }
 
   .section-padding {
-    @apply py-16 px-4 sm:py-24 sm:px-8 lg:px-16;
+    @apply py-20 px-4 sm:py-28 sm:px-8 lg:px-12;
   }
 
   section[id] {
-    scroll-margin-top: 7rem;
+    scroll-margin-top: 4.5rem;
   }
 
-  /* Custom animations and transitions */
   .hover-scale {
-    @apply transition-transform duration-300 hover:scale-[1.02];
+    transition: transform 200ms var(--ease-out-snap);
   }
 
   .link-underline {
-    @apply relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full;
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+    transition: text-decoration-color 180ms var(--ease-out-snap);
   }
 
+  .link-underline:hover,
   .link-underline-active {
-    @apply after:w-full;
-  }
-
-  .card-glass {
-    @apply bg-white/10 backdrop-blur-md border border-white/20 dark:bg-gray-900/30 dark:border-gray-700/30;
+    text-decoration-color: hsl(var(--signal));
   }
 
   .text-gradient {
-    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+    color: inherit;
   }
 }
 
-/* Grid pattern background */
-.bg-grid {
-  background-size: 40px 40px;
-  background-image: linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0.05) 1px,
-      transparent 1px
-    ),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+/* Layout shell shared by every section. */
+.shell {
+  width: 100%;
+  max-width: 1360px;
+  margin-inline: auto;
+  padding-inline: 1rem;
 }
 
-.dark .bg-grid {
-  background-image: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.05) 1px,
-      transparent 1px
-    ),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+@media (min-width: 640px) {
+  .shell {
+    padding-inline: 2rem;
+  }
 }
 
-/* Three Dots Loading Animation */
+@media (min-width: 1024px) {
+  .shell {
+    padding-inline: 3rem;
+  }
+}
+
+/* Expanded display cut for section headings. */
+.display {
+  font-family: var(--font-display);
+  font-stretch: 118%;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.wide {
+  font-stretch: 112%;
+}
+
+/* Inline signal links: underline in signal yellow. */
+.signal-link {
+  text-decoration-line: underline;
+  text-decoration-color: hsl(var(--signal));
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25em;
+  transition: text-decoration-thickness 160ms var(--ease-out-snap), color 160ms var(--ease-out-snap);
+}
+
+.signal-link:hover {
+  text-decoration-thickness: 4px;
+}
+
+/* Hero entrance: lines rise from a clip, legible at rest without JS. */
+@keyframes rise {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes role-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes photo-settle {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise-line > span {
+    display: inline-block;
+    animation: rise 900ms var(--ease-out-snap) both;
+  }
+
+  .rise-line + .rise-line > span {
+    animation-delay: 90ms;
+  }
+
+  .fade-up {
+    animation: fade-up 700ms var(--ease-out-snap) both;
+    animation-delay: var(--delay, 300ms);
+  }
+
+  .role-in {
+    animation: role-in 240ms var(--ease-out-snap) both;
+  }
+
+  .photo-settle {
+    animation: photo-settle 1800ms var(--ease-out-snap) both;
+  }
+
+  /* Scroll-linked reveal for section headings where supported. */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: fade-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+
+/* Project illustrations are tinted line art; render them as ink. */
+.ink-art {
+  filter: grayscale(1) contrast(1.35) brightness(0.55);
+}
+
+.dark .ink-art {
+  filter: grayscale(1) contrast(1.2) brightness(1.9);
+}
+
+code {
+  @apply bg-muted px-1 py-0.5 rounded text-sm;
+}
+
+pre {
+  @apply bg-muted p-4 rounded-lg overflow-x-auto text-sm my-4;
+}
+
+/* Three dots loading animation */
 .loading-dots {
   display: inline-flex;
   align-items: center;
@@ -263,26 +409,24 @@
   }
 }
 
-/* Code syntax highlighting */
-code {
-  @apply bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm;
+@media print {
+  .reveal,
+  .fade-up,
+  .rise-line > span {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
-pre {
-  @apply bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm my-4;
-}
-
-/* Keyframes for background element movement */
-@keyframes move-bg-1 {
-  0%, 100% { top: 5%; left: 75%; transform: scale(1) rotate(0deg); opacity: 0.2; }
-  25% { top: 60%; left: 10%; transform: scale(1.1) rotate(15deg); opacity: 0.3; }
-  50% { top: 40%; left: 85%; transform: scale(0.9) rotate(-10deg); opacity: 0.25; }
-  75% { top: 80%; left: 30%; transform: scale(1.05) rotate(5deg); opacity: 0.35; }
-}
-
-@keyframes move-bg-2 {
-  0%, 100% { top: 70%; left: 20%; transform: scale(1) rotate(0deg); opacity: 0.2; }
-  25% { top: 15%; left: 65%; transform: scale(0.95) rotate(-12deg); opacity: 0.3; }
-  50% { top: 50%; left: 5%; transform: scale(1.15) rotate(8deg); opacity: 0.25; }
-  75% { top: 85%; left: 80%; transform: scale(1) rotate(-5deg); opacity: 0.35; }
+/* Long German compounds must wrap instead of widening the layout. */
+h1,
+h2,
+h3,
+h4,
+p,
+li,
+dd,
+dt {
+  overflow-wrap: anywhere;
 }

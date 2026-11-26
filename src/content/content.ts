@@ -66,6 +66,7 @@ export interface HeroSection {
   name: string;
   imageAlt: LocalizedString;
   titleElements: LocalizedString[];
+  tagline: LocalizedString;
   description: LocalizedString;
   availability: {
     label: LocalizedString;
@@ -77,6 +78,7 @@ export interface HeroSection {
   };
   ctaPrimary: LocalizedString;
   ctaSecondary: LocalizedString;
+  ctaContact: LocalizedString;
   decorativeElements: {
     position: number;
     distance: number;
@@ -415,6 +417,10 @@ export const siteContent: SiteContent = {
       { en: "Infrastructure Architect", de: "Infrastruktur-Architekt" },
       { en: "Automation Advocate", de: "Automatisierungs-Enthusiast" },
     ],
+    tagline: {
+      en: "I design, secure and run network and Linux infrastructure for organizations that cannot afford downtime.",
+      de: "Ich plane, sichere und betreibe Netzwerk- und Linux-Infrastruktur für Organisationen, die sich keinen Ausfall leisten können.",
+    },
     description: {
       en: "I have many years of experience in system and network administration, with a focus on designing and securing complex, redundant infrastructures. This includes professional firewall management, planning secure network architectures, as well as solid knowledge of classic and advanced protocols and platforms. Additionally, I bring extensive practice in Linux administration, security-oriented operational processes, and the establishment of structured security mechanisms such as IAM, ISMS, as well as incident and vulnerability management.",
       de: "Ich verfüge über langjährige Erfahrung in der System- und Netzwerkadministration, mit Schwerpunkt auf dem Design und der Absicherung komplexer, redundanter Infrastrukturen. Dazu zählen professionelles Firewall-Management, die Planung sicherer Netzwerkarchitekturen sowie fundierte Kenntnisse klassischer und anspruchsvoller Protokolle und Plattformen. Ergänzend bringe ich umfangreiche Praxis in der Linux-Administration, in sicherheitsorientierten Betriebsprozessen und im Aufbau strukturierter Security-Mechanismen wie IAM, ISMS sowie Incident- und Vulnerability-Management mit.",
@@ -435,6 +441,7 @@ export const siteContent: SiteContent = {
     },
     ctaPrimary: { en: "Explore my work", de: "Meine Arbeit entdecken" },
     ctaSecondary: { en: "Download CV", de: "Lebenslauf herunterladen" },
+    ctaContact: { en: "Discuss your project", de: "Projekt besprechen" },
     decorativeElements: [
       { position: 118, distance: 90, code: "⚙️ automation" },
       { position: 97, distance: 110, code: "🔥 firewalls" },

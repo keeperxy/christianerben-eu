@@ -1,186 +1,115 @@
 import React, { useState, useEffect } from "react";
-import { ArrowDown, FileText } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { useSettings } from "@/contexts/settings-hook";
 import { siteContent } from "@/content/content";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { useFitText } from "@/hooks/use-fit-text";
-import Link from "next/link";
+
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" &&
+  typeof window.matchMedia === "function" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const HeroSection = () => {
   const { t } = useSettings();
   const { hero } = siteContent;
-
-  // State for the rotating title
   const [titleIndex, setTitleIndex] = useState(0);
+  const [firstName, ...rest] = hero.name.split(" ");
+  const lastName = rest.join(" ");
 
-  // Set up title rotation effect
   useEffect(() => {
+    if (prefersReducedMotion()) {
+      return;
+    }
+
     const interval = setInterval(() => {
       setTitleIndex((prevIndex) => (prevIndex + 1) % hero.titleElements.length);
-    }, 3000); // Change every 3 seconds
+    }, 3200);
 
     return () => clearInterval(interval);
   }, [hero.titleElements.length]);
 
-  // FitText Hook for dynamic title
   const currentTitle = t(hero.titleElements[titleIndex]);
-  const { ref: fitTextRef, fontSize } = useFitText({
-    minFontSize: 18,
-    maxFontSize: 48,
-    depKey: currentTitle,
-  });
-
-  // Function to calculate position for decorative elements
-  const calculatePosition = (position: number, distance: number) => {
-    const angle = (position / 100) * 2 * Math.PI; // Convert percentage to radians
-    const radius = (distance / 100) * 50; // Scale distance percentage to fit container
-
-    // Calculate position around the circle
-    const x = 50 + radius * Math.sin(angle);
-    const y = 50 - radius * Math.cos(angle);
-
-    return {
-      left: `${x}%`,
-      top: `${y}%`,
-      transform: "translate(-50%, -50%)",
-    };
-  };
 
   return (
     <section
       id="hero"
-      className="min-h-screen flex items-center pt-20 bg-grid relative overflow-hidden"
+      className="relative isolate flex min-h-[100dvh] flex-col justify-end overflow-hidden bg-[#040a0e] text-white"
     >
-      {/* Background Elements */}
-      <div
-        className="absolute w-64 h-64 bg-primary/50 rounded-full filter blur-3xl animate-[move-bg-1_25s_ease-in-out_infinite]"
-      ></div>
-      <div
-        className="absolute w-72 h-72 bg-accent/50 rounded-full filter blur-3xl animate-[move-bg-2_30s_ease-in-out_infinite]"
-      ></div>
+      {/* Portrait sits right on wide screens and top on phones, leaving clean dark space for type. */}
+      <div className="absolute inset-x-0 top-0 -z-10 h-[74%] md:inset-y-0 md:left-auto md:h-full md:w-[66%]">
+        <Image
+          src="/profile.webp"
+          alt={t(hero.imageAlt)}
+          fill
+          priority
+          sizes="(min-width: 768px) 66vw, 100vw"
+          className="photo-settle object-cover object-[50%_12%] md:object-[42%_30%]"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,10,14,0.5)_0%,rgba(4,10,14,0)_20%,rgba(4,10,14,0)_55%,rgba(4,10,14,1)_100%)] md:bg-[linear-gradient(90deg,rgba(4,10,14,1)_0%,rgba(4,10,14,0.55)_28%,rgba(4,10,14,0)_55%),linear-gradient(180deg,rgba(4,10,14,0.45)_0%,rgba(4,10,14,0)_18%,rgba(4,10,14,0)_60%,rgba(4,10,14,0.9)_100%)]"
+        />
+      </div>
 
-      {/* Content Container */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col lg:flex-row lg:items-center">
-          {/* Text Content */}
-          <div className="lg:w-1/2 animate-fade-in">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4">
-              {hero.name}
-              <br />
-              <span
-                ref={fitTextRef}
-                className="block text-gradient mt-2 h-[1.2em]"
-                key={titleIndex}
-                style={{ fontSize, lineHeight: 1.2, display: "inline-block", width: "100%", whiteSpace: "nowrap" }}
-              >
+      <div className="shell pb-10 pt-32 sm:pb-14">
+        <h1 className="display text-[clamp(3.5rem,11.6vw,12rem)] font-[800] leading-[0.84] tracking-[-0.055em] [font-stretch:108%]">
+          <span className="sr-only">
+            {hero.name}, {t(hero.titleElements[0])}
+          </span>
+          <span aria-hidden="true" className="rise-line block overflow-hidden pb-[0.04em]">
+            <span>{firstName}</span>
+          </span>
+          <span aria-hidden="true" className="rise-line block overflow-hidden pb-[0.06em]">
+            <span>
+              {lastName}
+              <span className="text-signal">.</span>
+            </span>
+          </span>
+        </h1>
+
+        <div className="mt-6 grid grid-cols-1 gap-8 md:mt-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+          <div className="max-w-[44rem]">
+            <p
+              aria-hidden="true"
+              className="fade-up flex h-[1.3em] items-center overflow-hidden text-[clamp(1.375rem,2.6vw,2.25rem)] font-semibold leading-tight tracking-[-0.02em] text-signal [--delay:350ms] [font-stretch:112%]"
+            >
+              <span key={titleIndex} className="role-in block truncate">
                 {currentTitle}
               </span>
-            </h1>
-
-            <p className="text-lg md:text-xl text-muted-foreground max-w-lg mb-8">
-              {t(hero.description)}
             </p>
+            <p className="fade-up mt-4 max-w-[38rem] text-body text-white/85 [--delay:450ms]">
+              {t(hero.tagline)}
+            </p>
+          </div>
 
-            <div className="bg-card/80 border border-border rounded-xl p-5 shadow-sm backdrop-blur-sm max-w-lg mb-8">
-              <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
-                <Badge variant="secondary">{t(hero.availability.label)}</Badge>
-                <span className="text-sm font-semibold text-foreground">
-                  {t(hero.availability.status)}
-                </span>
-              </div>
-              <p className="text-sm text-muted-foreground mb-3">
-                {t(hero.availability.detail)}
-              </p>
-              <Progress
-                value={hero.availability.bookedPercent}
-                aria-label={`${t(hero.availability.label)}: ${t(hero.availability.status)}`}
+          <div className="fade-up flex flex-col items-start gap-4 [--delay:550ms] md:items-end">
+            <a
+              href="#contact"
+              className="group inline-flex items-center gap-3 rounded-full bg-signal py-3.5 pl-6 pr-5 text-body font-semibold text-ink transition-[transform,background-color] duration-200 ease-[var(--ease-out-snap)] hover:-translate-y-0.5 active:translate-y-0"
+            >
+              {t(hero.ctaContact)}
+              <ArrowRight
+                className="size-5 transition-transform duration-200 ease-[var(--ease-out-snap)] group-hover:translate-x-1"
+                aria-hidden="true"
               />
-              <div className="text-xs text-muted-foreground mt-2">
-                {t(hero.availability.availableFrom)}
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                asChild
-                size="lg"
-                className="rounded-full shadow-lg hover-scale"
+            </a>
+            <div className="flex items-center gap-3 text-small text-white/80">
+              <span
+                className="relative block h-1.5 w-20 overflow-hidden rounded-full bg-white/20"
+                role="img"
+                aria-label={`${t(hero.availability.label)}: ${t(hero.availability.status)}`}
               >
-                <a href="#experience">{t(hero.ctaPrimary)}</a>
-              </Button>
-
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="rounded-full shadow-sm hover-scale"
-              >
-                <Link href="/cv">
-                  <FileText className="w-4 h-4 mr-2" />
-                  {t(hero.ctaSecondary)}
-                </Link>
-              </Button>
+                <span
+                  className="absolute inset-y-0 left-0 rounded-full bg-white/70"
+                  style={{ width: `${hero.availability.bookedPercent}%` }}
+                />
+              </span>
+              <span>
+                <strong className="font-semibold text-white">{t(hero.availability.status)}</strong>
+                <span className="text-white/70"> · {t(hero.availability.detail)}</span>
+              </span>
             </div>
           </div>
-
-          {/* Hero Image/Profile Picture */}
-          <div className="lg:w-1/2 mt-10 lg:mt-0 flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-lg aspect-square">
-              {/* Background glow effect */}
-              <div className="w-full h-full rounded-full bg-gradient-to-br from-primary to-accent/70 shadow-xl filter blur-sm absolute"></div>
-
-              {/* Profile picture container */}
-              <div className="w-[95%] h-[95%] rounded-full bg-background absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center overflow-hidden">
-                <div className="w-[75%] h-[75%] rounded-full bg-gradient-to-br from-primary/20 to-accent/20 p-1">
-                  <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
-                    {/* Profile image */}
-                    <Avatar className="w-full h-full">
-                      <AvatarImage
-                        src="/profile.webp"
-                        alt={t(hero.imageAlt)}
-                        className="object-cover w-full h-full"
-                      />
-                      <AvatarFallback className="text-4xl md:text-5xl font-bold">
-                        CE
-                      </AvatarFallback>
-                    </Avatar>
-                  </div>
-                </div>
-              </div>
-
-              {/* Dynamically positioned decorative elements - now without animation-delay for immediate positioning */}
-              {hero.decorativeElements.map((element, index) => {
-                const posStyle = calculatePosition(
-                  element.position,
-                  element.distance
-                );
-                return (
-                  <div
-                    key={index}
-                    className="absolute p-4 card-glass rounded-lg shadow-lg animate-float"
-                    style={{
-                      ...posStyle,
-                    }}
-                  >
-                    <code
-                      className="text-xs sm:text-sm text-gradient whitespace-nowrap"
-                    >
-                      {element.code}
-                    </code>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
-          <span className="text-sm text-muted-foreground mb-2">Scroll</span>
-          <ArrowDown className="w-5 h-5 text-primary animate-bounce" />
         </div>
       </div>
     </section>

@@ -1,111 +1,67 @@
 import React, { useState } from "react";
 import { Briefcase, ShieldCheck, Bot, Network, Wrench, Flag, Scale } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { siteContent } from "@/content/content";
 import type { Skill } from "@/content/content";
 import { useSettings } from "@/contexts/settings-hook";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
+type TabValue = "management" | "languages" | "security" | "ai" | "infrastructure" | "tools" | "compliance";
+
+const tabs: { value: TabValue; icon: LucideIcon }[] = [
+  { value: "management", icon: Briefcase },
+  { value: "languages", icon: Flag },
+  { value: "security", icon: ShieldCheck },
+  { value: "ai", icon: Bot },
+  { value: "infrastructure", icon: Network },
+  { value: "tools", icon: Wrench },
+  { value: "compliance", icon: Scale },
+];
+
 const SkillsSection = () => {
   const { t } = useSettings();
   const { skills, skillsSection } = siteContent;
-  type TabValue = "management" | "languages" | "security" | "ai" | "infrastructure" | "tools" | "compliance";
   const [activeTab, setActiveTab] = useState<TabValue>("management");
   const tabTriggerClass =
-    "min-h-12 w-full min-w-0 gap-2 justify-start whitespace-normal px-3 py-2 text-xs leading-tight sm:text-sm md:text-base [&>svg]:shrink-0";
+    "min-h-12 w-full min-w-0 gap-2 justify-start whitespace-normal rounded-full px-4 py-2 text-small font-semibold text-muted-foreground transition-[background-color,color] duration-200 hover:text-foreground data-[state=active]:bg-signal data-[state=active]:text-ink data-[state=active]:shadow-none [&>svg]:shrink-0";
   const tabLabelClass = "min-w-0 whitespace-normal break-words leading-tight text-left";
 
-  // Filter skills by category
   const filteredSkills = skills.filter((skill) => skill.category === activeTab);
 
   return (
-    <section id="skills" className="section-padding">
-      <div className="container mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-          <span className="text-gradient">{t(skillsSection.title)}</span>
-        </h2>
-
-        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-16">
-          {t(skillsSection.subtitle)}
-        </p>
-
-        <div className="max-w-6xl mx-auto">
-          <Tabs
-            defaultValue="management"
-            onValueChange={(value) => setActiveTab(value as TabValue)}
-            className="w-full"
-          >
-            <div className="flex justify-center mb-8">
-              <TabsList className="!grid w-full !h-auto grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] gap-2 bg-muted/70 p-2">
-                <TabsTrigger value="management" className={tabTriggerClass} name={t(skillsSection.categories.management)} aria-label={t(skillsSection.categories.management)}>
-                  <Briefcase className="w-5 h-5" />
-                  <span className={tabLabelClass}>
-                    {t(skillsSection.categories.management)}
-                  </span>
-                </TabsTrigger>
-                <TabsTrigger value="languages" className={tabTriggerClass} name={t(skillsSection.categories.languages)} aria-label={t(skillsSection.categories.languages)}>
-                  <Flag className="w-5 h-5" />
-                  <span className={tabLabelClass}>
-                    {t(skillsSection.categories.languages)}
-                  </span>
-                </TabsTrigger>
-                <TabsTrigger value="security" className={tabTriggerClass} name={t(skillsSection.categories.security)} aria-label={t(skillsSection.categories.security)}>
-                  <ShieldCheck className="w-5 h-5" />
-                  <span className={tabLabelClass}>
-                    {t(skillsSection.categories.security)}
-                  </span>
-                </TabsTrigger>
-                <TabsTrigger value="ai" className={tabTriggerClass} name={t(skillsSection.categories.ai)} aria-label={t(skillsSection.categories.ai)}>
-                  <Bot className="w-5 h-5" />
-                  <span className={tabLabelClass}>
-                    {t(skillsSection.categories.ai)}
-                  </span>
-                </TabsTrigger>
-                <TabsTrigger value="infrastructure" className={tabTriggerClass} name={t(skillsSection.categories.infrastructure)} aria-label={t(skillsSection.categories.infrastructure)}>
-                  <Network className="w-5 h-5" />
-                  <span className={tabLabelClass}>
-                    {t(skillsSection.categories.infrastructure)}
-                  </span>
-                </TabsTrigger>
-                <TabsTrigger value="tools" className={tabTriggerClass} name={t(skillsSection.categories.tools)} aria-label={t(skillsSection.categories.tools)}>
-                  <Wrench className="w-5 h-5" />
-                  <span className={tabLabelClass}>
-                    {t(skillsSection.categories.tools)}
-                  </span>
-                </TabsTrigger>
-                <TabsTrigger value="compliance" className={tabTriggerClass} name={t(skillsSection.categories.compliance)} aria-label={t(skillsSection.categories.compliance)}>
-                  <Scale className="w-5 h-5" />
-                  <span className={tabLabelClass}>
-                    {t(skillsSection.categories.compliance)}
-                  </span>
-                </TabsTrigger>
-              </TabsList>
-            </div>
-
-            {/* Skill content panels */}
-            <TabsContent value="security" className="mt-0">
-              <SkillsGrid skills={filteredSkills} />
-            </TabsContent>
-            <TabsContent value="infrastructure" className="mt-0">
-              <SkillsGrid skills={filteredSkills} />
-            </TabsContent>
-            <TabsContent value="tools" className="mt-0">
-              <SkillsGrid skills={filteredSkills} />
-            </TabsContent>
-            <TabsContent value="ai" className="mt-0">
-              <SkillsGrid skills={filteredSkills} />
-            </TabsContent>
-            <TabsContent value="management" className="mt-0">
-              <SkillsGrid skills={filteredSkills} />
-            </TabsContent>
-            <TabsContent value="languages" className="mt-0">
-              <SkillsGrid skills={filteredSkills} />
-            </TabsContent>
-            <TabsContent value="compliance" className="mt-0">
-              <SkillsGrid skills={filteredSkills} />
-            </TabsContent>
-          </Tabs>
+    <section id="skills" className="bg-background py-24 sm:py-32">
+      <div className="shell">
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+          <h2 className="display reveal text-title lg:col-span-7">{t(skillsSection.title)}</h2>
+          <p className="max-w-[46ch] text-body text-muted-foreground lg:col-span-5 lg:justify-self-end">
+            {t(skillsSection.subtitle)}
+          </p>
         </div>
+
+        <Tabs
+          defaultValue="management"
+          onValueChange={(value) => setActiveTab(value as TabValue)}
+          className="mt-14 w-full"
+        >
+          <TabsList className="!grid w-full !h-auto grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] gap-1 rounded-[1.75rem] border border-border bg-card p-1.5">
+            {tabs.map(({ value, icon: Icon }) => {
+              const label = t(skillsSection.categories[value]);
+              return (
+                <TabsTrigger key={value} value={value} className={tabTriggerClass} name={label} aria-label={label}>
+                  <Icon className="size-4" aria-hidden="true" />
+                  <span className={tabLabelClass}>{label}</span>
+                </TabsTrigger>
+              );
+            })}
+          </TabsList>
+
+          {tabs.map(({ value }) => (
+            <TabsContent key={value} value={value} className="mt-10">
+              <SkillsGrid skills={filteredSkills} />
+            </TabsContent>
+          ))}
+        </Tabs>
       </div>
     </section>
   );
@@ -118,25 +74,15 @@ interface SkillsGridProps {
 const SkillsGrid = ({ skills }: SkillsGridProps) => {
   const { t } = useSettings();
   return (
-    <div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:gap-6 xl:grid-cols-3">
+    <ul className="grid grid-cols-1 gap-x-12 border-t border-foreground sm:grid-cols-2 xl:grid-cols-3">
       {skills.map((skill, index) => {
         const IconComponent = skill.icon;
         return (
-          <div
-            key={index}
-            className="rounded-lg border border-border bg-card p-3 md:p-4 flex flex-col items-center hover-scale transition-all"
-          >
+          <li key={index} className="flex items-center gap-4 border-b border-border py-4">
+            <IconComponent className="size-5 shrink-0 text-muted-foreground" aria-hidden="true" />
+            <h3 className="min-w-0 flex-1 text-body font-medium leading-snug">{t(skill.name)}</h3>
             <div
-              className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center mb-2 md:mb-3 text-primary"
-              aria-hidden="true"
-            >
-              <IconComponent className="w-5 h-5" />
-            </div>
-
-            <h3 className="mb-2 text-center text-sm md:text-base font-medium">{t(skill.name)}</h3>
-
-            <div
-              className="flex gap-1"
+              className="flex shrink-0 gap-1"
               role="meter"
               aria-label={`${t(skill.name)} level ${skill.level} of 5`}
               aria-valuemin={0}
@@ -144,19 +90,16 @@ const SkillsGrid = ({ skills }: SkillsGridProps) => {
               aria-valuenow={skill.level}
             >
               {[...Array(5)].map((_, i) => (
-                <div
+                <span
                   key={i}
-                  className={cn(
-                    "w-2 h-2 rounded-full",
-                    i < skill.level ? "bg-primary" : "bg-muted"
-                  )}
+                  className={cn("h-3 w-1.5 rounded-[1px]", i < skill.level ? "bg-foreground" : "bg-border")}
                 />
               ))}
             </div>
-          </div>
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 };
 

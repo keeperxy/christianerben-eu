@@ -2,87 +2,67 @@ import React from 'react';
 import Image from 'next/image';
 import { useSettings } from '@/contexts/settings-hook';
 import { siteContent } from '@/content/content';
-import { Users, FolderArchive, Code, LucideIcon } from 'lucide-react';
 
 type AboutLabelKey = keyof typeof siteContent.about.labels;
-
-const iconMap: Record<AboutLabelKey, LucideIcon> = {
-  experience: Users,
-  projects: FolderArchive,
-  technologies: Code,
-};
 
 const AboutSection = () => {
   const { t } = useSettings();
   const { about } = siteContent;
 
-  // Stats display (now fully from content)
-  const stats = about.stats.map(stat => ({
+  const stats = about.stats.map((stat) => ({
     ...stat,
     key: stat.key as AboutLabelKey,
-    icon: iconMap[stat.key as AboutLabelKey] || Users,
   }));
 
   return (
-    <section id="about" className="section-padding bg-muted/30">
-      <div className="container mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
-          <span className="text-gradient">{t(about.title)}</span>
-        </h2>
+    <section id="about" className="bg-background py-24 sm:py-32">
+      <div className="shell grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-5">
+          <h2 className="display reveal text-title">{t(about.title)}</h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-          {/* Image Column */}
-          <div className="lg:col-span-2">
-            <div className="relative">
-              {/* Main image */}
-              <div className="rounded-lg overflow-hidden shadow-xl hover-scale border-4 border-white dark:border-gray-800">
-                <div className="bg-gradient-to-br from-primary/40 to-accent/40 aspect-[4/5] flex items-center justify-center">
-                  <Image
-                    src="/about-me.webp"
-                    alt={t(about.imageAlt)}
-                    width={800}
-                    height={1000}
-                    className="size-4/5 object-cover aspect-[4/5]"
-                  />
-                </div>
-              </div>
-              
-              {/* Decorative elements */}
-              <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-primary rounded-lg transform rotate-6 -z-10"></div>
-              <div className="absolute -top-4 -right-4 w-20 h-20 bg-accent rounded-lg transform -rotate-6 -z-10"></div>
-            </div>
-          </div>
+          <figure className="relative mt-10 hidden overflow-hidden rounded-[var(--radius)] bg-ink lg:block">
+            <Image
+              src="/about-me.webp"
+              alt={t(about.imageAlt)}
+              width={1024}
+              height={1536}
+              sizes="(min-width: 1024px) 34vw, 0px"
+              className="aspect-[4/5] w-full object-cover object-top"
+            />
+          </figure>
+        </div>
 
-          {/* Text Column */}
-          <div className="lg:col-span-3">
-            {/* About paragraphs */}
+        <div className="lg:col-span-7 lg:pt-3">
+          <div className="max-w-[65ch] space-y-6 text-body">
             {about.paragraphs.map((paragraph, index) => (
-              <p 
-                key={index} 
-                className={`text-base md:text-lg leading-relaxed ${index !== about.paragraphs.length - 1 ? 'mb-6' : ''}`}
-              >
+              <p key={index} className={index === 0 ? 'text-foreground' : 'text-muted-foreground'}>
                 {t(paragraph)}
               </p>
             ))}
-            
-            {/* Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-10">
-              {stats.map((stat, index) => (
-                <div 
-                  key={stat.key} 
-                  className="p-4 bg-card rounded-lg shadow-sm border border-border hover-scale transition-all"
-                >
-                  <div className="flex flex-col items-center text-center">
-                    <div className="p-3 mb-4 rounded-full bg-primary/10 text-primary">
-                      <stat.icon size={24} />
-                    </div>
-                    <span className="text-3xl font-bold mb-1">{t(stat.value)}</span>
-                    <span className="text-sm text-muted-foreground">{t(about.labels[stat.key])}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
+
+          <dl className="mt-14 grid grid-cols-1 border-t border-foreground sm:grid-cols-3">
+            {stats.map((stat) => (
+              <div
+                key={stat.key}
+                className="flex items-baseline justify-between gap-4 border-b border-border py-5 sm:flex-col-reverse sm:items-start sm:justify-end sm:gap-3 sm:border-b-0 sm:border-l sm:py-6 sm:pl-6 sm:first:border-l-0 sm:first:pl-0"
+              >
+                <dt className="text-small text-muted-foreground">{t(about.labels[stat.key])}</dt>
+                <dd className="display text-title leading-none">{t(stat.value)}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <figure className="mt-12 overflow-hidden rounded-[var(--radius)] bg-ink lg:hidden">
+            <Image
+              src="/about-me.webp"
+              alt=""
+              width={1024}
+              height={1536}
+              sizes="(max-width: 1023px) 100vw, 0px"
+              className="aspect-[4/3] w-full object-cover object-top"
+            />
+          </figure>
         </div>
       </div>
     </section>

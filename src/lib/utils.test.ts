@@ -9,4 +9,9 @@ describe('cn', () => {
   it('merges duplicate classes', () => {
     expect(cn('bg-red-500', 'bg-red-500')).toBe('bg-red-500')
   })
+
+  it('keeps custom font sizes next to text colors', () => {
+    expect(cn('text-small', 'text-foreground')).toBe('text-small text-foreground')
+    expect(cn('text-title', 'text-body')).toBe('text-body')
+  })
 })
